@@ -1,0 +1,2 @@
+# SchoolManagement
+School management application
