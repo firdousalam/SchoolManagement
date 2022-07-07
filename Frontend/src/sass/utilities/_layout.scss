@@ -1,0 +1,272 @@
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+ul {
+  padding: 0px;
+}
+
+input,
+button {
+  outline: none;
+}
+
+body {
+  .primary-button {
+    position: relative;
+    background: $primary-button-color;
+    border: $primary-button-color 1px solid;
+    border-radius: $button-radius;
+    color: $c-white;
+    margin-left: $margnlft-15;
+    white-space: nowrap;
+    padding: $button-padng;
+    height: auto;
+    box-shadow: none;
+    font-size: $font-form;
+
+    span {
+      position: relative;
+
+      img {
+        margin-right: 10px;
+        max-height: 20px;
+        float: left;
+      }
+    }
+  }
+
+  .secondary-button {
+    background: none;
+    position: relative;
+    border: rgba(255, 255, 255, 0.5) 1px solid;
+    border-radius: $button-radius;
+    color: $c-white;
+    margin-left: $margnlft-15;
+    white-space: nowrap;
+    padding: $button-padng;
+    height: auto;
+    box-shadow: none;
+    font-size: $font-form;
+
+    span {
+      position: relative;
+
+      img {
+        margin-right: 10px;
+        max-height: 20px;
+        float: left;
+      }
+    }
+  }
+
+  .secondary-button:hover {
+    background: $primary-button-color;
+    border-radius: $button-radius;
+    border-color: $primary-button-color;
+    color: $c-white;
+  }
+
+  .dark-border {
+    border: 1px solid $border-dark;
+  }
+
+  .white {
+    color: $c-white;
+  }
+
+  .custom-width {
+    width: 100%;
+    float: left;
+  }
+
+  .adjust-height {
+    max-height: 45px;
+  }
+
+  .max-width-180 {
+    max-width: 160px;
+  }
+
+  .marginbtm-15 {
+    margin-bottom: $margnbtm-15;
+  }
+
+  .marginbtm-10 {
+    margin-bottom: $margnbtm-10;
+  }
+
+  .marginbtm-25 {
+    margin-bottom: $margnbt-25;
+  }
+
+  .margnlft-15 {
+    margin-left: $margnlft-15;
+  }
+
+  .margnrgt-15 {
+    margin-right: $margnrgt-15;
+  }
+
+  .margnrtp-15 {
+    margin-top: $margnrgt-15;
+  }
+
+  .margntp-25 {
+    margin-top: $margntp-25;
+  }
+
+  .button-padng {
+    padding: $button-padng;
+  }
+
+  .pading-all {
+    padding: $padding-25;
+  }
+
+  .button-admin-padng {
+    padding: $button-admin-padng;
+  }
+
+  .button-admin-radius {
+    border-radius: $button-admin-radius !important;
+  }
+
+  .align-right {
+    text-align: right;
+  }
+
+  .align-left {
+    text-align: left;
+  }
+
+  .align-center {
+    text-align: center;
+  }
+
+  .margin-login {
+    margin-top: 30vh;
+  }
+
+  .height-100 {
+    height: 100%;
+  }
+
+  .width-100 {
+    width: 100%;
+  }
+
+  .dark-font {
+    color: $dark;
+  }
+
+  .width-100 {
+    width: 100%;
+  }
+  .font-14 {
+    font-size: 14px;
+  }
+
+  .marginbtm {
+    margin-bottom: 0px;
+  }
+
+  .line-height {
+    line-height: 7px;
+  }
+
+  .mrzero {
+    margin: 0px !important;
+  }
+  .pdzero {
+    padding: 0px !important;
+  }
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .mrbottom {
+    margin-bottom: 15px;
+  }
+}
+
+.mla-button {
+  box-shadow: $outer-shadow-mla;
+  position: relative;
+  background: $mla-button-bg;
+  border-radius: $button-radius;
+  color: $mla-font-color;
+  margin-left: $margnlft-15;
+  white-space: nowrap;
+  padding: $mla-button-padng;
+  height: auto;
+  font-size: $mla-font-ml;
+  border: none;
+  line-height: 0px;
+
+  span {
+    position: relative;
+    margin-bottom: -4px;
+    img {
+      margin-right: 10px;
+      max-height: 24px;
+      float: left;
+    }
+  }
+}
+
+.mla-color {
+  color: $mla-font-color;
+}
+
+.mla-header {
+  background: $mla-bg !important;
+}
+
+.fl {
+  float: left;
+}
+
+.marginbtm-5 {
+  margin-bottom: 5px;
+}
+
+.ant-modal-body {
+  padding: 0px !important;
+  font-size: 14px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.content-padding {
+  padding: 11px 15px;
+}
+.ant-modal-footer {
+  border-top: transparent !important;
+}
+.padding_adjust {
+  padding-right: 5px !important;
+}
+
+.max-img {
+  max-width: 22px !important;
+}
+
+.margn-lft-30 {
+  margin-left: 40px;
+}
+.padng-live {
+  padding: 30px !important;
+}
+.bc-btn {
+  width: 90% !important;
+}

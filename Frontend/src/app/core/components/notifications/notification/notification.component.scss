@@ -1,0 +1,17 @@
+@import '/src/sass/utilities/variables';
+
+.success {
+  background-color: $c-success-b;
+}
+
+.info {
+  background-color: $c-info-b;
+}
+
+.warning {
+  background-color: $c-warning-b;
+}
+
+.error {
+  background-color: $c-error-b;
+}

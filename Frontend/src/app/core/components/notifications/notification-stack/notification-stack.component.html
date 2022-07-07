@@ -1,0 +1,9 @@
+<div class="notification-stack position-fixed top-0 end-0 px-3 py-2 m-16">
+  <div *ngFor="let notification of currentNotifications; index as i">
+    <app-notification
+      [type]="notification.type"
+      [title]="notification.title"
+      [message]="notification.message"
+      (disposeEvent)="dispose(i)"></app-notification>
+  </div>
+</div>

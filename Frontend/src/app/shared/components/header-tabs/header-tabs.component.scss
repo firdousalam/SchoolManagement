@@ -1,0 +1,17 @@
+@import '../../../../sass/utilities/variables';
+
+.header-tabs {
+  margin: $space-12 $space-0 $space--12 $space-0;
+  .nav {
+    padding-left: $space-8;
+  }
+  .nav-link {
+    padding: $space-0 $space-4 $space-12 $space-0;
+    margin-right: $space-24;
+    color: $c-primary;
+    cursor: pointer;
+    &.active {
+      border-bottom: $space-2 solid $c-primary;
+    }
+  }
+}

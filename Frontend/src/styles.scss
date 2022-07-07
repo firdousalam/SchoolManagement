@@ -1,0 +1,50 @@
+@import 'sass/utilities/variables';
+@import 'sass/utilities/common';
+@import 'sass/utilities/table';
+@import 'ag-grid-community/dist/styles/ag-grid.css';
+@import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+
+:root,
+body,
+html {
+  margin: $space-0;
+  padding: $space-0;
+  box-sizing: border-box;
+  height: 100%;
+}
+body {
+  overflow: hidden;
+  display: flex;
+}
+
+.root {
+  overflow: hidden;
+  &-container {
+    height: 100%;
+    width: 100%;
+    background-color: $c-white;
+    &-main {
+      width: 100%;
+    }
+    &-inner {
+      background-color: $c-gray-2;
+      overflow-y: auto;
+      padding: $space-12;
+      .page-content-area {
+        flex: 1 1 auto;
+        overflow: hidden;
+      }
+    }
+  }
+}
+
+.spinner {
+  height: 100%;
+  width: 100%;
+  z-index: 3000;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff70;
+}

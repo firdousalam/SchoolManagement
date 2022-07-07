@@ -1,0 +1,10 @@
+@import './variables';
+
+.ag-theme-alpine {
+  .ag-row-odd {
+    background-color: $c-gray-3;
+  }
+  .ag-row-hover {
+    background-color: $c-gray-2;
+  }
+}

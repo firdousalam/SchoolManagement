@@ -1,0 +1,38 @@
+<nz-table
+  #table
+  nzBordered
+  [nzData]="rowData"
+  [nzNoResult]="'No Records'"
+  nzShowSizeChanger
+  [nzData]="rowData"
+  [nzFrontPagination]="false"
+  [nzTotal]="totalElements"
+  [nzPageSize]="pageSize"
+  [nzPageIndex]="pageNumber"
+  (nzQueryParams)="onPageChange($event)">
+  <thead>
+    <tr>
+      <ng-container *ngFor="let config of adminTableConfig">
+        <th>{{ config.header }}</th>
+      </ng-container>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of table.data" class="editable-row">
+      <ng-container *ngFor="let config of adminTableConfig">
+        <ng-container *ngIf="config.field === 'status'">
+          <td>{{ data[config.field] === 1 ? 'Active' : 'Passive' }}</td>
+        </ng-container>
+        <ng-container *ngIf="config.field !== 'status'">
+          <td>{{ data[config.field] }}</td>
+        </ng-container>
+      </ng-container>
+      <td>
+        <button class="btn btn-sm kl-btn kl-btn-icon" (click)="onRowEdit(data)">
+          <i class="bi bi-pencil-square"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

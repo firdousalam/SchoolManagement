@@ -1,0 +1,15 @@
+<div class="header-tabs">
+  <ul class="nav">
+    <ng-container *ngFor="let tab of tabs">
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [ngClass]="{ active: tab === selectedTab }"
+          aria-current="page"
+          (click)="onTabSelect(tab)"
+          >{{ tab }}</a
+        >
+      </li>
+    </ng-container>
+  </ul>
+</div>

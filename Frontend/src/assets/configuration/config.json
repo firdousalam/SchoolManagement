@@ -1,0 +1,5 @@
+{
+  "apiServer" : { 
+    "baseUrl": "http://ec2-3-111-29-67.ap-south-1.compute.amazonaws.com:10010"
+  }
+}

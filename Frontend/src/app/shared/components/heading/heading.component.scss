@@ -1,0 +1,18 @@
+@import '/src/sass/utilities/variables';
+
+.heading {
+  font-size: $font-size-5;
+  padding: $space-12 $space-0 $space-12 $space-12;
+  font-weight: bold;
+  border-bottom: $space-1 solid $c-gray-4;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  &-text {
+    flex: 1;
+  }
+  &.secondary {
+    font-size: $font-size-3;
+    color: $c-gray-5;
+  }
+}

@@ -1,0 +1,32 @@
+@import '/src/sass/utilities/variables';
+
+.main-header {
+  &-container {
+    height: 50px;
+    width: 100%;
+    background-color: $c-primary;
+    color: $c-white;
+    padding: $space-0 $space-12;
+    .logo {
+      height: 100%;
+      align-items: center;
+      flex: 1;
+      &-image {
+        height: 85%;
+      }
+      font-size: $font-size-3;
+    }
+    button {
+      color: $c-white;
+      margin-right: $space-4;
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
+  &-icon {
+    padding: $space-4 $space-4;
+    font-size: $font-size-8;
+    cursor: pointer;
+  }
+}

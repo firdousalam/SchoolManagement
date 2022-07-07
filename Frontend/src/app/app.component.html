@@ -1,0 +1,13 @@
+<div class="root-container-main d-flex flex-column">
+  <app-main-header class="d-flex flex-row"></app-main-header>
+  <div class="d-flex h-100">
+    <app-side-nav class="d-flex flex-column"></app-side-nav>
+    <ng-container *ngIf="spinner">
+      <app-spinner></app-spinner>
+    </ng-container>
+    <div class="root-container-inner d-flex flex-column flex-grow-1">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+<app-notification-stack></app-notification-stack>

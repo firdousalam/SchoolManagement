@@ -1,0 +1,9 @@
+@import '/src/sass/utilities/variables';
+
+.side-nav-layout {
+  flex-grow: 1 !important;
+  overflow: hidden auto;
+  .ant-menu-root {
+    padding-bottom: 40px;
+  }
+}
