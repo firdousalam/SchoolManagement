@@ -56,12 +56,14 @@ Open Lombok jar file by double click
 
 ## Step 5 ##
 
-Open SpringSuiteTool
+clcik on manual path
 
 ## step 6 ##
-give SpringSuiteTool.exe path in lombok
+give SpringSuiteTool.exe path in lombok 
 
 ## step 7 ##
+Open STS -> click on SpringSuiteTool.exe 
+give any space name
 
 click on Import - import as general project
 Import the given service project
