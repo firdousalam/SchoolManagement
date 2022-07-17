@@ -18,6 +18,20 @@ export abstract class CrudService<IDetail, IDetailPage, ISearch> {
     );
   }
 
+  getByID(searchObject: ISearch) {
+    return this.httpClient.get<IDetailPage>(
+       this.urlBuilderService.getUrlWithQueryParams(
+        this.api.getById,
+        searchObject
+      )
+    );
+  }
+  getDoc(id: number) {
+    return this.httpClient.get(
+       this.urlBuilderService.getUrl(this.api.getDoc+'/'+id),{responseType: 'blob' as 'json'}
+    );
+  }
+
   getBySearchCriteria(searchObject: ISearch) {
     return this.httpClient.get<IDetailPage>(
       this.urlBuilderService.getUrlWithQueryParams(

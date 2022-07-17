@@ -1,0 +1,69 @@
+<app-heading [heading]="'Query #44767'">
+    <div class="heading-actions d-flex">
+      <ng-container>
+        <span class="status">{{contactData?.queryStatus}}</span>
+      </ng-container>
+    </div>
+  </app-heading>
+ 
+  <div class="inner-page mt-3">
+        <form class="row g-3 mt-3">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="row">                        
+                        <div class="col-sm-4">
+                            <span for="referenceid">Reference ID</span>
+                        </div>
+                        <div class="col-sm-8">
+                            <span for="referenceid">{{contactData?.id}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 ml-2">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <span for="referenceid">Date</span>
+                        </div>
+                        <div class="col-sm-8">
+                            <span for="referenceid">{{contactData?.dateofEntry}}</span>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <span for="referenceid">Type</span>
+                    </div>
+                    <div class="col-sm-8">
+                        <span for="referenceid">{{contactData?.type}}</span>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <span for="referenceid">Query/clarification</span>
+                    </div>
+                    <div class="col-sm-8">
+                        <span for="referenceid">{{contactData?.queryOrClarification}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 ml-2" *ngIf="contactData?.queryStatus === 'resolved'">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <span for="referenceid">Response</span>
+                    </div>
+                    <div class="col-sm-8">
+                        <span for="referenceid">{{contactData?.response}}</span>
+                    </div>
+                </div>
+            </div>
+          </div>
+          </form> 
+  </div>

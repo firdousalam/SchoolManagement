@@ -1,0 +1,123 @@
+<app-heading [heading]="'Student Profile - #34567'">
+  <div class="heading-actions d-flex">
+
+    <ng-container>
+      <button (click)="submitAllData()" type="button" class="btn kl-btn kl-btn-primary btn-sm mx-1">
+        Submit
+      </button>
+    </ng-container>
+  </div>
+</app-heading>
+<!-- <div class="sub-heading">
+  <div class="sub-heading-tabs">
+    <app-header-tabs
+    [selectedTab]="selectedTab"
+      [tabs]="tabs"
+      (tabChange)="onTabSelect($event)"></app-header-tabs>
+  </div>
+</div>
+<div class="inner-page" *ngIf="selectedTab === studentProfileTabNames.PERSONAL">
+  <div class="heading-actions d-flex justify-content-end">
+    <ng-container *ngIf="!editMode">
+      <button
+        type="button"
+        class="btn kl-btn kl-btn-secondary btn-sm me-2"
+        (click)="onEdit()">
+        Edit
+      </button>
+    </ng-container>
+    <ng-container *ngIf="editMode">
+      <button type="button" (click)="onCancel()" class="btn kl-btn kl-btn-primary btn-sm me-2">
+        Cancel
+      </button>
+      <button type="button" class="btn kl-btn kl-btn-secondary btn-sm">
+        Save
+      </button>
+    </ng-container>
+  </div> 
+    <app-personal-header-details [editMode]="editMode"
+    ></app-personal-header-details>
+    <div class="mb-4">
+      <app-heading [heading]="'Personal Details'" [secondary]="true">
+      </app-heading>
+    </div>
+    <app-personal-details [editMode]="editMode"></app-personal-details>
+  </div>
+<div
+  class="inner-page"
+  *ngIf="selectedTab === studentProfileTabNames.EDUCATIONAL">
+  <app-educational-details> </app-educational-details>
+</div>
+<div
+  class="inner-page"
+  *ngIf="selectedTab === studentProfileTabNames.EMPLOYMENT">
+  <app-employment-details> </app-employment-details>
+</div>
+
+<div
+  class="inner-page"
+  *ngIf="selectedTab === studentProfileTabNames.ADMISSION_DETAILS">
+  <app-admission-details> </app-admission-details>
+</div> -->
+<div class="sub-heading">
+  <div class="sub-heading-tabs">
+    <nz-tabset [nzSize]="'large'" [nzAnimated]="true" [nzTabBarGutter]="20">
+      <nz-tab nzTitle="{{studentProfileTabNames.PERSONAL}}">
+        <div class="inner-page">
+          <div class="heading-actions d-flex justify-content-end">
+            <ng-container *ngIf="!editMode">
+              <button type="button" class="btn kl-btn kl-btn-secondary btn-sm me-2" (click)="onEdit()">
+                Edit
+              </button>
+            </ng-container>
+            <ng-container *ngIf="editMode">
+              <button type="button" (click)="onCancel()" class="btn kl-btn kl-btn-primary btn-sm me-2">
+                Cancel
+              </button>
+              <button type="button" class="btn kl-btn kl-btn-secondary btn-sm">
+                Save
+              </button>
+            </ng-container>
+          </div>
+          <app-personal-header-details [editMode]="editMode"></app-personal-header-details>
+          <div class="mb-4">
+            <app-heading [heading]="'Personal Details'" [secondary]="true">
+            </app-heading>
+          </div>
+          <app-personal-details [editMode]="editMode"></app-personal-details>
+        </div>
+      </nz-tab>
+      <nz-tab nzTitle="{{studentProfileTabNames.EDUCATIONAL}}">
+        <div class="card">
+          <div class="card-body">
+            <div class="container">
+                <app-educational-details (updatedEducationListData)="updatedEducationData($event)" [submitEvent]="eventsSubject.asObservable()" [studentEducationData]="studentEducationData" > </app-educational-details>
+            </div>
+          </div>
+        </div>
+
+      </nz-tab>
+
+      <nz-tab nzTitle="{{studentProfileTabNames.EMPLOYMENT}}">
+        <div class="card">
+          <div class="card-body">
+            <div class="container">
+              <app-employment-details> </app-employment-details>
+            </div>
+          </div>
+        </div>
+
+      </nz-tab>
+      <nz-tab nzTitle="{{studentProfileTabNames.ADMISSION_DETAILS}}">
+        <div class="card">
+          <div class="card-body">
+            <div class="container">
+              <app-admission-details> </app-admission-details>
+            </div>
+          </div>
+        </div>
+
+      </nz-tab>
+    </nz-tabset>
+  </div>
+</div>

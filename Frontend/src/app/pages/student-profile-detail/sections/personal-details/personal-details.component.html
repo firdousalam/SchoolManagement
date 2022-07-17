@@ -1,0 +1,90 @@
+<div class="personal-details">
+  <div class="row g-3 mb-4">
+    <div class="col-2 align-self-start">
+      <label class="form-label">Present Address</label>
+    </div>
+    <div class="col-4 pe-4">
+      <span *ngIf="!editMode">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo dolorem magnam impedit beatae cum, eos consequuntur asperiores inventore quia suscipit aut distinctio voluptatem. Voluptatem odit debitis ipsum exercitationem eaque accusantium?</span>
+      <textarea
+      *ngIf="editMode"
+        class="form-control"
+        aria-label="Present Address">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo dolorem magnam impedit beatae cum, eos consequuntur asperiores inventore quia suscipit aut distinctio voluptatem. Voluptatem odit debitis ipsum exercitationem eaque accusantium?</textarea>
+    </div>
+    <div class="col-2 align-self-start">
+      <label class="form-label">Communication Address</label>
+    </div>
+    <div class="col-4">
+      <span *ngIf="!editMode">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo dolorem magnam impedit beatae cum, eos consequuntur asperiores inventore quia suscipit aut distinctio voluptatem. Voluptatem odit debitis ipsum exercitationem eaque accusantium?</span>
+      <textarea
+      *ngIf="editMode"
+        class="form-control"
+        aria-label="Communication Address">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint perspiciatis laudantium expedita ut placeat illum maxime vitae deserunt et, quaerat, voluptatibus possimus maiores quo quibusdam incidunt, optio porro cumque atque?</textarea>
+    </div>
+  </div>
+  <div class="row g-3 mb-4">
+    <div class="col-2 align-self-end">
+      <label class="form-label">Contact Number (Mobile)</label>
+    </div>
+    <div class="col-4 pe-4">
+      <span *ngIf="!editMode">9885255666</span>
+      <input
+      type="text"
+      *ngIf="editMode"
+        class="form-control"
+        placeholder="Contact Number (Mobile)"
+        aria-label="Contact Number (Mobile)" />
+    </div>
+    <div class="col-2 align-self-end">
+      <label class="form-label">Contact Number (Landline)</label>
+    </div>
+    <div class="col-4">
+      <span *ngIf="!editMode">9885255666</span>
+      <input
+      type="text"
+      *ngIf="editMode"
+        class="form-control"
+        placeholder="Contact Number (Landline)"
+        aria-label="Contact Number (Landline)" />
+    </div>
+  </div>
+  <div class="row g-3 mb-4">
+    <div class="col-2 align-self-end">
+      <label class="form-label">Alternate Mobile Number</label>
+    </div>
+    <div class="col-4 pe-4">
+      <span *ngIf="!editMode">9885255666</span>
+      <input
+      type="text"
+      *ngIf="editMode"
+        class="form-control"
+        placeholder="Alternate Mobile Number"
+        aria-label="Alternate Mobile Number" />
+    </div>
+    <div class="col-2 align-self-end">
+      <label class="form-label">Email Address</label>
+    </div>
+    <div class="col-4">
+      <span *ngIf="!editMode">dgds@x.se</span>
+      <input
+      type="text"
+      *ngIf="editMode"
+        class="form-control"
+        placeholder="Email Address"
+        aria-label="Email Address" />
+    </div>
+  </div>
+  <div class="row g-3 mb-4">
+    <div class="col-2 align-self-end">
+      <label class="form-label">Signature</label>
+    </div>
+    <div class="col-4 pe-4">
+      <span *ngIf="!editMode">Demo</span>
+      <input
+      type="text"
+      *ngIf="editMode"
+        class="form-control"
+        placeholder="Digital Signature"
+        aria-label="Digital Signature" />
+    </div>
+  </div>
+</div>

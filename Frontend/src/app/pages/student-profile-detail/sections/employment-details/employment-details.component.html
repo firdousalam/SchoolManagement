@@ -1,0 +1,89 @@
+<div class="employment">
+  <div class="d-flex justify-content-end">
+    <div class="heading-actions d-flex">
+      <ng-container *ngIf="!editMode">
+        <button
+          type="button"
+          class="btn kl-btn kl-btn-secondary btn-sm me-2"
+          (click)="onEdit()">
+          Edit
+        </button>
+      </ng-container>
+      <ng-container *ngIf="editMode">
+        <button type="button" (click)="onCancel()" class="btn kl-btn kl-btn-primary btn-sm me-2">
+          Cancel
+        </button>
+        <button type="button" class="btn kl-btn kl-btn-secondary btn-sm">
+          Save
+        </button>
+      </ng-container>
+    </div>
+  </div>
+  <div class="row g-3 mb-4"> 
+    <div class="col-2 align-self-start">
+      <label class="form-label">Employed</label>
+    </div>
+    <div class="col-4">
+      <ng-container>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="employed"
+            value="yes" />
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="employed"
+            value="no" />
+          <label class="form-check-label">No</label>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="row g-3 mb-4">
+    <div class="col-2 align-self-end">
+      <label class="form-label">Organization</label>
+    </div>
+    <div class="col-4 pe-4">
+      <span *ngIf="!editMode">Demo</span>
+        <input
+        type="text"
+        *ngIf="editMode"
+          class="form-control"
+        placeholder="Organization"
+        aria-label="Organization" />
+    </div>
+    <div class="col-2 align-self-end">
+      <label class="form-label">Designation</label>
+    </div>
+    <div class="col-4">
+      <span *ngIf="!editMode">Demo</span>
+      <input
+      type="text"
+      *ngIf="editMode"
+        class="form-control"
+        placeholder="Designation"
+        aria-label="Designation" />
+    </div>
+  </div>
+  <div class="row g-3 mb-4">
+    <div class="col-2 align-self-end">
+      <label class="form-label">Place of Duty</label>
+    </div>
+    <div class="col-4 pe-4">
+      <span *ngIf="!editMode">Demo</span>
+      <input
+      type="text"
+      *ngIf="editMode"
+        class="form-control"
+        placeholder="Place of Duty"
+        aria-label="Place of Duty" />
+    </div>
+  </div>
+</div>
+
+

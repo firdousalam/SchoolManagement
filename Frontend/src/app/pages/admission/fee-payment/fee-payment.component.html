@@ -1,0 +1,73 @@
+<form class="row g-3 mt-3">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="row">
+                <label for="referenceid" class="col-sm-4 col-form-label">Reference ID</label>
+                <div class="col-sm-8 mt-2">
+                    <span for="referenceid" class="col-sm-4">123456</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 ml-2">
+            <div class="row">
+                <label for="date" class="col-sm-2 col-form-label">Date</label>
+                <div class="col-sm-8 mt-2">
+                    <span for="date" class="col-sm-4">dd/mm/yyyy</span>
+                </div>
+            </div>
+        </div>
+    </div>
+  <div class="row mb-3">
+    <div class="col-md-6">
+        <div class="row">
+            <label for="referenceid" class="col-sm-4 col-form-label">Enrollment No.</label>
+            <div class="col-sm-8 mt-2">
+                <span for="referenceid" class="col-sm-4">System Display</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 ml-2">
+        <div class="row">
+            <label for="date" class="col-sm-2 col-form-label">Batch No.</label>
+            <div class="col-sm-8 mt-2">
+                <span for="date" class="col-sm-4">System Display</span>
+            </div>
+        </div>
+    </div>
+  </div>
+  </form>
+  <div class="mt-3">
+    <nz-table
+    #table nzBordered [nzData]="rowData" [nzNoResult]="'No Records'" nzShowSizeChanger
+    [nzFrontPagination]="false" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
+  <thead>
+    <tr>
+      <ng-container *ngFor="let config of adminTableConfig">
+        <th>{{ config.header }}</th>
+      </ng-container>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of table.data" class="editable-row">
+      <ng-container *ngFor="let config of adminTableConfig">
+        <ng-container>
+          <td *ngIf="data[config.field]">{{ data[config.field] }}</td> 
+            <td *ngIf="config.field === 'action'"  [nzChecked]="setOfCheckedId.has(data.type)" (nzCheckedChange)="onItemChecked(data.type, $event)"></td>
+        </ng-container>
+      </ng-container> 
+    </tr>
+   <tr>
+    <td>
+      <ng-container >
+        <th>Total Amount</th>
+      </ng-container>
+    </td>
+      <td></td>
+      <td>{{getTotalAmount()}}</td>
+      <td></td>
+   </tr>
+  </tbody>
+</nz-table>
+
+</div>
+

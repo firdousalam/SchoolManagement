@@ -1,0 +1,31 @@
+<app-heading [heading]="'Admission'" >
+  <div class="heading-actions d-flex" *ngIf="selectedTab === admissionPaymentTabNames.feePayment">
+    <ng-container>
+      <button type="button" class="btn kl-btn kl-btn-primary btn-sm mx-1">
+        Submit
+      </button>
+    </ng-container>
+  </div>
+  </app-heading>
+  <div class="sub-heading">
+    <div class="sub-heading-tabs">
+      <app-header-tabs
+        [tabs]="tabs"
+        [selectedTab]="selectedTab"
+        (tabChange)="onTabSelect($event)"></app-header-tabs>
+    </div>
+  </div>
+ 
+  <div
+    class="inner-page"
+    *ngIf="selectedTab === admissionPaymentTabNames.feePayment">
+    <app-fee-payment> </app-fee-payment>
+  </div>
+  <div
+    class="inner-page"
+    *ngIf="selectedTab === admissionPaymentTabNames.paidPayment">
+    <app-paid-payment> </app-paid-payment>
+  </div>
+
+
+  
