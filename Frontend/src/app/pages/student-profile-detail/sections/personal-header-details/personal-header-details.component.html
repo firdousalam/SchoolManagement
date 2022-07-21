@@ -1,15 +1,9 @@
 <div class="row mb-2">
   <div class="col-2">
-    <div class="profile-pic d-flex flex-column">
+    <div class="profile-pic d-flex flex-column" *ngIf="!studentPersonalData?.pictureLink">
       <i class="bi bi-person-fill icon"></i>
-      <ng-container *ngIf="editMode">
-        <button
-          type="button"
-          class="btn kl-btn w-100 btn-secondary btn-sm overlay">
-          Change Photo
-        </button>
-      </ng-container>
     </div>
+    <img *ngIf="studentPersonalData?.pictureLink" [src]="studentPersonalData?.pictureLink" width="150"/>;
   </div>
   <div class="col-10">
     <div class="row g-3 mb-2">
@@ -17,7 +11,7 @@
         <label class="form-label">Name</label>
       </div>
       <div class="col-4">
-       <span>xxxxxx</span>
+       <span>{{studentPersonalData?.applicantName}}</span>
       </div>
     </div>
     <div class="row g-3 mb-2">
@@ -25,7 +19,7 @@
         <label class="form-label">Date of Birth</label>
       </div>
       <div class="col-4">
-      <span>dd/mm/yyyy</span>
+      <span>{{studentPersonalData?.applicantName}}</span>
       </div>
     </div>
     <div class="row g-3 mb-2">
@@ -33,7 +27,7 @@
         <label class="form-label">Sex</label>
       </div>
       <div class="col-4">
-        <span>Male</span>
+        <span>{{studentPersonalData?.gender}}</span>
       </div>
     </div>
     <div class="row g-3 mb-2">
@@ -41,7 +35,7 @@
         <label class="form-label">Nationality</label>
       </div>
       <div class="col-4">
-        <span>Indian</span>
+        <span>{{studentPersonalData?.nationality}}</span>
       </div>
     </div>
   </div>

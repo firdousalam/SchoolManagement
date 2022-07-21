@@ -17,6 +17,7 @@ export class CoursesComponent implements OnInit {
   filterData!: ICourse[];
   courseSubscription!: Subscription;
   docSubscription!: Subscription;
+  subscriptionArray:any[]=[];
   searchTerm: any = '';
   showPdfUrl: any;
   filename: any;
@@ -39,6 +40,7 @@ export class CoursesComponent implements OnInit {
       this.rowData = data.content;
       this.filterData = this.rowData;
     })
+    this.subscriptionArray.push(this.courseSubscription);
   }
   onViewClick(id: any, filename: string) {
     this.docSubscription = this.api.getDoc(id).subscribe((response: any) => {
@@ -48,6 +50,7 @@ export class CoursesComponent implements OnInit {
       const pdfUrl: any = window.URL.createObjectURL(new Blob(binaryData, { type: dataType }));
       this.openPopup(pdfUrl, filename);
     })
+    this.subscriptionArray.push(this.docSubscription);
 
   }
 
@@ -76,12 +79,16 @@ export class CoursesComponent implements OnInit {
 
   search(value: any): void {
     // console.log(typeof (value), value);
-    // this.rowData = this.filterData!.filter((val: any) =>
-    //   val.type.toLowerCase().includes(value.trim().toLowerCase()) ||
-    //   val.dateofEntry.toLowerCase().includes(value.trim().toLowerCase()) ||
-    //   val.queryOrClarification.toLowerCase().includes(value.trim().toLowerCase()) ||
-    //   val.response.toLowerCase().includes(value.trim().toLowerCase()) ||
-    //   val.queryStatus.toLowerCase().includes(value.trim().toLowerCase())
-    // );
+    this.rowData = this.filterData!.filter((val: any) =>
+      val.type.toLowerCase().includes(value.trim().toLowerCase()) ||
+      val.dateofEntry.toLowerCase().includes(value.trim().toLowerCase()) ||
+      val.queryOrClarification.toLowerCase().includes(value.trim().toLowerCase()) ||
+      val.response.toLowerCase().includes(value.trim().toLowerCase()) ||
+      val.queryStatus.toLowerCase().includes(value.trim().toLowerCase())
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionArray.forEach((x: any) => x.unsubscribe());
   }
 }

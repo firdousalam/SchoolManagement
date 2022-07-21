@@ -129,20 +129,22 @@ export const apiRoutes = {
     create: '/api/v1/studentProfile/createStudentProfile',
     search: '/api/v1/studentProfile/getStudentProfileBySearchCriteria',
     update: '/api/v1/studentProfile/updateStudentProfile',
+    getByIDWithDetail: '/api/v1/studentProfile/getStdProfileById'
   },
 
-  studentPersonalApi: {
-    update: '/api/v1/studentpersonalDetails/updateStudentPersonalDetail',
+  studentContactDetailApi: {
+    update: '/api/v1/studentContactDeatils/updateStudentContactDetails',
   },
   studentEducationApi: {
-    update: '/api/v1/studentEducation/updateStudentEducations',
+    update: '/api/v1/studentEducation/updateStudentEducation',
   },
   studentEmploymentApi: {
-    update: '/api/v1/studentProfession/updateStudentProfessions',
+    update: '/api/v1/studentProfession/updateStudentProfession',
   },
 
   notificationApi: {
-    search: '/api/v1/notifications/getNotificationsBySearchCriteria'
+    search: '/api/v1/notifications/getNotificationsBySearchCriteria',
+    getAll: '/api/v1/notifications/getAllNotifications',
   },
   admissionApi: {
     search: '/api/v1/admission/getAdmissionBySearchCriteria',

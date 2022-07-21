@@ -1,90 +1,146 @@
 <div class="personal-details">
+  <form [formGroup]="form">
   <div class="row g-3 mb-4">
-    <div class="col-2 align-self-start">
+    <div class="col-2 ">
       <label class="form-label">Present Address</label>
     </div>
     <div class="col-4 pe-4">
-      <span *ngIf="!editMode">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo dolorem magnam impedit beatae cum, eos consequuntur asperiores inventore quia suscipit aut distinctio voluptatem. Voluptatem odit debitis ipsum exercitationem eaque accusantium?</span>
+      <span *ngIf="!editMode">{{studentContactData?.paddress}}</span>
       <textarea
       *ngIf="editMode"
         class="form-control"
-        aria-label="Present Address">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo dolorem magnam impedit beatae cum, eos consequuntur asperiores inventore quia suscipit aut distinctio voluptatem. Voluptatem odit debitis ipsum exercitationem eaque accusantium?</textarea>
+        formControlName="paddress"
+        [ngClass]="{ 'is-invalid': f.paddress.errors }"
+        aria-label="Present Address"></textarea>
+        <div *ngIf="f.paddress.errors" class="invalid-feedback">
+        <div *ngIf="f.paddress.errors.required">Present Address is required</div>
+      </div>
     </div>
-    <div class="col-2 align-self-start">
+    <div class="col-2 ">
       <label class="form-label">Communication Address</label>
     </div>
     <div class="col-4">
-      <span *ngIf="!editMode">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo dolorem magnam impedit beatae cum, eos consequuntur asperiores inventore quia suscipit aut distinctio voluptatem. Voluptatem odit debitis ipsum exercitationem eaque accusantium?</span>
+      <span *ngIf="!editMode">{{studentContactData?.caddress}}</span>
       <textarea
       *ngIf="editMode"
         class="form-control"
-        aria-label="Communication Address">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint perspiciatis laudantium expedita ut placeat illum maxime vitae deserunt et, quaerat, voluptatibus possimus maiores quo quibusdam incidunt, optio porro cumque atque?</textarea>
+        formControlName="caddress"
+        [ngClass]="{ 'is-invalid': f.caddress.errors }"
+        aria-label="Communication Address"></textarea>
+        <div *ngIf="f.caddress.errors" class="invalid-feedback">
+          <div *ngIf="f.caddress.errors.required">Present Address is required</div>
+        </div>
     </div>
   </div>
   <div class="row g-3 mb-4">
-    <div class="col-2 align-self-end">
+    <div class="col-2 ">
       <label class="form-label">Contact Number (Mobile)</label>
     </div>
     <div class="col-4 pe-4">
-      <span *ngIf="!editMode">9885255666</span>
+      <span *ngIf="!editMode">{{studentContactData?.mobileNumber}}</span>
       <input
       type="text"
       *ngIf="editMode"
         class="form-control"
+        formControlName="mobileNumber"
+        [ngClass]="{ 'is-invalid': f.mobileNumber.errors }"
         placeholder="Contact Number (Mobile)"
         aria-label="Contact Number (Mobile)" />
+        <div *ngIf="f.mobileNumber?.errors" class="invalid-feedback">  
+          <div *ngIf="f.mobileNumber?.errors?.required">Mobile Number is required.</div>  
+          <div *ngIf="f.mobileNumber?.errors?.pattern">Please, Enter 10 digit Mobile Number.</div>  
+      </div> 
     </div>
-    <div class="col-2 align-self-end">
+    <div class="col-2 ">
       <label class="form-label">Contact Number (Landline)</label>
     </div>
     <div class="col-4">
-      <span *ngIf="!editMode">9885255666</span>
+      <span *ngIf="!editMode">{{studentContactData?.landlineNumber}}</span>
       <input
       type="text"
       *ngIf="editMode"
         class="form-control"
+        formControlName="landlineNumber"
+        [ngClass]="{ 'is-invalid': f.landlineNumber.errors }"
         placeholder="Contact Number (Landline)"
         aria-label="Contact Number (Landline)" />
+        <div *ngIf="f.landlineNumber?.errors" class="invalid-feedback">  
+          <div *ngIf="f.landlineNumber?.errors?.required">Mobile Number is required.</div>  
+          <div *ngIf="f.landlineNumber?.errors?.pattern">Please, Enter 10 digit Mobile Number.</div>  
+      </div> 
     </div>
   </div>
   <div class="row g-3 mb-4">
-    <div class="col-2 align-self-end">
+    <div class="col-2 ">
       <label class="form-label">Alternate Mobile Number</label>
     </div>
     <div class="col-4 pe-4">
-      <span *ngIf="!editMode">9885255666</span>
+      <span *ngIf="!editMode">{{studentContactData?.alternateMobileNumber}}</span>
       <input
       type="text"
       *ngIf="editMode"
         class="form-control"
+        formControlName="alternateMobileNumber"
+        [ngClass]="{ 'is-invalid': f.alternateMobileNumber.errors }"
         placeholder="Alternate Mobile Number"
         aria-label="Alternate Mobile Number" />
+        <div *ngIf="f.alternateMobileNumber?.errors" class="invalid-feedback">  
+          <div *ngIf="f.alternateMobileNumber?.errors?.required">Mobile Number is required.</div>  
+          <div *ngIf="f.alternateMobileNumber?.errors?.pattern">Please, Enter 10 digit Mobile Number.</div>  
+      </div> 
     </div>
-    <div class="col-2 align-self-end">
+    <div class="col-2 ">
       <label class="form-label">Email Address</label>
     </div>
     <div class="col-4">
-      <span *ngIf="!editMode">dgds@x.se</span>
+      <span *ngIf="!editMode">{{studentContactData?.emailId}}</span>
       <input
-      type="text"
+      type="email"
       *ngIf="editMode"
         class="form-control"
+        formControlName="emailId"
+        [ngClass]="{ 'is-invalid': f.emailId.errors }"
         placeholder="Email Address"
         aria-label="Email Address" />
+        <div *ngIf="f.emailId.errors" class="invalid-feedback">
+          <div *ngIf="f.emailId.errors.required">Email is required</div>
+          <div *ngIf="f.emailId.errors.email">Email is invalid</div>
+        </div>
     </div>
   </div>
   <div class="row g-3 mb-4">
-    <div class="col-2 align-self-end">
+    <div class="col-2 ">
       <label class="form-label">Signature</label>
     </div>
     <div class="col-4 pe-4">
-      <span *ngIf="!editMode">Demo</span>
+      <span *ngIf="!editMode">{{studentContactData?.signature?studentContactData?.signature:"--"}}</span>
       <input
       type="text"
       *ngIf="editMode"
         class="form-control"
+        formControlName="signature"
+        [ngClass]="{ 'is-invalid': f.signature.errors }"
         placeholder="Digital Signature"
         aria-label="Digital Signature" />
+        <div *ngIf="f.signature.errors" class="invalid-feedback">
+          <div *ngIf="f.signature.errors.required">Signature required</div>
+        </div>
     </div>
+      <div class="col-2">
+        <label class="form-label">Employed</label>
+      </div>
+      <div class="col-4 pe-4">
+        <ng-container>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" formControlName="employmentStatus" type="radio" name="employmentStatus" value="Employed" />
+            <label class="form-check-label">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" formControlName="employmentStatus" type="radio" name="employmentStatus" value="Student" />
+            <label class="form-check-label">No</label>
+          </div>
+        </ng-container>
+      </div> 
   </div>
+  </form>
 </div>

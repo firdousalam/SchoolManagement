@@ -9,8 +9,9 @@ import { IContactSearch,IContactPage } from 'src/app/shared/models/contact';
   styleUrls: ['./view-contact.component.scss']
 })
 export class ViewContactComponent implements OnInit,AfterViewInit {
-  routeParamSubscription!: Subscription;
-  getContactSubscription!: Subscription;
+  routeParamSubscription: Subscription | undefined;
+  getContactSubscription: Subscription | undefined;
+  subscriptionArray:any[]=[];
   contactData:any;
   constructor(private router:Router,private route:ActivatedRoute,private contactService:ContactQueryServiceService) { }
 
@@ -22,6 +23,7 @@ export class ViewContactComponent implements OnInit,AfterViewInit {
       const id = params['id'];
       this.loadData(id);
     })
+    this.subscriptionArray.push(this.routeParamSubscription)
   }
 
   loadData(id:number){
@@ -29,5 +31,9 @@ export class ViewContactComponent implements OnInit,AfterViewInit {
     this.getContactSubscription = this.contactService.getByID(params).subscribe((data: IContactPage)=>{
       this.contactData = data;
     })
+    this.subscriptionArray.push(this.getContactSubscription)
+  }
+  ngOnDestroy(): void {
+    this.subscriptionArray.forEach((x: any) => x.unsubscribe());
   }
 }

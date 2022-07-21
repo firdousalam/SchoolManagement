@@ -1,18 +1,11 @@
-import { Component, OnInit, Input, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnDestroy, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup, NgForm } from '@angular/forms';
 import { IProfile, IProfilePage, IProfileSearch, stdEducationList } from 'src/app/shared/models/profile'
 import { educationDetailsColumnDefs } from 'src/app/shared/constants/admission.constant';
 import { Observable, Subscription } from 'rxjs';
-interface ItemData {
-  id: number;
-  dateofEntry?: string;
-  sequence?: number | null;
-  courseName: string;
-  institution: string;
-  educationStatus: string;
-  percentage: number | null;
-  yearofCompletion: number | null;
-}
+import { StudentEducationServiceService } from 'src/app/shared/services/api/student-education-service.service';
+import { NotificationService } from 'src/app/core/services/notification.service';
+
 
 @Component({
   selector: 'app-educational-details',
@@ -20,20 +13,25 @@ interface ItemData {
   styleUrls: ['./educational-details.component.scss'],
 })
 
-export class EducationalDetailsComponent implements OnInit, OnDestroy {
+export class EducationalDetailsComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('educationForm', { read: NgForm }) educationForm!: NgForm;
-  @Input() studentEducationData: stdEducationList[] = [];
+  @Input() studentEducationData!: IProfile;
+  studentEducation: any;
   @Input() submitEvent!: Observable<void>;
+  @Input() studentProfileId: any = '';
   @Output() updatedEducationListData = new EventEmitter<any>();
   editMode: boolean = false;
+  isValid: boolean = false;
+  years: any = [];
   eventsSubscription!: Subscription;
+  saveEducationSubscription!: Subscription;
   subscriptionArray: any[] = [];
-  editCache: { [key: string]: { edit: boolean; data: ItemData } } = {};
-  listOfData: ItemData[] = [];
-  updatedEducationData: ItemData[] = [];
+  editCache: { [key: number]: { edit: boolean; data: stdEducationList } } = {};
+  listOfData: stdEducationList[] = [];
+  updatedEducationData: stdEducationList[] = [];
   i = 0;
   columnDefs: any[];
-  constructor() {
+  constructor(private api: StudentEducationServiceService, private notificationService: NotificationService) {
     this.columnDefs = educationDetailsColumnDefs;
   }
   startEdit(id: number): void {
@@ -69,7 +67,8 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
       };
     });
   }
-  isEmptyObject(o: ItemData | { [s: string]: unknown; } | ArrayLike<unknown>) {
+
+  isEmptyObject(o: stdEducationList | { [s: string]: unknown; } | ArrayLike<unknown>) {
     console.log(Object.values(o).every(x => x !== null && x !== ''))
     return Object.values(o).every(x => x !== null && x !== '');
   }
@@ -95,6 +94,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     }
     return this.updatedEducationData;
   }
+
   sendBackData() {
     this.updatedEducationListData.emit(this.createEduDataAfterActions());
 
@@ -102,25 +102,46 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
 
   updateEduData() {
     //put api
-    console.log('saveeeeee', this.createEduDataAfterActions())
+    const requestData: any[] = this.createEduDataAfterActions();
+
+    console.log('saveeeeee', requestData)
+    this.saveEducationSubscription = this.api.updateBySearchCriteriaWithArrayObject({ profileId: this.studentProfileId }, requestData).subscribe((data: any) => {
+      this.notificationService.showSuccessToast(data.message);
+      this.editMode = false;
+      this.sendBackData();
+      this.ngOnInit();
+    })
+    this.subscriptionArray.push(this.saveEducationSubscription);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.studentEducation = this.studentEducationData?.stdEducationList;
   }
   ngOnInit(): void {
     this.eventsSubscription = this.submitEvent.subscribe(() => this.sendBackData());
     this.subscriptionArray.push(this.eventsSubscription);
-    const data: any = [
+    for (let i = 1900; i <= 2999; i++) {
+      this.years.push(i);
+    }
+    const emptyData: any = [
       {
         id: 1,
-        courseName: 'Course 1',
-        institution: 'Institution 1',
-        educationStatus: 'Ongoing',
-        percentage: 99,
-        yearofCompletion: 2022,
+        courseName: '',
+        institution: '',
+        educationStatus: '',
+        percentage: '',
+        yearofCompletion: '',
       },
     ];
 
-    this.listOfData = data;
+    // setTimeout(() => {
+    this.listOfData = this.studentEducation;
     // this.i = this.listOfData.length + 1;
     this.updateEditCache();
+    // }, 200);
+
+
+
   }
   onEdit() {
     this.editMode = true;
@@ -128,10 +149,6 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
   onCancel() {
     this.editMode = false;
     this.ngOnInit();
-  }
-  onSubmit(educationForm: NgForm) {
-    console.log(educationForm);
-
   }
 
   addRow(educationForm: NgForm): void {
@@ -149,8 +166,8 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
           courseName: '',
           institution: '',
           educationStatus: '',
-          percentage: null,
-          yearofCompletion: null,
+          percentage: '',
+          yearofCompletion: '',
         }
       ];
       this.updateEditCache();

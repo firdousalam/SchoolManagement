@@ -23,7 +23,7 @@ export class UrlBuilderService {
         delete strippedQueryParams[key];
       }
     });
-    const params = new URLSearchParams(strippedQueryParams);
+    const params = new URLSearchParams(strippedQueryParams);    
     return `${this.apiServer.baseUrl}${restOfUrl}?${params.toString()}`;
   }
 

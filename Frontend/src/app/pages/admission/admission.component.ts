@@ -3,6 +3,7 @@ import {
   admissionPaymentTabs,
   admissionPaymentTabNames,
 } from 'src/app/shared/constants/admission.constant';
+import { AdmissionServiceService } from 'src/app/shared/services/api/admission-service.service';
 @Component({
   selector: 'app-admission',
   templateUrl: './admission.component.html',
@@ -14,7 +15,7 @@ export class AdmissionComponent implements OnInit {
   tabs: any;
   selectedTab: string = '';
   admissionPaymentTabNames: any = admissionPaymentTabNames;
-  constructor() {
+  constructor(private api: AdmissionServiceService) {
     this.tabs = admissionPaymentTabs;
    }
 

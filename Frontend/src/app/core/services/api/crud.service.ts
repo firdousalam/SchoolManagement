@@ -26,6 +26,15 @@ export abstract class CrudService<IDetail, IDetailPage, ISearch> {
       )
     );
   }
+
+  getByIDWithDetail(searchObject: ISearch) {
+    return this.httpClient.get<IDetail>(
+       this.urlBuilderService.getUrlWithQueryParams(
+        this.api.getByIDWithDetail,
+        searchObject
+      )
+    );
+  }
   getDoc(id: number) {
     return this.httpClient.get(
        this.urlBuilderService.getUrl(this.api.getDoc+'/'+id),{responseType: 'blob' as 'json'}
@@ -44,6 +53,24 @@ export abstract class CrudService<IDetail, IDetailPage, ISearch> {
   update(detail: IDetail) {
     return this.httpClient.put(
       this.urlBuilderService.getUrl(this.api.update),
+      detail
+    );
+  }
+  updateBySearchCriteria(searchObject: ISearch,detail: IDetail) {    
+    return this.httpClient.put(
+      this.urlBuilderService.getUrlWithQueryParams(
+        this.api.update,
+        searchObject
+      ),
+      detail
+    );
+  }
+  updateBySearchCriteriaWithArrayObject(searchObject: ISearch,detail: IDetail[]) {
+    return this.httpClient.put(
+      this.urlBuilderService.getUrlWithQueryParams(
+        this.api.update,
+        searchObject
+      ),
       detail
     );
   }

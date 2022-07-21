@@ -61,9 +61,9 @@
 </div> -->
 <div class="sub-heading">
   <div class="sub-heading-tabs">
-    <nz-tabset [nzSize]="'large'" [nzAnimated]="true" [nzTabBarGutter]="20">
+    <nz-tabset [nzSize]="'large'" [nzAnimated]="false" [nzTabBarGutter]="30">
       <nz-tab nzTitle="{{studentProfileTabNames.PERSONAL}}">
-        <div class="inner-page">
+        <div class="inner-page" [ngClass]="{'edit-inner-page': editMode}">
           <div class="heading-actions d-flex justify-content-end">
             <ng-container *ngIf="!editMode">
               <button type="button" class="btn kl-btn kl-btn-secondary btn-sm me-2" (click)="onEdit()">
@@ -74,35 +74,35 @@
               <button type="button" (click)="onCancel()" class="btn kl-btn kl-btn-primary btn-sm me-2">
                 Cancel
               </button>
-              <button type="button" class="btn kl-btn kl-btn-secondary btn-sm">
+              <button type="button" (click)="savePersonal()" [disabled]="!isValid" class="btn kl-btn kl-btn-secondary btn-sm">
                 Save
               </button>
             </ng-container>
           </div>
-          <app-personal-header-details [editMode]="editMode"></app-personal-header-details>
+          <app-personal-header-details [studentPersonalData]="studentPersonalData" [editMode]="editMode"></app-personal-header-details>
           <div class="mb-4">
             <app-heading [heading]="'Personal Details'" [secondary]="true">
             </app-heading>
           </div>
-          <app-personal-details [editMode]="editMode"></app-personal-details>
+          <app-personal-details *ngIf="studentContactData" (changeEmploymentStatus)="getEmploymentStatus($event)" [employmentStatus]="employmentStatus" (isFormValid)="isFormValid($event)" [editMode]="editMode" (updatedPersonalListData)="updatedPersonalData($event)" [saveEvent]="saveSubject.asObservable()" [submitEvent]="eventsSubject.asObservable()" [studentContactData]="studentContactData"></app-personal-details>
         </div>
       </nz-tab>
       <nz-tab nzTitle="{{studentProfileTabNames.EDUCATIONAL}}">
         <div class="card">
           <div class="card-body">
-            <div class="container">
-                <app-educational-details (updatedEducationListData)="updatedEducationData($event)" [submitEvent]="eventsSubject.asObservable()" [studentEducationData]="studentEducationData" > </app-educational-details>
+            <div class="container" >
+                <app-educational-details *ngIf="studentProfileData" [studentProfileId]="studentProfileId" (updatedEducationListData)="updatedEducationData($event)" [submitEvent]="eventsSubject.asObservable()" [studentEducationData]="studentProfileData" ></app-educational-details>
             </div>
           </div>
         </div>
 
       </nz-tab>
 
-      <nz-tab nzTitle="{{studentProfileTabNames.EMPLOYMENT}}">
+      <nz-tab *ngIf="employmentStatus ==='Employed'" nzTitle="{{studentProfileTabNames.EMPLOYMENT}}">
         <div class="card">
           <div class="card-body">
             <div class="container">
-              <app-employment-details> </app-employment-details>
+              <app-employment-details [studentProfileId]="studentProfileId" *ngIf="studentProfessionData" (updatedEmploymentListData)="updatedEmploymentData($event)" [submitEvent]="eventsSubject.asObservable()" [studentEmploymentData]="studentProfessionData"> </app-employment-details>
             </div>
           </div>
         </div>
@@ -112,7 +112,7 @@
         <div class="card">
           <div class="card-body">
             <div class="container">
-              <app-admission-details> </app-admission-details>
+              <app-admission-details *ngIf="studentAdmissionData" [studentAdmissionData]="studentAdmissionData"> </app-admission-details>
             </div>
           </div>
         </div>

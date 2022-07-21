@@ -16,6 +16,7 @@ export class ContactComponent implements OnInit {
   adminTableConfig: ITableViewConfig[];
   rowData!: IContact[];
   filterData!: IContact[];
+  subscriptionArray:any[]=[];
   searchTerm = '';
   contactSubscription!: Subscription;
   constructor(private errorServices: GlobalErrorService, private router: Router, private api: ContactQueryServiceService) {
@@ -41,6 +42,7 @@ export class ContactComponent implements OnInit {
       this.rowData = data.content;
       this.filterData = this.rowData;
     })
+    this.subscriptionArray.push(this.contactSubscription);
   }
   search(value: any): void {
     console.log(typeof (value), value);
@@ -51,5 +53,8 @@ export class ContactComponent implements OnInit {
       val.response.toLowerCase().includes(value.trim().toLowerCase()) ||
       val.queryStatus.toLowerCase().includes(value.trim().toLowerCase())
     );
+  }
+  ngOnDestroy(): void {
+    this.subscriptionArray.forEach((x: any) => x.unsubscribe());
   }
 }

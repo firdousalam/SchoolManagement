@@ -1,6 +1,11 @@
 .inner-page {
     height: calc(100% - 132px) !important;
     margin: 0;
+    padding-bottom: 6.2rem;
+}
+.edit-inner-page {
+    height: calc(100% - 185px) !important;
+    margin: 0;
 }
 
 :host::ng-deep nz-tabs-nav.ant-tabs-nav {

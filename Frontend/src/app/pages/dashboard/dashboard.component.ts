@@ -25,8 +25,8 @@ export class DashboardComponent implements OnInit {
   }
 
   Init(){
-    this.notificationSubscription = this.api.getBySearchCriteria({}).subscribe((data: INotificationPage) => {
-      console.log(data.content);
+    this.notificationSubscription = this.api.getAll().subscribe((data: INotification[]) => {
+      console.log(data);
       
     });
   }
