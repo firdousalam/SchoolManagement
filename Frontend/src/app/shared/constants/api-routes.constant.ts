@@ -149,6 +149,17 @@ export const apiRoutes = {
   admissionApi: {
     search: '/api/v1/admission/getAdmissionBySearchCriteria',
     update: '/api/v1/admission/updateAdmission'
+  },
+  paymentApi:{
+    getById:'/api/v1/payment/initiatePayment',
+    createById: '/api/v1/payment/makePayment'
+
+  },
+  batchDetailsApi:{
+    getById: '/api/v1/studentProfile/getStdProfileListById',
+  },
+  studentPersonalApi:{
+    update:'/api/v1/studentpersonalDetails/updateStudentPersonalDetail'
   }
 
 };

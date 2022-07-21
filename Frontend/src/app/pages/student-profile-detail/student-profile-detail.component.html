@@ -79,12 +79,12 @@
               </button>
             </ng-container>
           </div>
-          <app-personal-header-details [studentPersonalData]="studentPersonalData" [editMode]="editMode"></app-personal-header-details>
+          <app-personal-header-details (employmentStatusChange)="getStatus($event)" [studentPersonalData]="studentPersonalData" [editMode]="editMode"></app-personal-header-details>
           <div class="mb-4">
             <app-heading [heading]="'Personal Details'" [secondary]="true">
             </app-heading>
           </div>
-          <app-personal-details *ngIf="studentContactData" (changeEmploymentStatus)="getEmploymentStatus($event)" [employmentStatus]="employmentStatus" (isFormValid)="isFormValid($event)" [editMode]="editMode" (updatedPersonalListData)="updatedPersonalData($event)" [saveEvent]="saveSubject.asObservable()" [submitEvent]="eventsSubject.asObservable()" [studentContactData]="studentContactData"></app-personal-details>
+          <app-personal-details *ngIf="studentContactData" (isFormValid)="isFormValid($event)" [editMode]="editMode" (updatedPersonalListData)="updatedPersonalData($event)" [saveEvent]="saveSubject.asObservable()" [submitEvent]="eventsSubject.asObservable()" [studentContactData]="studentContactData"></app-personal-details>
         </div>
       </nz-tab>
       <nz-tab nzTitle="{{studentProfileTabNames.EDUCATIONAL}}">

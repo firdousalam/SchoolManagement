@@ -9,6 +9,7 @@ import { IProfile, IProfilePage, stdAdmission, stdContactDetail, stdEducationLis
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { StudentPersonalServiceService } from 'src/app/shared/services/api/student-personal-service.service';
+import { ProfileHeaderService } from 'src/app/shared/services/api/profile-header.service';
 @Component({
   selector: 'app-student-profile-detail',
   templateUrl: './student-profile-detail.component.html',
@@ -30,6 +31,7 @@ export class StudentProfileDetailComponent implements OnInit, OnDestroy {
   routeParamSubscription: Subscription | undefined;
   submitStudentProfileSubscription: Subscription | undefined;
   savePersonalDataSubcription: Subscription | undefined;
+  savePersonalheaderDataSubcription: Subscription | undefined;
   studentProfileId: any;
   studentEducationData: stdEducationList[] = [];
   studentPersonalData!: stdPersonalDetail;
@@ -37,7 +39,7 @@ export class StudentProfileDetailComponent implements OnInit, OnDestroy {
   studentAdmissionData!: stdAdmission;
   studentProfessionData!: stdProfession;
   subscriptionArray: any = [];
-  constructor(private personalApi: StudentPersonalServiceService, private notificationService: NotificationService, private api: StudentProfileServiceService, private router: Router, private route: ActivatedRoute) {
+  constructor(private headerpersonalApi:ProfileHeaderService,private personalApi: StudentPersonalServiceService, private notificationService: NotificationService, private api: StudentProfileServiceService, private router: Router, private route: ActivatedRoute) {
     // this.tabs = studentProfileTabs;
     // this.selectedTab = studentProfileTabNames.PERSONAL
     this.routeParamSubscription = this.route.paramMap.subscribe((params: ParamMap) => {
@@ -88,14 +90,16 @@ export class StudentProfileDetailComponent implements OnInit, OnDestroy {
   }
   savePersonal() {
     this.saveSubject.next();
-
+    console.log('SSSS',this.employmentStatus);
+    
     this.studentContactData = { ...this.studentContactData, 'profileId': parseInt(this.studentProfileId) };
 
     const requestData: any = { ...this.studentProfileData.stdContactDetail, ...this.studentContactData };
     delete requestData.status;
     delete requestData.approvalStatus;
 
-
+    this.savePersonalheaderDataSubcription = this.headerpersonalApi.updateBySearchCriteria({profileId:this.studentProfileId},{...this.studentPersonalData,...{'employmentStatus':this.employmentStatus,'profileId': parseInt(this.studentProfileId)}}).subscribe((data:any)=>{
+    })
     this.savePersonalDataSubcription = this.personalApi.updateBySearchCriteria({ profileId: this.studentProfileId }, requestData).subscribe((data: any) => {
       this.notificationService.showSuccessToast(data.message);
       this.editMode = false;
@@ -107,18 +111,18 @@ export class StudentProfileDetailComponent implements OnInit, OnDestroy {
     this.isValid = valid
   }
   updatedPersonalData(data: stdContactDetail | any) {
-    this.employmentStatus = data.employmentStatus;
-    delete data.employmentStatus;
     this.studentContactData = data;
 
+  }
+
+  getStatus(status:any){
+    this.employmentStatus = status;
   }
   // onTabSelect(tabName: any) {
   //   this.selectedTab = tabName;
   // }
 
-  getEmploymentStatus(status: any) {
-    this.employmentStatus = status;
-  }
+ 
   init() {
     const request = { profileId: this.studentProfileId }
     this.profileSubscription = this.api.getByIDWithDetail(request).subscribe((data: IProfile) => {

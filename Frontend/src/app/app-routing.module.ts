@@ -12,7 +12,7 @@ import { StudentProfileDetailComponent } from './pages/student-profile-detail/st
 
 const routes: Routes = [
   { path: 'dashboard/:id', component: DashboardComponent, canActivate:[RouteGuard] },
-  { path: 'admission', component: AdmissionComponent },
+  { path: 'admission/:id', component: AdmissionComponent },
   { path: 'courses', component: CoursesComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'contact/new', component: AddContactComponent },

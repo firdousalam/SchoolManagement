@@ -11,9 +11,7 @@ export class PersonalDetailsComponent implements OnInit, OnChanges, OnDestroy {
   @Input() studentContactData!: stdContactDetail;
   @Input() submitEvent!: Observable<void>;
   @Input() saveEvent!: Observable<void>;
-  @Input() employmentStatus: any;
   @Output() updatedPersonalListData = new EventEmitter<any>();
-  @Output() changeEmploymentStatus = new EventEmitter<any>();
   @Output() isFormValid = new EventEmitter<any>();
   @Input() editMode: boolean = true;
   eventsSubscription!: Subscription;
@@ -27,7 +25,6 @@ export class PersonalDetailsComponent implements OnInit, OnChanges, OnDestroy {
       {
         paddress: ['', Validators.required],
         signature: ['', Validators.required],
-        employmentStatus: ['Employed', Validators.required],
         caddress: ['', Validators.required],
         mobileNumber: ['', [Validators.required]],
         landlineNumber: ['', [Validators.required]],
@@ -52,8 +49,7 @@ export class PersonalDetailsComponent implements OnInit, OnChanges, OnDestroy {
       mobileNumber: this.studentContactData?.mobileNumber,
       landlineNumber: this.studentContactData?.landlineNumber,
       alternateMobileNumber: this.studentContactData?.alternateMobileNumber,
-      emailId: this.studentContactData?.emailId,
-      employmentStatus: this.employmentStatus,
+      emailId: this.studentContactData?.emailId
     })
 
 
@@ -61,10 +57,8 @@ export class PersonalDetailsComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
 
-    this.editMode ? this.form.controls['employmentStatus'].enable() : this.form.controls['employmentStatus'].disable()
     this.formSubscription = this.form.valueChanges.subscribe(() => {
-      this.isFormValid.emit(this.form.valid);
-      this.changeEmploymentStatus.emit(this.form.get('employmentStatus')?.value);
+      this.isFormValid.emit(this.form.valid); 
     });
     this.subscriptionArray.push(this.formSubscription);
   }

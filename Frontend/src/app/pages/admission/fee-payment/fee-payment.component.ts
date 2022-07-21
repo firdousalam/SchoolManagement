@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { feePaymentColumnDefs } from 'src/app/shared/constants/payment.constant';
 @Component({
   selector: 'app-fee-payment',
@@ -6,6 +6,7 @@ import { feePaymentColumnDefs } from 'src/app/shared/constants/payment.constant'
   styleUrls: ['./fee-payment.component.scss']
 })
 export class FeePaymentComponent implements OnInit {
+  @Input()batchData:any;
   adminTableConfig: any[];
   rowData: any[];
   checked = false;
