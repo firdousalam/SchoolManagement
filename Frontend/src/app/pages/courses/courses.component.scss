@@ -1,0 +1,24 @@
+@import 'src/sass/utilities/variables';
+
+.modal-dialog, .modal-content {
+    height: 88%;
+  }
+  
+  .modal-body {
+    max-height: calc(100% - 22px);
+  }
+
+  .close, .download{
+    cursor: pointer;
+  }
+
+  .inner-page {
+    height: calc(100% - -136px);
+}
+
+.viewfile{
+  text-decoration: dashed;
+  cursor: pointer;
+  color: $c-info-b;
+  
+}

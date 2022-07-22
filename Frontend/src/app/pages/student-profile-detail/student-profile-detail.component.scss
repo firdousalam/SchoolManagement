@@ -1,0 +1,23 @@
+.inner-page {
+    height: calc(100% - 132px) !important;
+    margin: 0;
+    padding-bottom: 6.2rem;
+}
+.edit-inner-page {
+    height: calc(100% - 185px) !important;
+    margin: 0;
+}
+
+:host::ng-deep nz-tabs-nav.ant-tabs-nav {
+    margin: 0 !important;
+}
+
+.container{
+    min-height: 441px;
+    overflow-y: auto;
+}
+.heading-actions button {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}

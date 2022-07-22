@@ -1,0 +1,68 @@
+@import '/src/sass/utilities/variables';
+
+.dashboard-container {
+    height: calc(100% - 20px);
+    overflow-y: auto;
+}
+
+.ad-image {
+    background: $c-gray-4;
+    width: 275px;
+    height: 106px;
+    color: $c-white;
+    text-align: center;
+}
+
+
+.ad-image h5 {
+    position: relative;
+    top: 50%
+}
+
+.notification-container,.advertisement, .broucher{
+    height: 100%;
+}
+.notification-container{
+    max-height: 286px;
+}
+
+.broucher{
+    max-height: 353px
+}
+.notification-ui_dd-content {
+    max-height: 257px;
+    overflow: auto;
+}
+
+.notification-list {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 25px;
+    border-bottom: 1px solid #ddd;
+
+    .notification-list_img {
+        background: $c-gray-5;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        position: relative;
+        left: -23px;
+
+        h3{
+            color:$c-white;
+            text-align: center;
+            position: relative;
+            top:0.6rem;
+        }
+    }
+
+    .notification-list_detail {
+        margin-right: auto;
+        max-width: 200px;
+
+        p {
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+    }
+}

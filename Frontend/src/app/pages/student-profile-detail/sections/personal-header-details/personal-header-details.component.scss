@@ -1,0 +1,15 @@
+@import '/src/sass/utilities/variables';
+
+.profile-pic {
+  width: 150px;
+  background-color: $c-gray-2;
+  align-items: center;
+  .icon {
+    font-size: 100px;
+    color: $c-gray-5;
+  }
+  .overlay {
+    opacity: 0.4;
+    margin-top: $space--24;
+  }
+}

@@ -112,4 +112,54 @@ export const apiRoutes = {
     getReferenceId: '/api/v1/type/getReferenceId',
     update: '/api/v1/type/updateType',
   },
+  queryOrContactApi: {
+    create: '/api/v1/contactQuery/createContactQuery',
+    getAll: '/api/v1/contactQuery/getAllContactQuery',
+    getById: '/api/v1/contactQuery/getContactQueryById',
+    search: '/api/v1/contactQuery/getContactQueryBySearchCriteria',
+    getReferenceId: '/api/v1/contactQuery/getReferenceId',
+    update: '/api/v1/contactQuery/updateContactQuery',
+  },
+  studyMaterialApi: {
+    getAll: '/api/v1/studyMaterial/getStudyMaterialById',
+    search: '/api/v1/studyMaterial/getStudyMaterialsBySearchCriteria',
+    getDoc: '/api/v1/studyMaterial/documentData'
+  },
+  studentProfileApi: {
+    create: '/api/v1/studentProfile/createStudentProfile',
+    search: '/api/v1/studentProfile/getStudentProfileBySearchCriteria',
+    update: '/api/v1/studentProfile/updateStudentProfile',
+    getByIDWithDetail: '/api/v1/studentProfile/getStdProfileById'
+  },
+
+  studentContactDetailApi: {
+    update: '/api/v1/studentContactDeatils/updateStudentContactDetails',
+  },
+  studentEducationApi: {
+    update: '/api/v1/studentEducation/updateStudentEducation',
+  },
+  studentEmploymentApi: {
+    update: '/api/v1/studentProfession/updateStudentProfession',
+  },
+
+  notificationApi: {
+    search: '/api/v1/notifications/getNotificationsBySearchCriteria',
+    getAll: '/api/v1/notifications/getAllNotifications',
+  },
+  admissionApi: {
+    search: '/api/v1/admission/getAdmissionBySearchCriteria',
+    update: '/api/v1/admission/updateAdmission'
+  },
+  paymentApi:{
+    getById:'/api/v1/payment/getPaymentsByProfileId',
+    createById: '/api/v1/payment/makePayment'
+
+  },
+  batchDetailsApi:{
+    getById: '/api/v1/studentProfile/getStdProfileListById',
+  },
+  studentPersonalApi:{
+    update:'/api/v1/studentpersonalDetails/updateStudentPersonalDetail'
+  }
+
 };

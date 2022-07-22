@@ -1,0 +1,59 @@
+<div class="employment">
+  <form [formGroup]="form">
+    <div class="d-flex justify-content-end">
+      <div class="heading-actions d-flex">
+        <ng-container *ngIf="!editMode">
+          <button type="button" class="btn kl-btn kl-btn-secondary btn-sm me-2" (click)="onEdit()">
+            Edit
+          </button>
+        </ng-container>
+        <ng-container *ngIf="editMode">
+          <button type="button" (click)="onCancel()" class="btn kl-btn kl-btn-primary btn-sm me-2">
+            Cancel
+          </button>
+          <button [disabled]="!isValid" (click)="updateEmploymentData()" type="button" class="btn kl-btn kl-btn-secondary btn-sm">
+            Save
+          </button>
+        </ng-container>
+      </div>
+    </div>
+   
+    <div class="row g-3 mb-4 mt-2">
+      <div class="col-2 ">
+        <label class="form-label">Organization</label>
+      </div>
+      <div class="col-4 pe-4">
+        <span *ngIf="!editMode">{{studentEmploymentData.organization}}</span>
+        <input type="text" *ngIf="editMode" class="form-control" formControlName="organization"
+          [ngClass]="{ 'is-invalid': f.organization.errors }" placeholder="Organization" aria-label="Organization" />
+        <div *ngIf="f.organization.errors" class="invalid-feedback">
+          <div *ngIf="f.organization.errors.required">Organization is required</div>
+        </div>
+      </div>
+      <div class="col-2 ">
+        <label class="form-label">Designation</label>
+      </div>
+      <div class="col-4">
+        <span *ngIf="!editMode">{{studentEmploymentData.designation}}</span>
+        <input type="text" *ngIf="editMode" class="form-control" formControlName="designation"
+          [ngClass]="{ 'is-invalid': f.designation.errors }" placeholder="Designation" aria-label="Designation" />
+        <div *ngIf="f.designation.errors" class="invalid-feedback">
+          <div *ngIf="f.designation.errors.required">Designation is required</div>
+        </div>
+      </div>
+    </div>
+    <div class="row g-3 mb-4">
+      <div class="col-2 ">
+        <label class="form-label">Place of Duty</label>
+      </div>
+      <div class="col-4 pe-4">
+        <span *ngIf="!editMode">{{studentEmploymentData.placeOfDuty}}</span>
+        <input type="text" *ngIf="editMode" class="form-control" formControlName="placeOfDuty"
+          [ngClass]="{ 'is-invalid': f.placeOfDuty.errors }" placeholder="Place of Duty" aria-label="Place of Duty" />
+        <div *ngIf="f.placeOfDuty.errors" class="invalid-feedback">
+          <div *ngIf="f.placeOfDuty.errors.required">Place Of Duty is required</div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

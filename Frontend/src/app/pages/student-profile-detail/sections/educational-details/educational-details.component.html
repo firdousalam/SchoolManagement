@@ -1,0 +1,102 @@
+<div class="d-flex justify-content-end mb-3">
+  <div class="heading-actions d-flex">
+    <ng-container *ngIf="!editMode">
+      <button type="button" class="btn kl-btn kl-btn-secondary btn-sm me-2" (click)="onEdit()">
+        Edit
+      </button>
+    </ng-container>
+    <ng-container *ngIf="editMode">
+      <button type="button" (click)="onCancel()" class="btn kl-btn kl-btn-primary btn-sm me-2">
+        Cancel
+      </button>
+      <button [disabled]="!educationForm.valid" (click)="updateEduData()" type="button" class="btn kl-btn kl-btn-secondary btn-sm">
+        Save
+      </button>
+    </ng-container>
+  </div>
+</div>
+<form #educationForm="ngForm" novalidate>
+  <nz-table #editRowTable  [nzBordered]="true" [nzData]="listOfData" [nzFrontPagination]="false"
+    [nzShowPagination]="false" [nzLoadingDelay]="300" [nzScroll]="{ y: '229px' }">
+    <thead>
+      <tr>
+        <ng-container *ngFor="let config of columnDefs">
+          <th [nzWidth]="config.headerName === 'SI No'? '50px': '190px'">{{ config.headerName }}</th>
+        </ng-container>
+        <th [nzWidth]="'90px'" *ngIf="editMode"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of editRowTable.data">
+        <ng-container *ngIf="!editCache[data.id]?.edit; else editTemplate">
+          <td>{{ data.id }}</td>
+          <td>{{ data.courseName }}</td>
+          <td>{{ data.institution }}</td>
+          <td>{{ data.educationStatus }}</td>
+          <td>{{ data.percentage?data.percentage+'%':''  }}</td>
+          <td>{{ data.yearofCompletion }}</td>
+          <td *ngIf="editMode"><a (click)="startEdit(data.id)" class="save">Edit</a>
+            <a nz-popconfirm nzPopconfirmTitle="Sure to delete?"
+              (nzOnConfirm)="deleteRow(data.id,educationForm)" *ngIf="listOfData.length>1">Delete</a>
+          </td>
+        </ng-container>
+        <ng-template #editTemplate>
+          <td>{{ data.id }}</td>
+          <td><input [ngClass]="{ 'is-invalid': courseName.invalid }" name="courseName_{{ data.id}}"
+              #courseName="ngModel" class="form-control form-control-sm" required style="width: 100%;" type="text"
+              nz-input [(ngModel)]="editCache[data.id].data.courseName" />
+              <span  class="invalid-feedback mt-2">
+                Please enter  course name.
+              </span>
+          </td>
+          <td><input name="institution_{{ data.id}}" [ngClass]="{ 'is-invalid': institution.invalid }" required
+              #institution="ngModel" class="form-control form-control-sm" style="width: 100%;" type="text" nz-input
+              [(ngModel)]="editCache[data.id].data.institution" />
+              <span  class="invalid-feedback mt-2">
+                Please enter a Institution name.
+              </span>
+            </td>
+          <td>
+
+            <nz-select [nzShowArrow]="false" [ngClass]="{ 'is-invalid': educationStatus.invalid }" name="educationStatus_{{ data.id}}" #educationStatus="ngModel"
+              class="form-control form-control-sm" required
+              nzPlaceHolder="Select a educationStatus from below" style="width: 100%;" [(ngModel)]="editCache[data.id].data.educationStatus">
+              <nz-option nzValue="Active" nzLabel="Active"></nz-option>
+              <nz-option nzValue="Ongoing" nzLabel="Ongoing"></nz-option>
+              <nz-option nzValue="Completed" nzLabel="Completed"></nz-option>
+            </nz-select>
+            <span  class="invalid-feedback mt-2">
+              Please select a educationStatus.
+            </span>
+          </td>
+          <td><input [ngClass]="{ 'is-invalid': percentage.invalid }" name="percentage_{{ data.id}}"
+              #percentage="ngModel" class="form-control form-control-sm" required style="width: 100%;" max="100" type="number"
+              nz-input [(ngModel)]="editCache[data.id].data.percentage" />
+              <span  class="invalid-feedback mt-2">
+                Please enter percentage value within 100.
+              </span>
+          </td>
+          <td>
+            <nz-select nzShowSearch [nzShowArrow]="false" [ngClass]="{ 'is-invalid': yearofCompletion.invalid }" name="yearofCompletion_{{ data.id}}" #yearofCompletion="ngModel"
+              class="form-control form-control-sm" required nzPlaceHolder="Select  year of passing" style="width: 100%;"
+              [(ngModel)]="editCache[data.id].data.yearofCompletion">
+              <nz-option *ngFor="let y of years" nzValue="{{y}}" nzLabel="{{y}}"></nz-option> 
+            </nz-select>
+            <span  class="invalid-feedback mt-2">
+              Please enter Year of Passing.
+            </span>
+          </td>
+          <td>
+            <a *ngIf="educationForm.valid" (click)="saveEdit(data.id)" class="save">Save</a>
+            <a *ngIf="listOfData.length>1" nz-popconfirm nzPopconfirmTitle="Sure to delete?"
+              (nzOnConfirm)="deleteRow(data.id,educationForm)">Delete</a>
+          </td>
+        </ng-template>
+      </tr>
+    </tbody>
+  </nz-table>
+  <div class="add-row mt-3">
+    <button *ngIf="editMode && listOfData.length" (click)="addRow(educationForm)" class="btn kl-btn kl-btn-primary btn-sm">Add New Row</button>
+  </div>
+  
+</form>

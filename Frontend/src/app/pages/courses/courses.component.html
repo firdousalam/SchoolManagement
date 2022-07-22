@@ -1,0 +1,89 @@
+<app-heading [heading]="'Course- Study Material'">
+</app-heading>
+<div class="sub-heading">
+    <div class="sub-heading-tabs">
+        <div class="top-filter d-flex mt-3">
+            <div class="row d-flex w-100">
+                <div class="col-sm-8">
+                    <button type="button" class="btn btn-secondary">
+                        Add filter
+                    </button>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <input type="text" [(ngModel)]="searchTerm" (input)="search(searchTerm)"
+                                class="form-control" id="referenceid" placeholder="search here">
+                        </div>
+                        <div class="col-sm-3">
+                            <select class="form-select">
+                                <option selected>cols</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="inner-page mt-3">
+    <nz-table #table nzBordered [nzScroll]="{ y: '229px' }" [nzData]="rowData" [nzNoResult]="'No Records'" nzShowSizeChanger
+        [nzFrontPagination]="false">
+        <thead>
+            <tr>
+                <ng-container *ngFor="let config of adminTableConfig">
+                    <th>{{ config.header }}</th>
+                </ng-container>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of table.data" class="editable-row">
+                <ng-container *ngFor="let config of adminTableConfig">
+                    <ng-container>
+                        <td *ngIf="isAction(config,data)">
+                            {{ getRowValue(config,data) }}
+                        </td>
+                        <td *ngIf="!isAction(config,data)">
+                            <div *ngIf="config.header ==='English'">
+                                <div *ngFor="let file of data.engdata" (click)="onViewClick(file.id,file.docName)">
+                                    <span class="viewfile">{{file.docName ? file.docName : '------------'}}</span>
+                                    <button class="btn btn-sm kl-btn kl-btn-icon">
+                                        <i class="bi bi-download"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div *ngIf="config.header ==='Malayalam'">
+                                <div *ngFor="let file of data.malData" (click)="onViewClick(file.id,file.docName)">
+                                    <span class="viewfile">{{file.docName ? file.docName : '------------'}}</span>
+                                    <button class="btn btn-sm kl-btn kl-btn-icon download">
+                                        <i class="bi bi-download"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+
+                        </td>
+                    </ng-container>
+                </ng-container>
+            </tr>
+        </tbody>
+    </nz-table>
+
+</div>
+
+<!-- Modal -->
+<div class="modal" [ngStyle]="{'display':displayStyle}" role="dialog" id="exampleModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="head mt-2 mb-2 d-flex justify-content-end">
+                    <span class=" download me-3" (click)="downloadFile(showPdfUrl)">Download</span>
+                    <span class="close" (click)="closePopup()">Close</span>
+                </div>
+                <iframe [src]="showPdfUrl | safe" frameBorder="0" scrolling="auto" height="100%" width="100%"></iframe>
+            </div>
+        </div>
+    </div>
+</div>

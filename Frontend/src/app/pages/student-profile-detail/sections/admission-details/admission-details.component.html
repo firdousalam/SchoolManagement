@@ -1,0 +1,56 @@
+<div class="main-container">
+  <div class="row g-3 mb-4">
+    <div class="col-2 align-self-end">
+      <label class="form-label">ID Card Number</label>
+    </div>
+    <div class="col-4 pe-4">
+      <span>{{studentAdmissionData?.idCardNo}}</span>
+    </div>
+    <div class="col-2 align-self-end">
+      <label class="form-label">Batch Number</label>
+    </div>
+    <div class="col-4">
+      <span>{{studentAdmissionData?.batchNo}}</span>
+    </div>
+  </div>
+  <div class="row g-3 mb-4">
+    <div class="col-2 align-self-end">
+      <label class="form-label">Enrollment Number</label>
+    </div>
+    <div class="col-4 pe-4">
+      <span>{{studentAdmissionData?.enrollmentNumber}}</span>
+    </div>
+    <div class="col-2 align-self-end">
+      <label class="form-label">Category</label>
+    </div>
+    <div class="col-4">
+      <span>{{studentAdmissionData?.applicationCategory}}</span>
+    </div>
+  </div>
+  <div class="row g-3 mb-4">
+    <div class="col-2 align-self-end">
+      <label class="form-label">Course Center</label>
+    </div>
+    <div class="col-4 pe-4">
+      <span>{{studentAdmissionData?.courseCenter}}</span>
+    </div>
+    <div class="col-2 align-self-end">
+      <label class="form-label">Validity Till</label>
+    </div>
+    <div class="col-4">
+      <span>{{studentAdmissionData?.validityTill}}</span>
+    </div>
+  </div>
+  <div class="row g-3 mb-4">
+    <div class="col-2 align-self-end">
+      <label class="form-label">Certificate</label>
+    </div>
+    <div class="col-4 pe-4">
+      <ng-container>
+      </ng-container>
+      <ng-container>
+        <span><a class="certificate-link">{{studentAdmissionData?.certificateLink}}</a></span>
+      </ng-container>
+    </div>
+  </div>
+</div>

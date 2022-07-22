@@ -1,0 +1,59 @@
+<app-heading [heading]="'Query List'">
+  <div class="heading-actions d-flex">
+    <ng-container>
+      <button type="button" [routerLink]="['/contact/new']" class="btn kl-btn kl-btn-primary btn-sm mx-1">
+        New Request
+      </button>
+    </ng-container>
+  </div>
+</app-heading>
+<div class="sub-heading">
+  <div class="sub-heading-tabs">
+    <div class="top-filter d-flex mt-3">
+      <div class="row d-flex w-100">
+        <div class="col-sm-8">
+          <button type="button" class="btn btn-secondary">
+            Add filter
+          </button>
+        </div>
+        <div class="col-sm-4">
+          <div class="row">
+            <div class="col-sm-9">
+              <input type="text" [(ngModel)]="searchTerm" (input)="search(searchTerm)" class="form-control" id="referenceid" placeholder="search here">
+            </div>
+            <div class="col-sm-3">
+              <select class="form-select">
+                <option selected>cols</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="inner-page mt-3"> 
+  <nz-table #table nzBordered [nzData]="rowData" [nzScroll]="{ y: '400px' }" [nzNoResult]="'No Records'" nzShowSizeChanger
+    [nzFrontPagination]="false">
+    <thead>
+      <tr>
+        <ng-container *ngFor="let config of adminTableConfig">
+          <th>{{ config.header }}</th>
+        </ng-container>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data  of table.data" class="editable-row" (click)="onTableRowClick(data.id)">
+        <ng-container *ngFor="let config of adminTableConfig">
+          <ng-container>
+            <td>{{ this.getRowValue(config,data) }}</td>
+          </ng-container>
+        </ng-container>
+      </tr>
+    </tbody>
+  </nz-table>
+
+</div>

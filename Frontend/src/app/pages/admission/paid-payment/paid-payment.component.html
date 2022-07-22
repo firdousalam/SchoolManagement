@@ -1,0 +1,56 @@
+<form class="row g-3 mt-3">
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="row">
+        <label for="referenceid" class="col-sm-4 col-form-label">Enrollment No.</label>
+        <div class="col-sm-8 mt-2">
+          <span for="referenceid" class="col-sm-4">{{batchData?.enrollmentNumber?batchData?.enrollmentNumber:'xxxxxx'}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 ml-2">
+      <div class="row">
+        <label for="date" class="col-sm-2 col-form-label">Batch No.</label>
+        <div class="col-sm-8 mt-2">
+          <span for="date" class="col-sm-4">{{batchData?.batchNumber?batchData?.batchNumber:'xxxxxx'}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<div class="mt-3">
+  <nz-table #table nzBordered [nzData]="rowData" [nzNoResult]="'No Records'" nzShowSizeChanger [nzData]="rowData"
+    [nzFrontPagination]="false">
+    <thead>
+      <tr>
+        <ng-container *ngFor="let config of adminTableConfig">
+          <th>{{ config.header }}</th>
+        </ng-container>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of table.data" class="editable-row">
+        <ng-container *ngFor="let config of adminTableConfig">
+
+          <ng-container>
+            <td>{{ data[config.field]?data[config.field]:'-' }}</td>
+
+          </ng-container>
+        </ng-container>
+
+      </tr>
+      <tr>
+        <td>
+          <ng-container>
+        <th>Total Amount</th>
+        </ng-container>
+        </td>
+        <td></td>
+        <td>{{getTotalAmount()}}</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+</div>
