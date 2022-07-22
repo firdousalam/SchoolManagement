@@ -20,7 +20,7 @@ export class PaidPaymentComponent implements OnInit,OnChanges {
     this.rowData = this.paidPayments;
   }
   getTotalAmount(){
-    return (this.rowData
+    return (this.rowData?.length &&this.rowData
       .map((t:any)=> parseInt(t.amount))
       .reduce((acc:any,cur:any)=> acc+cur)
       );

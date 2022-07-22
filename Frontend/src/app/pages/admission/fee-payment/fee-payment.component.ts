@@ -59,7 +59,7 @@ export class FeePaymentComponent implements OnInit,OnChanges {
 
   }
   getTotalAmount(){
-      return (this.rowData
+      return (this.rowData?.length && this.rowData
         ?.map((t:any)=> parseInt(t?.amount))
         ?.reduce((acc:any,cur:any)=> acc+cur)
         );
