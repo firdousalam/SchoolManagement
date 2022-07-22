@@ -1,0 +1,67 @@
+@import '../../../../sass/utilities/variables';
+.personal-details{
+    //font-size: $font-size-3;
+    padding-bottom:  $space-12;
+    //font-weight: bold;
+    border-bottom: $space-1 solid $c-gray-4;
+    width: 100%;
+}
+
+.details-header{    
+    height: 30px;
+    width: 100%;
+    background-color: $c-primary;
+    color: $c-white;
+    padding: $space-4 $space-12;
+}
+.details-content{
+    background-color: $c-gray-7;
+}
+
+.contact-details{
+    border-bottom: $space-1 solid $c-gray-4;
+    //font-size: $font-size-3;
+    padding-bottom:  $space-12;
+    //font-weight: bold;
+    border-bottom: $space-1 solid $c-gray-4;
+    width: 100%;
+}
+.radio-button{
+    padding-left:$space-8;
+}
+
+.line-break{
+    //font-size: $font-size-3;
+    padding-bottom:  $space-12;
+    //font-weight: bold;
+    border-bottom: $space-1 solid $c-gray-4;
+    width: 100%;
+}
+
+.educational-details{    
+    //font-size: $font-size-3;
+    padding-bottom:  $space-12;
+    //font-weight: bold;
+    border-bottom: $space-1 solid $c-gray-4;
+    width: 100%;
+}
+
+.heading {
+    font-size: $font-size-5;
+    padding: $space-12 $space-0 $space-2 $space-12;
+    font-weight: bold;
+    border-bottom: $space-1 solid $c-gray-4;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    &-text {
+      flex: 1;
+    }
+    &.secondary {
+      font-size: $font-size-3;
+      color: $c-gray-5;
+    }
+  }
+  .button-width{
+      width: 90px;
+  }

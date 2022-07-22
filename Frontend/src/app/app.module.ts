@@ -110,7 +110,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
     NzSelectModule,
     NzFormModule,
     NzTabsModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     RouteGuard,DatePipe,

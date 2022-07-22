@@ -58,6 +58,13 @@ export class FeePaymentComponent implements OnInit,OnChanges {
   ngOnInit(): void {
 
   }
+  disabledCheckBox(data:any){
+    if(this.rowData?.length>1){
+      return (data.installment !== 'Installment 1' ? false:true);
+    }else{
+      return true;
+    }
+  }
   getTotalAmount(){
       return (this.rowData?.length && this.rowData
         ?.map((t:any)=> parseInt(t?.amount))

@@ -52,7 +52,7 @@
       <ng-container *ngFor="let config of adminTableConfig">
         <ng-container>
           <td *ngIf="config.field !== 'action'">{{ data[config.field] ? data[config.field]: '-'}}</td> 
-            <td *ngIf="config.field === 'action'"  [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+            <td *ngIf="config.field === 'action'" [nzDisabled]="disabledCheckBox(data)" [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
         </ng-container>
       </ng-container> 
     </tr>
