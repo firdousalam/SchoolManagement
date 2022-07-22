@@ -1,39 +1,27 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { paidPaymentColumnDefs } from 'src/app/shared/constants/payment.constant';
 @Component({
   selector: 'app-paid-payment',
   templateUrl: './paid-payment.component.html',
   styleUrls: ['./paid-payment.component.scss']
 })
-export class PaidPaymentComponent implements OnInit {
+export class PaidPaymentComponent implements OnInit,OnChanges {
   @Input()batchData:any;
+  @Input()paidPayments:any;
   adminTableConfig: any[];
-  rowData: any[];
+  rowData!: any[];
   constructor() { 
-    this.adminTableConfig = paidPaymentColumnDefs;
-    this.rowData =  [
-      { 
-        type: 'Tution Fees',
-        installment: 'Installment 1', 
-        amount: 3456,
-        date: 'dd/mm/yyyy',
-        payment_status: 'Verified'
-      },
-      { 
-        type: 'Couse Fees',
-        installment: 'Installment 2', 
-        amount: 454,
-        date: 'dd/mm/yyyy',
-        payment_status: 'Verified'
-      },
-    ]
+    this.adminTableConfig = paidPaymentColumnDefs; 
   }
 
   ngOnInit(): void {
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.rowData = this.paidPayments;
+  }
   getTotalAmount(){
     return (this.rowData
-      .map((t:any)=> t.amount)
+      .map((t:any)=> parseInt(t.amount))
       .reduce((acc:any,cur:any)=> acc+cur)
       );
   }

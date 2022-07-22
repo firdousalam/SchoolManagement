@@ -23,7 +23,8 @@ export class AdmissionComponent implements OnInit {
   paymentSubscription!:Subscription;
   studentProfileId:any;
   batchData:any;
-  paymentData:any;
+  paidPayments:any;
+  unpaidPayments:any;
   admissionPaymentTabNames: any = admissionPaymentTabNames;
   constructor(private paymentApi:FeePaymentService,private route:ActivatedRoute,private api: AdmissionServiceService,private bacthApi:BatchDetailsService) {
     this.tabs = admissionPaymentTabs;
@@ -39,9 +40,12 @@ export class AdmissionComponent implements OnInit {
     this.batchSubscription = this.bacthApi.getByID({profileId:this.studentProfileId}).subscribe((data:any)=>{
       this.batchData = data;
     })
-    // this.paymentSubscription = this.paymentApi.getByID({paymentType:'course fee',profileId:this.studentProfileId}).subscribe((data:any)=>{
-    //   this.paymentData = data;
-    // })
+    this.paymentSubscription = this.paymentApi.getByID({profileId:this.studentProfileId}).subscribe((data:any)=>{
+      this.paidPayments = data?.filter((x: { paymentStatus: string; })=>x.paymentStatus==='Paid');
+      this.unpaidPayments =data?.filter((x: { paymentStatus: string; })=>x.paymentStatus!=='Paid');
+      console.log(this.paidPayments,this.unpaidPayments);
+      
+    })
   }
   onTabSelect(tabName: any) {
     this.selectedTab = tabName;

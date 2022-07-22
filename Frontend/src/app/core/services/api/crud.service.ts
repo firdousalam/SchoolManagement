@@ -83,7 +83,10 @@ export abstract class CrudService<IDetail, IDetailPage, ISearch> {
   }
   createWithQueryParam(searchObject: ISearch,detail: IDetail) {
     return this.httpClient.post(
-      this.urlBuilderService.getUrl(this.api.createById),
+      this.urlBuilderService.getUrlWithQueryParams(
+        this.api.createById,
+        searchObject
+      ),
       detail
     );
   }

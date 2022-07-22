@@ -51,8 +51,8 @@
     <tr *ngFor="let data of table.data" class="editable-row">
       <ng-container *ngFor="let config of adminTableConfig">
         <ng-container>
-          <td *ngIf="data[config.field]">{{ data[config.field] }}</td> 
-            <td *ngIf="config.field === 'action'"  [nzChecked]="setOfCheckedId.has(data.type)" (nzCheckedChange)="onItemChecked(data.type, $event)"></td>
+          <td *ngIf="config.field !== 'action'">{{ data[config.field] ? data[config.field]: '-'}}</td> 
+            <td *ngIf="config.field === 'action'"  [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
         </ng-container>
       </ng-container> 
     </tr>
@@ -62,7 +62,7 @@
         <th>Total Amount</th>
       </ng-container>
     </td>
-      <td></td>
+    <td></td>
       <td>{{getTotalAmount()}}</td>
       <td></td>
    </tr>

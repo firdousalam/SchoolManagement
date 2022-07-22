@@ -151,7 +151,7 @@ export const apiRoutes = {
     update: '/api/v1/admission/updateAdmission'
   },
   paymentApi:{
-    getById:'/api/v1/payment/initiatePayment',
+    getById:'/api/v1/payment/getPaymentsByProfileId',
     createById: '/api/v1/payment/makePayment'
 
   },

@@ -33,7 +33,7 @@
         <ng-container *ngFor="let config of adminTableConfig">
 
           <ng-container>
-            <td *ngIf="data[config.field]">{{ data[config.field] }}</td>
+            <td>{{ data[config.field]?data[config.field]:'-' }}</td>
 
           </ng-container>
         </ng-container>

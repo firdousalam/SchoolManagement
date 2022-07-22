@@ -19,12 +19,12 @@
   <div
     class="inner-page"
     *ngIf="selectedTab === admissionPaymentTabNames.feePayment">
-    <app-fee-payment [batchData]="batchData"> </app-fee-payment>
+    <app-fee-payment [unpaidPayments]="unpaidPayments" [batchData]="batchData"> </app-fee-payment>
   </div>
   <div
     class="inner-page"
     *ngIf="selectedTab === admissionPaymentTabNames.paidPayment">
-    <app-paid-payment [batchData]="batchData"> </app-paid-payment>
+    <app-paid-payment [batchData]="batchData" [paidPayments]="paidPayments"></app-paid-payment>
   </div>
 
 
