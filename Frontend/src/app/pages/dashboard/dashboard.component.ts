@@ -33,4 +33,7 @@ export class DashboardComponent implements OnInit {
   notImplemented() {
     throw new Error('Not Implemented!');
   }
+  openApplication():void{
+    this.router.navigate(['application']);
+  }
 }

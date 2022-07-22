@@ -129,6 +129,7 @@ export const apiRoutes = {
     create: '/api/v1/studentProfile/createStudentProfile',
     search: '/api/v1/studentProfile/getStudentProfileBySearchCriteria',
     update: '/api/v1/studentProfile/updateStudentProfile',
+    getById: '/api/v1/studentProfile/getStdProfileById',
     getByIDWithDetail: '/api/v1/studentProfile/getStdProfileById'
   },
 

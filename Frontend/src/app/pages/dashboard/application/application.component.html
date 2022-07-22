@@ -1,0 +1,1196 @@
+<!-- <app-heading [heading]="'Dashboard'"></app-heading> -->
+<div class="d-flex heading">
+    <div class="p-2 heading-text">{{ heading }}</div>
+    <div class="p-2 align-self-start"><button type="button" class="btn btn-secondary btn-sm pr-3" (click)="saveDraft()">Save As Draft</button></div>
+    <div class="p-2"><button type="button" class="btn btn-secondary btn-sm button-width" (click)="applicationSubmit(studentApplication)">Submit</button></div>
+</div>
+<div class="d-flex flex-row bd-highlight mb-0">
+    <div class="p-2 pb-0 bd-highlight" (click)="applicationStatusChange('applicationForm')">Application Form</div>
+    <div class="p-2 pb-0 bd-highlight" (click)="applicationView()">View Application</div>
+    <div class="p-2 pb-0 bd-highlight"(click)="applicationStatusChange('saveAsDraft')">Save as Draft</div>
+</div>
+<div class="inner-page d-flex flex-row mt-0" *ngIf="applicationStatus=='1'">
+    <div class="container-fluid">
+        <form>
+            <div class="row mb-4">
+                <div class="col">
+                    Reference ID:
+                </div>
+                <div class="col">
+                    12345
+                </div>
+                <div class="col">
+                    Date:
+                </div>
+                <div class="col">
+                    12th, July,2022
+                </div>
+            </div>
+            <div class="row personal-details">
+                <div class="col">
+                Personal Details
+                </div>            
+            </div>  
+            <div class="row mt-3">
+                <div class="col">
+                    <div class="details-header d-flex column">Details</div>                
+                </div>     
+            </div>
+            <div class="row mt-0">
+                <div class="col">
+                    <div class="d-flex flex-column details-content p-3 pt-0">
+                        <div class="row mt-3">
+                            <div class="col">
+                                Application Name
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="" name="application_name" [(ngModel)]="studentApplication.personalDetails.applicantName">
+                            </div>
+                            <div class="col">Date of Birth</div>
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="" name="date_of_birth" [(ngModel)]="studentApplication.personalDetails.dob">                            
+                            </div>
+                        </div>
+                        <div class="row mt-3 ">
+                            <div class="col">
+                                Sex
+                            </div>
+                            <div class="col">
+                                <select class="form-select" name="sex" [(ngModel)]="studentApplication.personalDetails.gender">
+                                    <option>Male</option>
+                                    <option>Female</option>                                
+                                </select>
+                            </div>
+                            <div class="col">Nationality</div>
+                            <div class="col">
+                                <select class="form-select" name="nationality" [(ngModel)]="studentApplication.personalDetails.nationality">
+                                    <option>Indian</option>                                                             
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col">
+                                Father/Guardian
+                            </div>
+                            <div class="col">
+                                <span>
+                                    <input type="radio" class="form-check-input" name="father_guardian" value="father" [(ngModel)]="studentApplication.personalDetails.fatherOrGuardian">
+                                    <label class="form-check-label radio-button" >Father</label>
+                                </span>
+                                <span class="p-3">
+                                    <input type="radio" class="form-check-input" name="father_guardian" value="guardian" checked [(ngModel)]="studentApplication.personalDetails.fatherOrGuardian">
+                                    <label class="form-check-label radio-button">Guardian</label>
+                                </span>                           
+                            </div>
+                            <div class="col">Name(Father/Guardian)</div>
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="" name="father_guardian_name" [(ngModel)]="studentApplication.personalDetails.nameOfFatherOrGuardian">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                SC/ST
+                            </div>
+                            <div class="col">
+                                <span>
+                                    <input type="radio" class="form-check-input" name="sc_st" value="sc" checked [(ngModel)]="studentApplication.personalDetails.scOrSt"> 
+                                    <label class="form-check-label radio-button">SC</label>
+                                </span>
+                                <span class="p-3">
+                                    <input type="radio" class="form-check-input" name="sc_st" value="st" checked [(ngModel)]="studentApplication.personalDetails.scOrSt">
+                                    <label class="form-check-label radio-button">ST</label>
+                                </span>
+                            </div>
+                            <div class="col"></div>
+                            <div class="col"></div>
+                        </div>
+                    </div>                
+                </div>     
+            </div>
+            <div class="row contact-details mt-3">
+                <div class="col">
+                Contact Details
+                </div>            
+            </div>  
+            <div class="row mt-3">
+                <div class="col">
+                    <div class="details-header d-flex column">Address</div>                
+                </div>     
+            </div>
+            <div class="row mt-0">
+                <div class="col">
+                    <div class="d-flex flex-column details-content p-3 pt-0" >
+                        <div class="row mt-3">
+                            <div class="col-3">
+                                Permanent Address
+                            </div>
+                            <div class="col-3">
+                                <textarea class="form-control" rows="5" name="permanentAddress" [(ngModel)]="studentApplication.stdContactDetail.caddress"></textarea>
+                            </div>                        
+                            <div class="col-6">
+                                <div class="row mt-0">
+                                    <div class="col">
+                                        District
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" placeholder="" name="district" [(ngModel)]="studentApplication.stdContactDetail.cdistrict">
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        State
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" placeholder="" name="state" [(ngModel)]="studentApplication.stdContactDetail.cstate">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col"></div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-3">
+                                Pin Code
+                            </div>
+                            <div class="col-3">
+                                <input type="text" class="form-control" placeholder="" name="pincode" [(ngModel)]="studentApplication.stdContactDetail.cpinCode">
+                            </div>                                               
+                        </div> 
+                        <div class="row mt-3">
+                            <div class="col-3">
+                                Same as Permanent Address
+                            </div>
+                            <div class="col-3">
+                                <span>
+                                    <input type="radio" class="form-check-input" name="same_permanent_address" value="Yes" [(ngModel)]="studentApplication.stdContactDetail.isPASameAsCA">
+                                    <label class="form-check-label radio-button">Yes</label>
+                                </span>
+                                <span class="p-3">
+                                    <input type="radio" class="form-check-input" name="same_permanent_address" value="No" [(ngModel)]="studentApplication.stdContactDetail.isPASameAsCA">
+                                    <label class="form-check-label radio-button">No</label>
+                                </span>
+                            </div>                        
+                        </div>    
+                        <div class="row mt-3">
+                            <div class="col-3">
+                                Corresponding Address
+                            </div>
+                            <div class="col-3">
+                                <textarea class="form-control" name="correspondingAddress" rows="5" [(ngModel)]="studentApplication.stdContactDetail.paddress"></textarea>
+                            </div>                        
+                            <div class="col-6">
+                                <div class="row mt-0">
+                                    <div class="col">
+                                        District
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" placeholder="" name="district" [(ngModel)]="studentApplication.stdContactDetail.pdistrict">
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        State
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" placeholder="" name="state" [(ngModel)]="studentApplication.stdContactDetail.pstate">
+                                    </div>
+                                </div>
+                            </div>                        
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-3">
+                                Pin Code
+                            </div>
+                            <div class="col-3">
+                                <input type="text" class="form-control" placeholder="" name="pincode" [(ngModel)]="studentApplication.stdContactDetail.ppinCode">
+                            </div>                
+                        </div>
+                        <div class="row mt-3 line-break">
+                            <div class="col-12"></div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col">
+                                Mobile Phone
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="" name="mobile_phone" [(ngModel)]="studentApplication.stdContactDetail.mobileNumber">
+                            </div>
+                            <div class="col">Alternate Mobile No</div>
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="" name="alternate_mobile_no" [(ngModel)]="studentApplication.stdContactDetail.alternateMobileNumber">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col">
+                                Landline
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="" name="landline" [(ngModel)]="studentApplication.stdContactDetail.landlineNumber">
+                            </div>
+                            <div class="col">Email</div>
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="" name="email" [(ngModel)]="studentApplication.stdContactDetail.emailId">
+                            </div>
+                        </div>                                  
+                    </div>                
+                </div>     
+            </div>
+            <div class="row educational-details mt-3">
+                <div class="col">
+                Educational Details
+                </div>            
+            </div> 
+            <div class="row mt-3">
+                <div class="col">
+                    <div class="details-header d-flex column">Educational Details</div>                
+                </div>  
+            </div>
+            <div class="row mt-0">
+                <div class="col">
+                    <div class="d-flex flex-column details-content p-3 pt-0" >
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Sl.No</th>
+                                    <th>Course Name</th>
+                                    <th>Institution</th>
+                                    <th>Status</th>
+                                    <th>Percentage %</th>
+                                    <th>Year of Passing</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let education of studentApplication.stdEducationList; let i = index;">
+                                    <td>{{i+1}}.</td>
+                                    <td><input type="text" class="form-control" name="education.courseName" [(ngModel)]="education.courseName" value="{{education.courseName">{{ education.courseName }}</td>
+                                    <td><input type="text" class="form-control" name="institution" [(ngModel)]="education.institution" value="{{ education.institution }}"></td>
+                                    <td>
+                                        <select class="form-select" name="course_status" [(ngModel)]="education.educationStatus">
+                                            <option>Completed</option>
+                                            <option>Pending</option>                                
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="" name="percentage" [(ngModel)]="education.percentage">
+                                    </td>
+                                    <td><input type="text" class="form-control" placeholder="" name="year" [(ngModel)]="education.yearofCompletion"></td>
+                                    <td><i class="bi bi-trash3"></i></td>
+                                </tr>                                
+                                <!-- <tr>
+                                    <td>01.</td>
+                                    <td><input type="text" class="form-control" placeholder="" name="course_name" [(ngModel)]="educationRecord.courseName"></td>
+                                    <td><input type="text" class="form-control" placeholder="" name="institution" [(ngModel)]="educationRecord.institution"></td>
+                                    <td>
+                                        <select class="form-select" name="course_status" [(ngModel)]="educationRecord.status">
+                                            <option>Completed</option>
+                                            <option>Pending</option>                                
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="" name="percentage" [(ngModel)]="educationRecord.percentage">
+                                    </td>
+                                    <td><input type="text" class="form-control" placeholder="" name="year" [(ngModel)]="educationRecord.yearofCompletion"></td>
+                                    <td><i class="bi bi-trash3"></i></td>
+                                </tr>                      -->
+                            </tbody>
+                            <!-- <tbody>
+                                <tr>
+                                    <td>04.</td>
+                                    <td><input type="text" class="form-control" placeholder="" name="course_name"></td>
+                                    <td><input type="text" class="form-control" placeholder="" name="institution"></td>
+                                    <td>
+                                        <select class="form-select" name="course_status">
+                                            <option>Completed</option>
+                                            <option>Pending</option>                                
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="" name="percentage">
+                                    </td>
+                                    <td><input type="text" class="form-control" placeholder="" name="year"></td>
+                                    <td><i class="bi bi-trash3"></i></td>
+                                </tr>
+                            </tbody> -->
+                        </table> 
+                        <div class="row mt-0">
+                            <div class="col-2">
+                                <button type="button" class="btn btn-secondary btn-sm" (click)="addRow()">Add New Row</button>
+                            </div>
+                        </div>
+                    </div>                
+                </div>     
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <div class="details-header d-flex column">Professional Details</div>                
+                </div>     
+            </div>
+            <div class="row mt-0">
+                <div class="col">
+                    <div class="d-flex flex-column details-content p-3 pt-0" >
+                        <div class="row mt-3">
+                            <div class="col-3">
+                                Status
+                            </div>
+                            <div class="col-5">
+                                <span>
+                                    <input type="radio" class="form-check-input" name="professional_status" value="0" >
+                                    <label class="form-check-label radio-button">Employment</label>
+                                </span>
+                                <span class="p-3">
+                                    <input type="radio" class="form-check-input" name="professional_status" value="1" >
+                                    <label class="form-check-label radio-button">Student</label>
+                                </span>  
+                                <span class="p-3">
+                                    <input type="radio" class="form-check-input" name="professional_status" value="2" >
+                                    <label class="form-check-label radio-button">Other</label>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-3">
+                                Organization
+                            </div>
+                            <div class="col-5">
+                                <input type="text" class="form-control" placeholder="" name="organization" [(ngModel)]="studentApplication.stdProfessionList.organization">
+                            </div>
+                            <div class="col-2">
+                                Designation
+                            </div>
+                            <div class="col-2">
+                                <input type="text" class="form-control" placeholder="" name="desigation" [(ngModel)]="studentApplication.stdProfessionList.designation">
+                            </div>                                               
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-3">
+                                Place of Duty
+                            </div>
+                            <div class="col-5">
+                                <input type="text" class="form-control" placeholder="" name="placeOfDuty" [(ngModel)]="studentApplication.stdProfessionList.placeOfDuty">
+                            </div>                                                                       
+                        </div>                                                       
+                    </div>                
+                </div>     
+            </div>   
+            <div class="row mt-3">
+                <div class="col-2">
+                    <span>Upload Documents</span>             
+                </div>  
+                <div class="col-10">                
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Sl.No</th>
+                                <th>Type of Documents</th>
+                                <th>Description</th>
+                                <th>View Documents</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>01.</td>
+                                <td>
+                                    <select class="form-select" name="document_type">
+                                        <option>Completed</option>
+                                        <option>Pending</option>  
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-select" name="document_description">
+                                        <option>Completed</option>
+                                        <option>Pending</option>  
+                                    </select>
+                                </td>
+                                <td>Attachment On<i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
+                            </tr>                 
+                        </tbody>
+                        <tbody>                                
+                            <tr>
+                                <td>04.</td>
+                                <td>
+                                    <select class="form-select" name="document_type">
+                                        <option>Completed</option>
+                                        <option>Pending</option>  
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-select" name="document_description">
+                                        <option>Completed</option>
+                                        <option>Pending</option>  
+                                    </select>
+                                </td>
+                                <td><button type="button" class="btn btn-secondary btn-sm">Upload</button></td>
+                            </tr>
+                        </tbody>
+                    </table> 
+                    <div class="row mt-0">
+                        <div class="col-2">
+                            <button type="button" class="btn btn-secondary btn-sm">Add New Row</button>
+                        </div>
+                    </div>                     
+                </div>
+            </div>     
+        </form>
+    </div>
+</div>
+<div class="inner-page d-flex flex-row mt-0" *ngIf="applicationStatus==='2'">
+    <div class="container-fluid">
+        <div class="row mb-4">
+            <div class="col">
+                Reference ID:
+            </div>
+            <div class="col">
+                12345
+            </div>
+            <div class="col">
+                Date:
+            </div>
+            <div class="col">
+                12th, July,2022
+            </div>
+        </div>
+        <div class="row personal-details">
+            <div class="col">
+               Personal Details
+            </div>            
+        </div>  
+        <div class="row mt-3">
+            <div class="col">
+                <div class="details-header d-flex column">Details</div>                
+            </div>     
+        </div>
+        <div class="row mt-0">
+            <div class="col">
+                <div class="d-flex flex-column details-content p-3 pt-0">
+                    <div class="row mt-3">
+                        <div class="col">
+                            Application Name
+                        </div>
+                        <div class="col">
+                            <span>{{applicationViewDetails.stdPersonalDetail.applicantName}}</span>                            
+                        </div>
+                        <div class="col">Date of Birth</div>
+                        <div class="col">
+                            <span>{{applicationViewDetails.stdPersonalDetail.dob}}</span>                            
+                        </div>
+                    </div>
+                    <div class="row mt-3 ">
+                        <div class="col">
+                            Sex
+                        </div>
+                        <div class="col">
+                            <span>{{applicationViewDetails.stdPersonalDetail.gender}}</span>                            
+                        </div>
+                        <div class="col">Nationality</div>
+                        <div class="col">
+                            <span>{{applicationViewDetails.stdPersonalDetail.nationality}}</span>                            
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            Father/Guardian
+                        </div>
+                        <div class="col">                           
+                            <span>{{applicationViewDetails.stdPersonalDetail.fatherOrGuardian}}</span>
+                        </div>
+                        <div class="col">Name(Father/Guardian)</div>
+                        <div class="col">
+                            <span>{{applicationViewDetails.stdPersonalDetail.nameOfFatherOrGuardian}}</span>
+                        </div>
+                    </div>
+                    <div class="row mb-3 mt-3">
+                        <div class="col">
+                            SC/ST
+                        </div>
+                        <div class="col">
+                            <span>{{applicationViewDetails.stdPersonalDetail.scOrSt}}</span>
+                        </div>
+                        <div class="col"></div>
+                        <div class="col"></div>
+                    </div>
+                </div>                
+            </div>     
+        </div>
+        <div class="row contact-details mt-3">
+            <div class="col">
+               Contact Details
+            </div>            
+        </div>  
+        <div class="row mt-3">
+            <div class="col">
+                <div class="details-header d-flex column">Address</div>                
+            </div>     
+        </div>
+        <div class="row mt-0">
+            <div class="col">
+                <div class="d-flex flex-column details-content p-3 pt-0" >
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            Permanent Address
+                        </div>
+                        <div class="col-3">
+                            <span>{{applicationViewDetails.stdContactDetail.caddress}}</span>                        
+                        </div>                        
+                        <div class="col-6">
+                            <div class="row mt-0">
+                                <div class="col">
+                                    District
+                                </div>
+                                <div class="col">
+                                    <span>{{applicationViewDetails.stdContactDetail.cdistrict}}</span>                        
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col">
+                                    State
+                                </div>
+                                <div class="col">
+                                    <span>{{applicationViewDetails.stdContactDetail.cstate}}</span>     
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            Pin Code
+                        </div>
+                        <div class="col-3">
+                            <span>{{applicationViewDetails.stdContactDetail.cpinCode}}</span> 
+                        </div>                                               
+                    </div> 
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            Same as Permanent Address
+                        </div>
+                        <div class="col-3">
+                            <span>{{applicationViewDetails.stdContactDetail.isPASameAsCA}}</span> 
+                        </div>                        
+                    </div>    
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            Corresponding Address
+                        </div>
+                        <div class="col-3">
+                            <span>{{applicationViewDetails.stdContactDetail.paddress}}</span>
+                        </div>                        
+                        <div class="col-6">
+                            <div class="row mt-0">
+                                <div class="col">
+                                    District
+                                </div>
+                                <div class="col">
+                                    <span>{{applicationViewDetails.stdContactDetail.pdistrict}}</span>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col">
+                                    State
+                                </div>
+                                <div class="col">
+                                    <span>{{applicationViewDetails.stdContactDetail.pstate}}</span>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            Pin Code
+                        </div>
+                        <div class="col-3">
+                            <span>{{applicationViewDetails.stdContactDetail.pinCode}}</span>
+                        </div>                
+                    </div>
+                    <div class="row mt-3 line-break">
+                        <div class="col-12"></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            Mobile Phone
+                        </div>
+                        <div class="col">
+                            <span>{{applicationViewDetails.stdContactDetail.mobileNumber}}</span>
+                        </div>
+                        <div class="col">Alternate Mobile No</div>
+                        <div class="col">
+                            <span>{{applicationViewDetails.stdContactDetail.alternateMobileNumber}}</span>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            Landline
+                        </div>
+                        <div class="col">
+                            <span>{{applicationViewDetails.stdContactDetail.landlineNumber}}</span>
+                        </div>
+                        <div class="col">Email</div>
+                        <div class="col">
+                            <span>{{applicationViewDetails.stdContactDetail.emailId}}</span>
+                        </div>
+                    </div>                                  
+                </div>                
+            </div>     
+        </div>
+        <div class="row educational-details mt-3">
+            <div class="col">
+               Educational Details
+            </div>            
+        </div> 
+        <div class="row mt-3">
+            <div class="col">
+                <div class="details-header d-flex column">Educational Details</div>                
+            </div>  
+        </div>
+        <div class="row mt-0">
+            <div class="col">
+                <div class="d-flex flex-column details-content p-3 pt-0" >
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Sl.No</th>
+                                <th>Course Name</th>
+                                <th>Institution</th>
+                                <th>Status</th>
+                                <th>Percentage %</th>
+                                <th>Year of Passing</th>                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let education of applicationViewDetails.stdEducationList;let serialNumber = index">
+                                <td>{{serialNumber+1}}.</td>
+                                <td>{{education.courseName}}</td>
+                                <td>{{education.institution}}</td>
+                                <td>{{education.educationStatus}}</td>
+                                <td>{{education.percentage}}</td>
+                                <td>{{education.yearofCompletion}}</td>                               
+                            </tr>                                                                              
+                        </tbody>
+                    </table>                    
+                </div>                
+            </div>     
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <div class="details-header d-flex column">Professional Details</div>                
+            </div>     
+        </div>
+        <div class="row mt-0">
+            <div class="col">
+                <div class="d-flex flex-column details-content p-3 pt-0" >
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            Status
+                        </div>
+                        <div class="col-5">
+                            <span>Employee</span>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            Organization
+                        </div>
+                        <div class="col-5">
+                            <span>{{applicationViewDetails.stdProfession.organization}}</span>
+                        </div>
+                        <div class="col-2">
+                            Designation
+                        </div>
+                        <div class="col-2">
+                            <span>{{applicationViewDetails.stdProfession.designation}}</span>
+                        </div>                                               
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            Place of Duty
+                        </div>
+                        <div class="col-5">
+                            <span>{{applicationViewDetails.stdProfession.placeOfDuty}}</span>
+                        </div>                                                                       
+                    </div>                                                       
+                </div>                
+            </div>     
+        </div>   
+        <div class="row mt-3">
+            <div class="col-2">
+                <span>Upload Documents</span>             
+            </div>  
+            <div class="col-10">                
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Sl.No</th>
+                            <th>Type of Documents</th>
+                            <th>Description</th>
+                            <th>View Documents</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>01.</td>
+                            <td>
+                                <select class="form-select" name="document_type" disabled>
+                                    <option>Completed</option>
+                                    <option>Pending</option>  
+                                </select>
+                            </td>
+                            <td>
+                                <span>Desription:lorep ipsum</span>
+                            </td>
+                            <td>Attachment Id: text.jpg</td>
+                        </tr>                 
+                    </tbody>                    
+                </table>                                     
+            </div>
+        </div>     
+    </div>
+</div>
+
+<div class="inner-page d-flex flex-row mt-0" *ngIf="applicationStatus==='5'">
+    <div class="container-fluid">
+        <div class="row mb-4">
+            No Application Found
+        </div>
+    </div>
+</div>
+
+<div class="inner-page d-flex flex-row mt-0" *ngIf="applicationStatus==='4'">
+    <div class="container-fluid">
+        <div class="row mb-4">
+            Application was created successfully
+        </div>
+    </div>
+</div>
+
+<div class="inner-page d-flex flex-row mt-0" *ngIf="applicationStatus==='3' && saveAsDraft">
+    <div class="container-fluid">
+        <div class="row mb-4">
+            <div class="col">
+                Reference IDss:
+            </div>
+            <div class="col">
+                12345
+            </div>
+            <div class="col">
+                Date:
+            </div>
+            <div class="col">
+                12th, July,2022
+            </div>
+        </div>
+        <div class="row personal-details">
+            <div class="col">
+               Personal Details
+            </div>            
+        </div>  
+        <div class="row mt-3">
+            <div class="col">
+                <div class="details-header d-flex column">Details</div>                
+            </div>     
+        </div>
+        <div class="row mt-0">
+            <div class="col">
+                <div class="d-flex flex-column details-content p-3 pt-0">
+                    <div class="row mt-3">
+                        <div class="col">
+                            Application Name
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="" name="application_name">
+                        </div>
+                        <div class="col">Date of Birth</div>
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="" name="date_of_birth">
+                        </div>
+                    </div>
+                    <div class="row mt-3 ">
+                        <div class="col">
+                            Sex
+                        </div>
+                        <div class="col">
+                            <select class="form-select" name="sex">
+                                <option>Male</option>
+                                <option>Female</option>                                
+                            </select>
+                        </div>
+                        <div class="col">Nationality</div>
+                        <div class="col">
+                            <select class="form-select" name="sex">
+                                <option>Indian</option>                                                             
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            Father/Guardian
+                        </div>
+                        <div class="col">
+                            <span>
+                                <input type="radio" class="form-check-input" name="father_guardian" value="option1" checked>
+                                <label class="form-check-label radio-button" >Father</label>
+                            </span>
+                            <span class="p-3">
+                                <input type="radio" class="form-check-input" name="father_guardian" value="option1" checked>
+                                <label class="form-check-label radio-button">Guardian</label>
+                            </span>                           
+                        </div>
+                        <div class="col">Name(Father/Guardian)</div>
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="" name="father_guardian_name">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            SC/ST
+                        </div>
+                        <div class="col">
+                            <span>
+                                <input type="radio" class="form-check-input" name="sc_st" value="option1" checked>
+                                <label class="form-check-label radio-button">SC</label>
+                            </span>
+                            <span class="p-3">
+                                <input type="radio" class="form-check-input" name="sc_st" value="option1" checked>
+                                <label class="form-check-label radio-button">ST</label>
+                            </span>
+                        </div>
+                        <div class="col"></div>
+                        <div class="col"></div>
+                    </div>
+                </div>                
+            </div>     
+        </div>
+        <div class="row contact-details mt-3">
+            <div class="col">
+               Contact Details
+            </div>            
+        </div>  
+        <div class="row mt-3">
+            <div class="col">
+                <div class="details-header d-flex column">Address</div>                
+            </div>     
+        </div>
+        <div class="row mt-0">
+            <div class="col">
+                <div class="d-flex flex-column details-content p-3 pt-0" >
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            Permanent Address
+                        </div>
+                        <div class="col-3">
+                            <textarea class="form-control" rows="5"></textarea>
+                        </div>                        
+                        <div class="col-6">
+                            <div class="row mt-0">
+                                <div class="col">
+                                    District
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="" name="district">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col">
+                                    State
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="" name="state">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            Pin Code
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control" placeholder="" name="pincode">
+                        </div>                                               
+                    </div> 
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            Same as Permanent Address
+                        </div>
+                        <div class="col-3">
+                            <span>
+                                <input type="radio" class="form-check-input" name="same_permanent_address" value="Yes" checked>
+                                <label class="form-check-label radio-button">Yes</label>
+                            </span>
+                            <span class="p-3">
+                                <input type="radio" class="form-check-input" name="same_permanent_address" value="No" checked>
+                                <label class="form-check-label radio-button">No</label>
+                            </span>
+                        </div>                        
+                    </div>    
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            Corresponding Address
+                        </div>
+                        <div class="col-3">
+                            <textarea class="form-control" rows="5"></textarea>
+                        </div>                        
+                        <div class="col-6">
+                            <div class="row mt-0">
+                                <div class="col">
+                                    District
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="" name="district">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col">
+                                    State
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="" name="state">
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            Pin Code
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control" placeholder="" name="pincode">
+                        </div>                
+                    </div>
+                    <div class="row mt-3 line-break">
+                        <div class="col-12"></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            Mobile Phone
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="" name="mobile_phone">
+                        </div>
+                        <div class="col">Alternate Mobile No</div>
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="" name="alternate_mobile_no">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            Landline
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="" name="landline">
+                        </div>
+                        <div class="col">Email</div>
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="" name="email">
+                        </div>
+                    </div>                                  
+                </div>                
+            </div>     
+        </div>
+        <div class="row educational-details mt-3">
+            <div class="col">
+               Educational Details
+            </div>            
+        </div> 
+        <div class="row mt-3">
+            <div class="col">
+                <div class="details-header d-flex column">Educational Details</div>                
+            </div>  
+        </div>
+        <div class="row mt-0">
+            <div class="col">
+                <div class="d-flex flex-column details-content p-3 pt-0" >
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Sl.No</th>
+                                <th>Course Name</th>
+                                <th>Institution</th>
+                                <th>Status</th>
+                                <th>Percentage %</th>
+                                <th>Year of Passing</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>01.</td>
+                                <td>xxxxxxxxxx</td>
+                                <td>xxxxxxxxxx</td>
+                                <td>Completed</td>
+                                <td>87</td>
+                                <td>2018</td>
+                                <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
+                            </tr>
+                            <tr>
+                                <td>02.</td>
+                                <td>xxxxxxxxxx</td>
+                                <td>xxxxxxxxxx</td>
+                                <td>Completed</td>
+                                <td>87</td>
+                                <td>2018</td>
+                                <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
+                            </tr>
+                            <tr>
+                                <td>03.</td>
+                                <td>xxxxxxxxxx</td>
+                                <td>xxxxxxxxxx</td>
+                                <td>Completed</td>
+                                <td>87</td>
+                                <td>2018</td>
+                                <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
+                            </tr>  
+                            <tr>
+                                <td>03.</td>
+                                <td>xxxxxxxxxx</td>
+                                <td>xxxxxxxxxx</td>
+                                <td>Completed</td>
+                                <td>87</td>
+                                <td>2018</td>
+                                <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
+                            </tr>                        
+                        </tbody>
+                        <tbody>
+                            <tr>
+                                <td>04.</td>
+                                <td><input type="text" class="form-control" placeholder="" name="course_name"></td>
+                                <td><input type="text" class="form-control" placeholder="" name="institution"></td>
+                                <td>
+                                    <select class="form-select" name="course_status">
+                                        <option>Completed</option>
+                                        <option>Pending</option>                                
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="" name="percentage">
+                                </td>
+                                <td><input type="text" class="form-control" placeholder="" name="year"></td>
+                                <td><i class="bi bi-trash3"></i></td>
+                            </tr>
+                        </tbody>
+                    </table> 
+                    <div class="row mt-0">
+                        <div class="col-2">
+                            <button type="button" class="btn btn-secondary btn-sm">Add New Row</button>
+                        </div>
+                    </div>
+                </div>                
+            </div>     
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <div class="details-header d-flex column">Professional Details</div>                
+            </div>     
+        </div>
+        <div class="row mt-0">
+            <div class="col">
+                <div class="d-flex flex-column details-content p-3 pt-0" >
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            Status
+                        </div>
+                        <div class="col-5">
+                            <span>
+                                <input type="radio" class="form-check-input" name="professional_status" value="option1" checked>
+                                <label class="form-check-label radio-button">Employment</label>
+                            </span>
+                            <span class="p-3">
+                                <input type="radio" class="form-check-input" name="professional_status" value="option1" checked>
+                                <label class="form-check-label radio-button">Student</label>
+                            </span>  
+                            <span class="p-3">
+                                <input type="radio" class="form-check-input" name="professional_status" value="option1" checked>
+                                <label class="form-check-label radio-button">Other</label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            Organization
+                        </div>
+                        <div class="col-5">
+                            <span>Created by User</span>
+                        </div>
+                        <div class="col-2">
+                            Designation
+                        </div>
+                        <div class="col-2">
+                            <span>Created by User</span>
+                        </div>                                               
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            Place of Duty
+                        </div>
+                        <div class="col-5">
+                            <span>Created by User</span>
+                        </div>                                                                       
+                    </div>                                                       
+                </div>                
+            </div>     
+        </div>   
+        <div class="row mt-3">
+            <div class="col-2">
+                <span>Upload Documents</span>             
+            </div>  
+            <div class="col-10">                
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Sl.No</th>
+                            <th>Type of Documents</th>
+                            <th>Description</th>
+                            <th>View Documents</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>01.</td>
+                            <td>
+                                <select class="form-select" name="document_type">
+                                    <option>Completed</option>
+                                    <option>Pending</option>  
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" name="document_description">
+                                    <option>Completed</option>
+                                    <option>Pending</option>  
+                                </select>
+                            </td>
+                            <td>Attachment On<i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
+                        </tr>                 
+                    </tbody>
+                    <tbody>                                
+                        <tr>
+                            <td>04.</td>
+                            <td>
+                                <select class="form-select" name="document_type">
+                                    <option>Completed</option>
+                                    <option>Pending</option>  
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" name="document_description">
+                                    <option>Completed</option>
+                                    <option>Pending</option>  
+                                </select>
+                            </td>
+                            <td><button type="button" class="btn btn-secondary btn-sm">Upload</button></td>
+                        </tr>
+                    </tbody>
+                </table> 
+                <div class="row mt-0">
+                    <div class="col-2">
+                        <button type="button" class="btn btn-secondary btn-sm">Add New Row</button>
+                    </div>
+                </div>                     
+            </div>
+        </div>     
+    </div>
+</div>
+<div class="inner-page d-flex flex-row mt-0" *ngIf="applicationStatus==='3' && !saveAsDraft">
+    <div class="container-fluid">
+        <div class="row mb-4">
+            No Save Draft Found
+        </div>
+    </div>
+</div>

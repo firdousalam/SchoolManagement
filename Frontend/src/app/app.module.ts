@@ -51,6 +51,7 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { RouteGuard } from './core/guards/route.guard';
 import { SafePipePipe } from './shared/safe-pipe.pipe';
 import { DatePipe } from '@angular/common';
+import { ApplicationComponent } from './pages/dashboard/application/application.component';
 export function initializeApp(configurationService: ConfigurationService) {
   return (): Promise<any> => {
     return configurationService.load();
@@ -90,7 +91,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
     PersonalDetailsComponent,
     PersonalHeaderDetailsComponent,
     PageNotFoundComponent,
-    SafePipePipe
+    SafePipePipe,
+    ApplicationComponent
   ],
   imports: [
     BrowserModule,
@@ -110,7 +112,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
     NzSelectModule,
     NzFormModule,
     NzTabsModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     RouteGuard,DatePipe,
