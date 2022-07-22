@@ -39,9 +39,9 @@ export class AdmissionComponent implements OnInit {
     this.batchSubscription = this.bacthApi.getByID({profileId:this.studentProfileId}).subscribe((data:any)=>{
       this.batchData = data;
     })
-    this.paymentSubscription = this.paymentApi.getByID({paymentType:'course fee',profileId:this.studentProfileId}).subscribe((data:any)=>{
-      this.paymentData = data;
-    })
+    // this.paymentSubscription = this.paymentApi.getByID({paymentType:'course fee',profileId:this.studentProfileId}).subscribe((data:any)=>{
+    //   this.paymentData = data;
+    // })
   }
   onTabSelect(tabName: any) {
     this.selectedTab = tabName;
