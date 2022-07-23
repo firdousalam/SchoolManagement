@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { applicationObjectCreation } from 'src/app/shared/adaptor/adaptor';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { StudentProfileServiceService } from 'src/app/shared/services/api/student-profile-service.service';
-import { IProfileSearch, IProfile, Profile } from 'src/app/shared/models/profile';
+import { IProfileSearch } from 'src/app/shared/models/profile';
 import { setSession, getSession } from 'src/app/shared/common/storage';
 import { isEmpty, toNumber } from 'lodash';
+import * as moment from 'moment';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -22,6 +24,8 @@ export class ApplicationComponent implements OnInit {
   applicationSubmitted: boolean = false;
   saveAsDraft: boolean = false;
   model:any;
+  userId: any;
+  referenceDate: any = moment().format('YYYY-M-D');
   studentApplication:any = {
     personalDetails:{},
     stdProfessionList:[],
@@ -31,12 +35,15 @@ export class ApplicationComponent implements OnInit {
   educationRecord:any = {};
   //applicationViewDetails: IProfile = Profile;
   applicationViewDetails: any;
+  professionalDetailsShow: boolean = false;
+  application:any;
+  personalDetails:any;
   
   
-  constructor(private profileService: StudentProfileServiceService, private router: Router) { }
+  constructor(private profileService: StudentProfileServiceService, private router: Router, private route: ActivatedRoute, private date:DatePipe ) { }
 
-  ngOnInit(): void {        
-    this.applicationStatus = !isEmpty(getSession('profileId'))? '4':'1';    
+  ngOnInit(): void {            
+    this.applicationStatus = this.userCheck('1', '4');         
     this.educationRecord = {  
       courseName: "",
       institution: "",                              
@@ -63,37 +70,70 @@ export class ApplicationComponent implements OnInit {
 
   applicationStatusChange(status: string): void {
     if(status === "applicationForm"){
-      this.applicationStatus = !isEmpty(getSession('profileId'))? '4':'1';   
+      this.applicationStatus = this.userCheck('1', '4');       
     }else if(status === "saveAsDraft"){
       this.applicationStatus = "3";
     }
   }
   applicationSubmit(requestData: any){ 
-    const userId = Math.floor(Math.random() * (999999 - 100000))?.toString();  
-    this.profileSubscription = this.profileService.create(applicationObjectCreation(requestData, userId)).subscribe((data:any)=>{      
-      setSession('profileId',data.messageCode);      
+    this.userId = this.route.snapshot.paramMap.get('id')?.toString();    
+    //setSession('userId',userId?.toString());
+    this.profileSubscription = this.profileService.create(applicationObjectCreation(requestData, this.userId)).subscribe((data:any)=>{      
+      setSession('profileId',data.messageCode);  
+      setSession('userId',this.userId)          
       this.applicationStatus = '4';
     },(error:Error)=>{
       console.log(error);      
     })    
   }
 
-  applicationView():void{    
+  applicationView():void{   
+    this.applicationStatus = this.userCheck('5', '2');      
     if(!isEmpty(getSession('profileId'))){
-      const profileId = getSession('profileId');
-      this.applicationStatus = "2";      
+      const profileId = getSession('profileId');            
       const params:IProfileSearch = {profileId: toNumber(profileId)};
-      this.profileService.getByID(params).subscribe((data:any)=>{       
-        //console.log("data",this.applicationViewDetails);
-        this.applicationViewDetails = data;
-      },(error:Error)=>{
-        console.log(error);      
-      })
+      const promise = this.profileService.getByID(params).toPromise();
+      promise.then((data)=>{
+        this.application =  data;        
+      }).catch((error)=>{
+        console.log("Promise rejected with " + JSON.stringify(error));
+      });      
     }else{
       this.applicationStatus = "5";
     }    
   }
   saveDraft(){
     this.saveAsDraft = true;
+  }
+
+  sameCorrespondingAddress(check: string){         
+    if(check === 'YES'){
+      this.studentApplication.stdContactDetail.paddress = this.studentApplication.stdContactDetail.caddress
+      this.studentApplication.stdContactDetail.pdistrict = this.studentApplication.stdContactDetail.cdistrict;
+      this.studentApplication.stdContactDetail.pstate = this.studentApplication.stdContactDetail.cstate;
+      this.studentApplication.stdContactDetail.ppinCode = this.studentApplication.stdContactDetail.cpinCode; 
+    }else{
+      this.studentApplication.stdContactDetail.paddress = null;
+      this.studentApplication.stdContactDetail.pdistrict = null;
+      this.studentApplication.stdContactDetail.pstate = null;
+      this.studentApplication.stdContactDetail.ppinCode = null;
+    }    
+  }  
+
+  userCheck(page1: any, page2: any): any{     
+    if(!isEmpty(getSession('userId'))){     
+      if(!isEmpty(getSession('profileId'))){
+        this.userId = this.route.snapshot.paramMap.get('id')?.toString();
+        if(this.userId !== getSession('userId')){
+          return page1;
+        }else{
+          return page2;
+        }
+      }else{
+        return page1;
+      }
+    }else{
+      return page1;
+    }
   }
 }
