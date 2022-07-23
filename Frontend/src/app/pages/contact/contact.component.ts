@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { queryColumnDefs } from 'src/app/shared/constants/query.constant';
 import { ContactQueryServiceService } from 'src/app/shared/services/api/contact-query-service.service';
 import { GlobalErrorService } from 'src/app/core/services/global-error.service';
 import { IContact,IContactSearch,IContactPage,contactSearch } from 'src/app/shared/models/contact';
 import { ITableViewConfig } from 'src/app/shared/models/table-view';
+import { CommonService } from 'src/app/shared/services/api/common.service';
 
 @Component({
   selector: 'app-contact',
@@ -19,17 +20,25 @@ export class ContactComponent implements OnInit {
   subscriptionArray:any[]=[];
   searchTerm = '';
   contactSubscription!: Subscription;
-  constructor(private errorServices: GlobalErrorService, private router: Router, private api: ContactQueryServiceService) {
+  routeParamSubscription!: Subscription;
+  studentProfileId:any;
+  constructor(private route:ActivatedRoute,private commonService:CommonService,private errorServices: GlobalErrorService, private router: Router, private api: ContactQueryServiceService) {
     this.adminTableConfig = queryColumnDefs;
 
   }
 
   onTableRowClick(id: any) {
     console.log(id);
-    this.router.navigate(['/contact/view'], { queryParams: { id } });
+    this.router.navigate([`/contact/${this.studentProfileId}/view`], { queryParams: { id } });
   }
   ngOnInit(): void {
-    this.init();
+    this.routeParamSubscription = this.route.paramMap.subscribe((params:ParamMap)=>{
+      console.log(params);
+      
+      this.studentProfileId = params.get('id');
+      this.commonService.profileSubject.next({profileId:this.studentProfileId});
+      this.init();
+    })
   }
 
   getRowValue(field: ITableViewConfig,value: any):IContact{

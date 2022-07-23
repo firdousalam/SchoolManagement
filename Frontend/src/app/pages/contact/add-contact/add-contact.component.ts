@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ContactQueryServiceService } from 'src/app/shared/services/api/contact-query-service.service';
 import { IContact } from 'src/app/shared/models/contact';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { CommonService } from 'src/app/shared/services/api/common.service';
 
 
 @Component({
@@ -16,18 +17,29 @@ export class AddContactComponent implements OnInit {
   form!: FormGroup;
   submitted = false;
   contactSubscription!: Subscription;
+  routeParamSubscription!: Subscription;
   subscriptionArray: any[] = [];
-  constructor(private notificationService: NotificationService, private router: Router, private formBuilder: FormBuilder, private contactService: ContactQueryServiceService) { }
+  studentProfileId:any;
+  constructor(private commonService:CommonService,private route:ActivatedRoute,private notificationService: NotificationService, private router: Router, private formBuilder: FormBuilder, private contactService: ContactQueryServiceService) { }
 
   ngOnInit(): void {
+    this.routeParamSubscription = this.route.paramMap.subscribe((params:ParamMap)=>{
+      console.log(params);
+      
+      this.studentProfileId = params.get('id');
+      this.commonService.profileSubject.next({profileId:this.studentProfileId});
+    })
+    this.subscriptionArray.push(this.routeParamSubscription);
     this.form = this.formBuilder.group(
       {
         type: ['', Validators.required],
         queryOrClarification: ['', Validators.required],
         queryStatus: "pending",
-        response: ""
+        response: "",
+        date: new FormControl((new Date()).toISOString().substring(0,10))
       }
     );
+    this.form.get('date')?.disable();
   }
   get f(): { [key: string]: AbstractControl } {
     return this.form.controls;
@@ -41,7 +53,7 @@ export class AddContactComponent implements OnInit {
     const requestData: IContact = this.form.value;
     this.contactSubscription = this.contactService.create(requestData).subscribe((data: any) => {
       this.notificationService.showSuccessToast('Contact created successfully');
-      this.router.navigate(['/contact'])
+      this.router.navigate(['/contact',this.studentProfileId])
     })
     this.subscriptionArray.push(this.contactSubscription);
   }
