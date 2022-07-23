@@ -1,7 +1,7 @@
 <app-heading [heading]="'Admission'" >
   <div class="heading-actions d-flex" *ngIf="selectedTab === admissionPaymentTabNames.feePayment">
     <ng-container>
-      <button type="button" class="btn kl-btn kl-btn-primary btn-sm mx-1">
+      <button type="button" (click)="makePayment()" class="btn kl-btn kl-btn-primary btn-sm mx-1">
         Submit
       </button>
     </ng-container>
@@ -19,7 +19,7 @@
   <div
     class="inner-page"
     *ngIf="selectedTab === admissionPaymentTabNames.feePayment">
-    <app-fee-payment [unpaidPayments]="unpaidPayments" [batchData]="batchData"> </app-fee-payment>
+    <app-fee-payment (makePaymentData)="getMakePaymentData($event)" [unpaidPayments]="unpaidPayments" [batchData]="batchData"> </app-fee-payment>
   </div>
   <div
     class="inner-page"
