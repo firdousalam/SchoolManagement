@@ -47,7 +47,7 @@ export class ContactComponent implements OnInit {
   search(value: any): void {
     console.log(typeof (value), value);
     this.rowData = this.filterData!.filter((val: any) =>
-      val.type.toLowerCase().includes(value.trim().toLowerCase()) ||
+      val?.type?.toLowerCase().includes(value.trim().toLowerCase()) ||
       val.dateofEntry.toLowerCase().includes(value.trim().toLowerCase()) ||
       val.queryOrClarification.toLowerCase().includes(value.trim().toLowerCase()) ||
       val.response.toLowerCase().includes(value.trim().toLowerCase()) ||
