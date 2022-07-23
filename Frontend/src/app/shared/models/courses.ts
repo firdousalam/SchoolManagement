@@ -17,7 +17,7 @@ export interface ICourse extends IAudit {
       id: number | null;
       malData: Lang[];
       status: number | null;
-      subject: number | null;
+      subject: string;
       toDate: string;
 }
 

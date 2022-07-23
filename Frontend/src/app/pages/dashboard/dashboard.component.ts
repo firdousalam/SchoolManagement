@@ -1,8 +1,9 @@
-import { Component, OnInit, HostBinding, AfterViewInit } from '@angular/core';
+import { Component, OnInit, HostBinding, AfterViewInit, Output } from '@angular/core';
 import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NotificationService } from 'src/app/shared/services/api/notification.service';
 import {INotification,INotificationPage} from 'src/app/shared/models/notification'
+import { CommonService } from 'src/app/shared/services/api/common.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -13,13 +14,14 @@ export class DashboardComponent implements OnInit {
   routeParamSubscription!:Subscription;
   studentProfileId:any;
   notificationSubscription!: Subscription;
-  constructor(private router:Router,private route:ActivatedRoute,private api: NotificationService) {}
+  constructor(private commonService:CommonService,private router:Router,private route:ActivatedRoute,private api: NotificationService) {}
 
   ngOnInit(): void {
     this.routeParamSubscription = this.route.paramMap.subscribe((params:ParamMap)=>{
       console.log(params);
       
       this.studentProfileId = params.get('id');
+      this.commonService.profileSubject.next({profileId:this.studentProfileId});
       this.Init();
     })
   }
@@ -34,6 +36,6 @@ export class DashboardComponent implements OnInit {
     throw new Error('Not Implemented!');
   }
   openApplication():void{
-    this.router.navigate(['application']);
+    this.router.navigate(['/application',this.studentProfileId]);
   }
 }

@@ -5,6 +5,8 @@ import { StudyMaterialServiceService } from 'src/app/shared/services/api/study-m
 import { ICourse, ICoursePage, ICourseSearch } from 'src/app/shared/models/courses';
 import { ITableViewConfig } from 'src/app/shared/models/table-view';
 import { DatePipe } from '@angular/common';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { CommonService } from 'src/app/shared/services/api/common.service';
 
 @Component({
   selector: 'app-courses',
@@ -16,12 +18,14 @@ export class CoursesComponent implements OnInit {
   rowData!: ICourse[];
   filterData!: ICourse[];
   courseSubscription!: Subscription;
+  routeParamSubscription!: Subscription;
   docSubscription!: Subscription;
   subscriptionArray:any[]=[];
   searchTerm: any = '';
   showPdfUrl: any;
   filename: any;
-  constructor(private api: StudyMaterialServiceService,private date:DatePipe) {
+  studentProfileId: any;
+  constructor(private commonService:CommonService,private route:ActivatedRoute,private api: StudyMaterialServiceService,private date:DatePipe) {
     this.adminTableConfig = courseColumnDefs;
 
   }
@@ -32,7 +36,13 @@ export class CoursesComponent implements OnInit {
     return (field.field ==='fromDate' ? value[field.field] ? this.date.transform(value[field.field],'dd/MM/YYYY') : '------------': value[field.field] ? value[field.field] : '------------');
   }
   ngOnInit(): void {
-    this.init();
+    this.routeParamSubscription = this.route.paramMap.subscribe((params:ParamMap)=>{
+      console.log(params);
+      
+      this.studentProfileId = params.get('id');
+      this.commonService.profileSubject.next({profileId:this.studentProfileId});
+      this.init();
+    })
   }
 
   init() {
@@ -79,8 +89,11 @@ export class CoursesComponent implements OnInit {
 
   search(value: any): void {
     // console.log(typeof (value), value);
-    this.rowData = this.filterData!.filter((val: any) =>
-      val?.subject?.toLowerCase()?.includes(value?.trim()?.toLowerCase()) 
+    this.rowData = this.filterData!.filter((val: any) => 
+      val?.subject?.toLowerCase()?.includes(value.trim().toLowerCase()) ||
+      val?.heading?.toLowerCase()?.includes(value.trim().toLowerCase()) ||
+      val?.description?.toLowerCase()?.includes(value.trim().toLowerCase()) ||
+      val?.fromDate?.toLowerCase()?.includes(value.trim().toLowerCase())
     );
   }
 

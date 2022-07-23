@@ -51,7 +51,7 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { RouteGuard } from './core/guards/route.guard';
 import { SafePipePipe } from './shared/safe-pipe.pipe';
 import { DatePipe } from '@angular/common';
-import { ApplicationComponent } from './pages/dashboard/application/application.component';
+import { ApplicationComponent } from './pages/application/application.component';
 export function initializeApp(configurationService: ConfigurationService) {
   return (): Promise<any> => {
     return configurationService.load();

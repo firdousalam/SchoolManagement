@@ -1,5 +1,12 @@
 <app-heading [heading]="'Query #44767'">
     <div class="heading-actions d-flex">
+        <ng-container>
+          <button type="button" [routerLink]="['/contact',studentProfileId]" class="btn kl-btn kl-btn-primary btn-sm mx-1">
+            Back
+          </button>
+        </ng-container>
+        </div>
+    <div class="heading-actions d-flex">
       <ng-container>
         <span class="status">{{contactData?.queryStatus}}</span>
       </ng-container>
@@ -54,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 ml-2" *ngIf="contactData?.queryStatus === 'resolved'">
+            <div class="col-md-6 ml-2" *ngIf="(contactData?.queryStatus).toLowerCase() === 'resolved'">
                 <div class="row">
                     <div class="col-sm-4">
                         <span for="referenceid">Response</span>

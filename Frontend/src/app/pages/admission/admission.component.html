@@ -1,6 +1,6 @@
 <app-heading [heading]="'Admission'" >
   <div class="heading-actions d-flex" *ngIf="selectedTab === admissionPaymentTabNames.feePayment">
-    <ng-container>
+    <ng-container *ngIf="unpaidPayments?.length">
       <button type="button" (click)="makePayment()" class="btn kl-btn kl-btn-primary btn-sm mx-1">
         Submit
       </button>

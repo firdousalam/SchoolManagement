@@ -8,6 +8,7 @@ import {
 } from 'src/app/shared/constants/admission.constant';
 import { AdmissionServiceService } from 'src/app/shared/services/api/admission-service.service';
 import { BatchDetailsService } from 'src/app/shared/services/api/batch-details.service';
+import { CommonService } from 'src/app/shared/services/api/common.service';
 import { FeePaymentService } from 'src/app/shared/services/api/fee-payment.service';
 @Component({
   selector: 'app-admission',
@@ -30,12 +31,13 @@ export class AdmissionComponent implements OnInit, OnDestroy {
   unpaidPayments:any;
   submittedRequestData:any;
   admissionPaymentTabNames: any = admissionPaymentTabNames;
-  constructor(private paymentApi:FeePaymentService,private noti:NotificationService,private route:ActivatedRoute,private api: AdmissionServiceService,private bacthApi:BatchDetailsService) {
+  constructor(private commonService:CommonService,private paymentApi:FeePaymentService,private noti:NotificationService,private route:ActivatedRoute,private api: AdmissionServiceService,private bacthApi:BatchDetailsService) {
     this.tabs = admissionPaymentTabs;
     this.routeParamSubscription = this.route.paramMap.subscribe((params: ParamMap) => {
       console.log(params);
 
       this.studentProfileId = params.get('id');
+      this.commonService.profileSubject.next({profileId:this.studentProfileId});
     })
     this.subscriptionArr.push(this.routeParamSubscription);
    }

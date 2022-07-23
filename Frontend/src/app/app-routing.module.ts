@@ -6,7 +6,7 @@ import { AddContactComponent } from './pages/contact/add-contact/add-contact.com
 import { ContactComponent } from './pages/contact/contact.component';
 import { ViewContactComponent } from './pages/contact/view-contact/view-contact.component';
 import { CoursesComponent } from './pages/courses/courses.component';
-import { ApplicationComponent } from './pages/dashboard/application/application.component';
+import { ApplicationComponent } from './pages/application/application.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { StudentProfileDetailComponent } from './pages/student-profile-detail/student-profile-detail.component';
@@ -14,11 +14,11 @@ import { StudentProfileDetailComponent } from './pages/student-profile-detail/st
 const routes: Routes = [
   { path: 'dashboard/:id', component: DashboardComponent, canActivate:[RouteGuard] },
   { path: 'admission/:id', component: AdmissionComponent },
-  { path: 'application', component: ApplicationComponent },
-  { path: 'courses', component: CoursesComponent },
-  { path: 'contact', component: ContactComponent },
-  { path: 'contact/new', component: AddContactComponent },
-  { path: 'contact/view', component: ViewContactComponent },
+  { path: 'application/:id', component: ApplicationComponent },
+  { path: 'courses/:id', component: CoursesComponent },
+  { path: 'contact/:id', component: ContactComponent },
+  { path: 'contact/:id/new', component: AddContactComponent },
+  { path: 'contact/:id/view', component: ViewContactComponent },
   { path: 'student/profile/:id', component: StudentProfileDetailComponent },
   { path: '**', component: PageNotFoundComponent }
 ];

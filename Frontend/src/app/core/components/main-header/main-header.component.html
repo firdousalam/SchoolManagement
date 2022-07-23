@@ -2,15 +2,15 @@
   <div class="main-header-icon">
     <i class="bi bi-list"></i>
   </div>
-  <div class="d-flex logo cursor" [routerLink]="['/dashboard/1']">
+  <div class="d-flex logo cursor" [routerLink]="['/dashboard',studentProfileId]">
     <a class="logo-image">
       <img class="h-100" alt="" src="../../assets/img/logo-white.svg" />
     </a>
     <span class="logo-title ms-2">Kerala Legislative Assembly</span>
   </div>
   <div class="d-flex justify-content-end">
-    <button type="button" class="btn btn-outline"  [routerLink]="['/dashboard/1']">Notification</button>
-    <button type="button" class="btn btn-outline"  [routerLink]="['/contact']">Help</button>
+    <button type="button" class="btn btn-outline"  [routerLink]="['/dashboard/',studentProfileId]">Notification</button>
+    <button type="button" class="btn btn-outline"  [routerLink]="['/contact',studentProfileId]">Help</button>
     <button type="button" class="btn btn-outline" [routerLink]="['/student/profile',studentProfileId]">Profile</button>
     <button type="button" class="btn btn-outline">
       <i class="bi bi-person-circle"></i>
