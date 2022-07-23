@@ -80,11 +80,7 @@ export class CoursesComponent implements OnInit {
   search(value: any): void {
     // console.log(typeof (value), value);
     this.rowData = this.filterData!.filter((val: any) =>
-      val.type.toLowerCase().includes(value.trim().toLowerCase()) ||
-      val.dateofEntry.toLowerCase().includes(value.trim().toLowerCase()) ||
-      val.queryOrClarification.toLowerCase().includes(value.trim().toLowerCase()) ||
-      val.response.toLowerCase().includes(value.trim().toLowerCase()) ||
-      val.queryStatus.toLowerCase().includes(value.trim().toLowerCase())
+      val?.subject?.toLowerCase()?.includes(value?.trim()?.toLowerCase()) 
     );
   }
 
