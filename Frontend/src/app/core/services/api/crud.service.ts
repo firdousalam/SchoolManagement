@@ -90,4 +90,12 @@ export abstract class CrudService<IDetail, IDetailPage, ISearch> {
       detail
     );
   }
+  getProfileByUserID(searchObject: ISearch) {
+    return this.httpClient.get<IDetailPage>(
+       this.urlBuilderService.getUrlWithQueryParams(
+        this.api.getByProfileByUserId,
+        searchObject
+      )
+    );
+  }
 }
