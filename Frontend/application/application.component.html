@@ -1,13 +1,13 @@
 <!-- <app-heading [heading]="'Dashboard'"></app-heading> -->
 <div class="d-flex heading">
     <div class="p-2 heading-text">{{ heading }}</div>
-    <div class="p-2 align-self-start"><button type="button" class="btn kl-btn-primary btn-sm pr-3" (click)="saveDraft()">Save As Draft</button></div>
-    <div class="p-2"><button type="button" class="btn kl-btn-primary btn-sm button-width" (click)="applicationSubmit(studentApplication)">Submit</button></div>
+    <div class="p-2 align-self-start"><button type="button" class="btn btn-secondary btn-sm pr-3" (click)="saveDraft()">Save As Draft</button></div>
+    <div class="p-2"><button type="button" class="btn btn-secondary btn-sm button-width" (click)="applicationSubmit(studentApplication)">Submit</button></div>
 </div>
 <div class="d-flex flex-row bd-highlight mb-0">
-    <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;" (click)="applicationStatusChange('applicationForm')"> Application Form </div>
-    <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;" (click)="applicationView()"> View Application </div>
-    <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;"(click)="applicationStatusChange('saveAsDraft')"> Save as Draft </div>
+    <div class="p-2 pb-0 bd-highlight " (click)="applicationStatusChange('applicationForm')">Application Form</div>
+    <div class="p-2 pb-0 bd-highlight" (click)="applicationView()">View Application</div>
+    <div class="p-2 pb-0 bd-highlight"(click)="applicationStatusChange('saveAsDraft')">Save as Draft</div>
 </div>
 <div class="inner-page d-flex flex-row mt-0" *ngIf="applicationStatus=='1'">
     <div class="container-fluid">
@@ -98,10 +98,6 @@
                                 <span class="p-3">
                                     <input type="radio" class="form-check-input" name="sc_st" value="st" checked [(ngModel)]="studentApplication.personalDetails.scOrSt">
                                     <label class="form-check-label radio-button">ST</label>
-                                </span>
-                                <span class="p-1">
-                                    <input type="radio" class="form-check-input" name="sc_st" value="general" checked [(ngModel)]="studentApplication.personalDetails.scOrSt">
-                                    <label class="form-check-label radio-button">General</label>
                                 </span>
                             </div>
                             <div class="col"></div>
@@ -386,7 +382,7 @@
                                 <th>Sl.No</th>
                                 <th>Type of Documents</th>
                                 <th>Description</th>
-                                <th>Documents Upload</th>
+                                <th>View Documents</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -401,7 +397,7 @@
                                 <td>
                                     <input type="text" class="form-control" placeholder="" name="descritpion">
                                 </td>
-                                <td><button type="button" class="btn btn-secondary btn-sm button-width" >Upload</button></td>
+                                <td>Attachment On<i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
                             </tr>                 
                         </tbody>                        
                     </table> 
@@ -449,11 +445,11 @@
                             Application Name
                         </div>
                         <div class="col">
-                            <span>{{personal?.applicantName}}</span>                            
+                            <span>{{application?.stdPersonalDetail.applicantName}}</span>                            
                         </div>
                         <div class="col">Date of Birth</div>
                         <div class="col">
-                            <span>{{personal?.dob}}</span>                            
+                            <span>{{application?.stdPersonalDetail.dob}}</span>                            
                         </div>
                     </div>
                     <div class="row mt-3 ">
@@ -461,11 +457,11 @@
                             Sex
                         </div>
                         <div class="col">
-                            <span>{{personal?.gender}}</span>                            
+                            <span>{{application?.stdPersonalDetail.gender}}</span>                            
                         </div>
                         <div class="col">Nationality</div>
                         <div class="col">
-                            <span>{{personal?.nationality}}</span>                            
+                            <span>{{application?.stdPersonalDetail.gender}}</span>                            
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -473,11 +469,11 @@
                             Father/Guardian
                         </div>
                         <div class="col">                           
-                            <span>{{personal?.fatherOrGuardian}}</span>
+                            <span>{{application?.stdPersonalDetail.fatherOrGuardian}}</span>
                         </div>
                         <div class="col">Name(Father/Guardian)</div>
                         <div class="col">
-                            <span>{{personal?.nameOfFatherOrGuardian}}</span>
+                            <span>{{application?.stdPersonalDetail.nameOfFatherOrGuardian}}</span>
                         </div>
                     </div>
                     <div class="row mb-3 mt-3">
@@ -485,7 +481,7 @@
                             SC/ST
                         </div>
                         <div class="col">
-                            <span>{{personal?.scOrSt}}</span>
+                            <span>{{application?.stdPersonalDetail.scOrSt}}</span>
                         </div>
                         <div class="col"></div>
                         <div class="col"></div>
@@ -511,7 +507,7 @@
                             Permanent Address
                         </div>
                         <div class="col-3">
-                            <span>{{contact?.caddress}}</span>                        
+                            <span>{{application?.stdContactDetail?.caddress}}</span>                        
                         </div>                        
                         <div class="col-6">
                             <div class="row mt-0">
@@ -519,7 +515,7 @@
                                     District
                                 </div>
                                 <div class="col">
-                                    <span>{{contact?.cdistrict}}</span>                        
+                                    <span>{{application?.stdContactDetail?.cdistrict}}</span>                        
                                 </div>
                             </div>
                             <div class="row mt-3">
@@ -527,7 +523,7 @@
                                     State
                                 </div>
                                 <div class="col">
-                                    <span>{{contact?.cstate}}</span>     
+                                    <span>{{application?.stdContactDetail?.cstate}}</span>     
                                 </div>
                             </div>
                         </div>
@@ -538,7 +534,7 @@
                             Pin Code
                         </div>
                         <div class="col-3">
-                            <span>{{contact?.cpinCode}}</span> 
+                            <span>{{application?.stdContactDetail?.cpinCode}}</span> 
                         </div>                                               
                     </div> 
                     <div class="row mt-3">
@@ -546,7 +542,7 @@
                             Same as Permanent Address
                         </div>
                         <div class="col-3">
-                            <span>{{contact?.isPASameAsCA}}</span> 
+                            <span>{{application?.stdContactDetail?.isPASameAsCA}}</span> 
                         </div>                        
                     </div>    
                     <div class="row mt-3">
@@ -554,7 +550,7 @@
                             Corresponding Address
                         </div>
                         <div class="col-3">
-                            <span>{{contact?.paddress}}</span>
+                            <span>{{application?.stdContactDetail?.paddress}}</span>
                         </div>                        
                         <div class="col-6">
                             <div class="row mt-0">
@@ -562,7 +558,7 @@
                                     District
                                 </div>
                                 <div class="col">
-                                    <span>{{contact?.pdistrict}}</span>
+                                    <span>{{application?.stdContactDetail?.pdistrict}}</span>
                                 </div>
                             </div>
                             <div class="row mt-3">
@@ -570,7 +566,7 @@
                                     State
                                 </div>
                                 <div class="col">
-                                    <span>{{contact?.pstate}}</span>
+                                    <span>{{application?.stdContactDetail?.pstate}}</span>
                                 </div>
                             </div>
                         </div>                        
@@ -580,7 +576,7 @@
                             Pin Code
                         </div>
                         <div class="col-3">
-                            <span>{{contact?.pinCode}}</span>
+                            <span>{{application?.stdContactDetail?.pinCode}}</span>
                         </div>                
                     </div>
                     <div class="row mt-3 line-break">
@@ -591,11 +587,11 @@
                             Mobile Phone
                         </div>
                         <div class="col">
-                            <span>{{contact?.mobileNumber}}</span>
+                            <span>{{application?.stdContactDetail?.mobileNumber}}</span>
                         </div>
                         <div class="col">Alternate Mobile No</div>
                         <div class="col">
-                            <span>{{contact?.alternateMobileNumber}}</span>
+                            <span>{{application?.stdContactDetail?.alternateMobileNumber}}</span>
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -603,11 +599,11 @@
                             Landline
                         </div>
                         <div class="col">
-                            <span>{{contact?.landlineNumber}}</span>
+                            <span>{{application?.stdContactDetail?.landlineNumber}}</span>
                         </div>
                         <div class="col">Email</div>
                         <div class="col">
-                            <span>{{contact?.emailId}}</span>
+                            <span>{{application?.stdContactDetail?.emailId}}</span>
                         </div>
                     </div>                                  
                 </div>                
@@ -638,13 +634,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let education of education;let serialNumber = index">
+                            <tr *ngFor="let education of application?.stdEducationList;let serialNumber = index">
                                 <td>{{serialNumber+1}}.</td>
-                                <td>{{education?.courseName}}</td>
-                                <td>{{education?.institution}}</td>
-                                <td>{{education?.educationStatus}}</td>
-                                <td>{{education?.percentage}}</td>
-                                <td>{{education?.yearofCompletion}}</td>                               
+                                <td>{{education.courseName}}</td>
+                                <td>{{education.institution}}</td>
+                                <td>{{education.educationStatus}}</td>
+                                <td>{{education.percentage}}</td>
+                                <td>{{education.yearofCompletion}}</td>                               
                             </tr>                                                                              
                         </tbody>
                     </table>                    
@@ -672,13 +668,13 @@
                             Organization
                         </div>
                         <div class="col-5">
-                            <span>{{profession?.organization}}</span>
+                            <span>{{application?.stdProfession?.organization}}</span>
                         </div>
                         <div class="col-2">
                             Designation
                         </div>
                         <div class="col-2">
-                            <span>{{profession?.designation}}</span>
+                            <span>{{application?.stdProfession?.designation}}</span>
                         </div>                                               
                     </div>
                     <div class="row mt-3">
@@ -686,7 +682,7 @@
                             Place of Duty
                         </div>
                         <div class="col-5">
-                            <span>{{profession?.placeOfDuty}}</span>
+                            <span>{{application?.stdProfession?.placeOfDuty}}</span>
                         </div>                                                                       
                     </div>                                                       
                 </div>                
@@ -707,7 +703,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let doc of docList">
+                        <tr *ngFor="let doc of application?.docList">
                             <td>01.</td>
                             <td>
                                 <select class="form-select" name="document_type" disabled>

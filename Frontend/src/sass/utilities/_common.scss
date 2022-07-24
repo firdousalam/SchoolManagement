@@ -55,37 +55,22 @@
 }
 
 .kl-btn-primary {
-  background-color: $c-gray-6;
-  border-color: $c-gray-6;
+  background-color: $c-primary;
+  border-color: $c-primary;
   color: $c-white;
   &:focus {
-    background-color: $c-gray-6;
-    border-color: $c-gray-6;
+    background-color: $c-primary;
+    border-color: $c-primary;
     color: $c-white;
   }
   &:hover {
-    background-color: $c-gray-6;
-    border-color: $c-gray-6;
+    background-color: $c-primary-dark;
+    border-color: $c-primary;
     color: $c-white;
   }
 }
 
 .kl-btn-secondary {
-  background-color: $c-secondary;
-  color: $c-white;
-  &:focus {
-    background-color: $c-secondary;
-    border-color: $c-secondary;
-    color: $c-white;
-  }
-  &:hover {
-    background-color: $c-secondary-dark;
-    border-color: $c-secondary;
-    color: $c-white;
-  }
-}
-
-.kl-btn-dark {
   background-color: $c-secondary;
   color: $c-white;
   &:focus {
