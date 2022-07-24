@@ -5,9 +5,9 @@
     <div class="p-2"><button type="button" class="btn kl-btn-primary btn-sm button-width" (click)="applicationSubmit(studentApplication)">Submit</button></div>
 </div>
 <div class="d-flex flex-row bd-highlight mb-0">
-    <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;" (click)="applicationStatusChange('applicationForm')">Application Form</div>
-    <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;" (click)="applicationView()"> Application</div>
-    <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;"(click)="applicationStatusChange('saveAsDraft')">Save as Draft</div>
+    <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;" (click)="applicationStatusChange('applicationForm')"> Application Form </div>
+    <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;" (click)="applicationView()"> View Application </div>
+    <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;"(click)="applicationStatusChange('saveAsDraft')"> Save as Draft </div>
 </div>
 <div class="inner-page d-flex flex-row mt-0" *ngIf="applicationStatus=='1'">
     <div class="container-fluid">
