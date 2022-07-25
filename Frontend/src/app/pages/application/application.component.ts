@@ -100,7 +100,7 @@ export class ApplicationComponent implements OnInit {
   }
   applicationSubmit(requestData: any){ 
     this.userId = this.route.snapshot.paramMap.get('id')?.toString();
-    this.profileSubscription = this.profileService.create(applicationObjectCreation(requestData, this.userId)).subscribe((data:any)=>{      
+    this.profileSubscription = this.profileService.create(applicationObjectCreation(requestData, this.userId, 'SUBMITTED')).subscribe((data:any)=>{      
       setSession('profileId',data.messageCode);  
       setSession('userId',this.userId)          
       this.applicationStatus = '4';
@@ -135,8 +135,17 @@ export class ApplicationComponent implements OnInit {
     }    
   }
 
-  saveDraft(){
-    this.saveAsDraft = true;
+  applicationDraft(requestData: any){    
+    this.userId = this.route.snapshot.paramMap.get('id')?.toString();
+    console.log("create::",applicationObjectCreation(requestData, this.userId, 'DRAFTED'));
+    this.profileSubscription = this.profileService.create(applicationObjectCreation(requestData, this.userId, 'DRAFTED')).subscribe((data:any)=>{      
+      setSession('profileId',data.messageCode);  
+      setSession('userId',this.userId)          
+      this.applicationStatus = '3';
+      this.saveAsDraft = true;
+    },(error:Error)=>{
+      console.log(error);      
+    })    
   }
 
   sameCorrespondingAddress(check: string){         
