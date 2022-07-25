@@ -82,6 +82,12 @@ export interface IProfile extends IAudit {
 }
 
 export interface IProfilePage extends IPage {
+    stdAdmission: any;
+    docList: any;
+    stdEducationList: any;
+    stdProfession: any;
+    stdContactDetail: any;
+    stdPersonalDetail: any;
     content: IProfile[];
 }
 
@@ -126,12 +132,13 @@ export const Profile = <IProfile><unknown>{
         placeOfDuty: '',
         profileId: null
     },
-    stdAdmission: [],
+    stdAdmission: []
 }
 
 export interface IProfileSearch {
     referenceType?: string;
     status?: number | null;
+    userId?: number | null;
     pageNumber?: number;
     pageSize?: number;
     profileId?: number | null;
