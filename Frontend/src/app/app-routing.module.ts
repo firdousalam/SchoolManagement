@@ -12,14 +12,16 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { StudentProfileDetailComponent } from './pages/student-profile-detail/student-profile-detail.component';
 
 const routes: Routes = [
-  { path: 'dashboard/:id', component: DashboardComponent, canActivate:[RouteGuard] },
-  { path: 'admission/:id', component: AdmissionComponent },
-  { path: 'application/:id', component: ApplicationComponent, canActivate:[RouteGuard] },
-  { path: 'courses/:id', component: CoursesComponent },
-  { path: 'contact/:id', component: ContactComponent },
-  { path: 'contact/:id/new', component: AddContactComponent },
-  { path: 'contact/:id/view', component: ViewContactComponent },
-  { path: 'student/profile/:id', component: StudentProfileDetailComponent },
+  
+  { path: '', pathMatch: "full", redirectTo: "/dashboard" },
+  { path: 'dashboard',component: DashboardComponent, canActivate:[RouteGuard] },
+  { path: 'admission', component: AdmissionComponent },
+  { path: 'application', component: ApplicationComponent, canActivate:[RouteGuard] },
+  { path: 'courses', component: CoursesComponent },
+  { path: 'contact', component: ContactComponent },
+  { path: 'contact/new', component: AddContactComponent },
+  { path: 'contact/view', component: ViewContactComponent },
+  { path: 'student/profile', component: StudentProfileDetailComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 

@@ -22,17 +22,16 @@ export class ViewContactComponent implements OnInit,AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.routeParamSubscription = this.route.paramMap.subscribe((params:ParamMap)=>{
-      console.log(params);
-      
-      this.studentProfileId = params.get('id');
+   // this.routeParamSubscription = this.route.paramMap.subscribe((params:ParamMap)=>{
+    const studentProfileObj = JSON.parse(localStorage.getItem('studentProfileId')!);
+    this.studentProfileId = studentProfileObj.studentProfileId;
       this.commonService.profileSubject.next({profileId:this.studentProfileId});
-    })
+   // })
     this.routeQueryParamSubscription = this.route.queryParams.subscribe((params:Params)=>{
       const id = params['id'];
       this.loadData(id);
     })
-    this.subscriptionArray.push(this.routeParamSubscription)
+   // this.subscriptionArray.push(this.routeParamSubscription)
     this.subscriptionArray.push(this.routeQueryParamSubscription)
   }
 

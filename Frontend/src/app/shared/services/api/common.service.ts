@@ -6,5 +6,6 @@ import { Subject } from 'rxjs';
 })
 export class CommonService {
  profileSubject: Subject<any> = new Subject<any>();
+ menuToggleSubject: Subject<any> = new Subject<any>();
   constructor() { }
 }

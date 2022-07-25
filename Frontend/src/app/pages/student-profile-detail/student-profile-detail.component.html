@@ -1,4 +1,4 @@
-<app-heading [heading]="'Student Profile - #34567'">
+<app-heading [heading]="title">
   <div class="heading-actions d-flex">
 
     <ng-container>
@@ -71,7 +71,7 @@
               </button>
             </ng-container>
             <ng-container *ngIf="editMode">
-              <button type="button" (click)="onCancel()" class="btn kl-btn kl-btn-primary btn-sm me-2">
+              <button type="button" (click)="onCancel()" class="btn kl-btn kl-btn-dark-6 btn-sm me-2">
                 Cancel
               </button>
               <button type="button" (click)="savePersonal()" [disabled]="!isValid" class="btn kl-btn kl-btn-secondary btn-sm">

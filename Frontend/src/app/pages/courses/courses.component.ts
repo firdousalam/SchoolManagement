@@ -7,6 +7,7 @@ import { ITableViewConfig } from 'src/app/shared/models/table-view';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { CommonService } from 'src/app/shared/services/api/common.service';
+import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
 @Component({
   selector: 'app-courses',
@@ -25,6 +26,11 @@ export class CoursesComponent implements OnInit {
   showPdfUrl: any;
   filename: any;
   studentProfileId: any;
+  total = 1;
+  loading = false;
+  sortOrder = 'DESC';
+  pageSize = 10;
+  pageIndex = 1;
   constructor(private commonService:CommonService,private route:ActivatedRoute,private api: StudyMaterialServiceService,private date:DatePipe) {
     this.adminTableConfig = courseColumnDefs;
 
@@ -36,17 +42,27 @@ export class CoursesComponent implements OnInit {
     return (field.field ==='fromDate' ? value[field.field] ? this.date.transform(value[field.field],'dd/MM/YYYY') : '------------': value[field.field] ? value[field.field] : '------------');
   }
   ngOnInit(): void {
-    this.routeParamSubscription = this.route.paramMap.subscribe((params:ParamMap)=>{
-      console.log(params);
-      
-      this.studentProfileId = params.get('id');
+   // this.routeParamSubscription = this.route.paramMap.subscribe((params:ParamMap)=>{
+    const studentProfileObj = JSON.parse(localStorage.getItem('studentProfileId')!);
+    this.studentProfileId = studentProfileObj.studentProfileId;
       this.commonService.profileSubject.next({profileId:this.studentProfileId});
-      this.init();
-    })
+      this.init(this.pageIndex, this.pageSize, 'DESC');
+   // })
   }
-
-  init() {
-    this.courseSubscription = this.api.getBySearchCriteria({}).subscribe((data: ICoursePage) => {
+  onQueryParamsChange(params: NzTableQueryParams): void {
+    console.log(params);
+    const { pageSize, pageIndex, sort, filter } = params;
+    const currentSort = sort.find((item: any) => item.value !== null);
+    const sortOrder = (currentSort && currentSort.value) || null;
+    this.init(pageIndex, pageSize, sortOrder);
+  }
+  init(pageIndex: any, pageSize: any, sortOrder: any) {
+    this.loading = true;
+    pageIndex = pageIndex - 1;
+    this.courseSubscription = this.api.getBySearchCriteria({ pageNumber: pageIndex, pageSize: pageSize, sortDirection: this.sortOrder }).subscribe((data: ICoursePage) => {
+      this.loading = false;
+      this.total = data.totalElements;
+      this.pageIndex = data.pageNumber + 1; 
       this.rowData = data.content;
       this.filterData = this.rowData;
     })

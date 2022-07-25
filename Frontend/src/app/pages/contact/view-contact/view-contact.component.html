@@ -1,7 +1,7 @@
-<app-heading [heading]="'Query #44767'">
+<app-heading [heading]="'Query #'+contactData?.id">
     <div class="heading-actions d-flex">
         <ng-container>
-          <button type="button" [routerLink]="['/contact',studentProfileId]" class="btn kl-btn kl-btn-primary btn-sm mx-1">
+          <button type="button" [routerLink]="['/contact']" class="btn kl-btn kl-btn-primary btn-sm mx-1">
             Back
           </button>
         </ng-container>
@@ -32,7 +32,7 @@
                             <span for="referenceid">Date</span>
                         </div>
                         <div class="col-sm-8">
-                            <span for="referenceid">{{contactData?.dateofEntry}}</span>
+                            <span for="referenceid">{{contactData?.dateofEntry | date:'dd/MM/yyyy'}}</span>
                         </div>
                         
                     </div>

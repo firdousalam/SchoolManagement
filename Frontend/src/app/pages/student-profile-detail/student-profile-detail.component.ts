@@ -33,6 +33,7 @@ export class StudentProfileDetailComponent implements OnInit, OnDestroy {
   savePersonalDataSubcription: Subscription | undefined;
   savePersonalheaderDataSubcription: Subscription | undefined;
   studentProfileId: any;
+  title:any
   studentEducationData: stdEducationList[] = [];
   studentPersonalData!: stdPersonalDetail;
   studentContactData!: stdContactDetail;
@@ -42,12 +43,12 @@ export class StudentProfileDetailComponent implements OnInit, OnDestroy {
   constructor(private headerpersonalApi:ProfileHeaderService,private personalApi: StudentPersonalServiceService, private notificationService: NotificationService, private api: StudentProfileServiceService, private router: Router, private route: ActivatedRoute) {
     // this.tabs = studentProfileTabs;
     // this.selectedTab = studentProfileTabNames.PERSONAL
-    this.routeParamSubscription = this.route.paramMap.subscribe((params: ParamMap) => {
-      console.log(params);
-
-      this.studentProfileId = params.get('id');
-    })
-    this.subscriptionArray.push(this.routeParamSubscription);
+   // this.routeParamSubscription = this.route.paramMap.subscribe((params: ParamMap) => {
+    const studentProfileObj = JSON.parse(localStorage.getItem('studentProfileId')!);
+    this.studentProfileId = studentProfileObj.studentProfileId;
+      this.title = `Student Profile - #${this.studentProfileId}`;
+   // })
+    //this.subscriptionArray.push(this.routeParamSubscription);
   }
   onEdit() {
     this.editMode = true;
@@ -76,6 +77,7 @@ export class StudentProfileDetailComponent implements OnInit, OnDestroy {
     }
     this.submitStudentProfileSubscription = this.api.update(this.studentProfileData).subscribe((result: any) => {
       this.notificationService.showSuccessToast(result.message);
+      this.onCancel();
       this.init();
     })
   }

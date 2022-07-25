@@ -5,7 +5,7 @@
         <div class="top-filter d-flex mt-3">
             <div class="row d-flex w-100">
                 <div class="col-sm-8">
-                    <button type="button" class="btn btn-secondary">
+                    <button type="button" class="btn kl-btn kl-btn-dark-6">
                         Add filter
                     </button>
                 </div>
@@ -29,8 +29,9 @@
     </div>
 </div>
 <div class="inner-page mt-3">
-    <nz-table #table nzBordered [nzScroll]="{ y: '229px' }" [nzData]="rowData" [nzNoResult]="'No Records'" nzShowSizeChanger
-        [nzFrontPagination]="false">
+    <nz-table  #table [nzFrontPagination]="false" nzShowPagination [nzTotal]="total"
+    (nzQueryParams)="onQueryParamsChange($event)" [nzPageIndex]="pageIndex" [nzLoading]="loading"
+    [nzPageSize]="pageSize" nzBordered [nzData]="rowData" [nzNoResult]="'No Records'" nzShowSizeChanger>
         <thead>
             <tr>
                 <ng-container *ngFor="let config of adminTableConfig">

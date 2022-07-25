@@ -11,11 +11,13 @@ import { CommonService } from 'src/app/shared/services/api/common.service';
 export class SideNavComponent implements OnDestroy {
   routeParamSubscription!:Subscription;
   profileSubscription!:Subscription;
+  toggleMenuSubscription!:Subscription;
   subArray:any=[];
   studentProfileId:any;
   constructor(private router:Router,private route:ActivatedRoute,private commonService:CommonService) {}
-  isCollapsed: boolean = false;
+  isCollapsed: boolean = false; 
 
+ 
   ngOnInit(): void {
     
 
@@ -25,6 +27,15 @@ export class SideNavComponent implements OnDestroy {
       
     })
     this.subArray.push(this.profileSubscription);
+
+    this.toggleMenuSubscription = this.commonService.menuToggleSubject?.subscribe((x:any)=>{
+      this.toggleCollapsed();
+    })
+    this.subArray.push(this.toggleMenuSubscription);
+  }
+
+  isOpen(){
+    return this.router.url === '/dashboard' ? false:true;
   }
   ngOnDestroy(): void {
     this.subArray.array.forEach((element:any) => element.unsubscribe());

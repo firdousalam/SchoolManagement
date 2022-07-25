@@ -21,8 +21,9 @@ export class ContactComponent implements OnInit {
   filterData!: IContact[];
   subscriptionArray: any[] = [];
   searchTerm = '';
-  total = 10;
+  total = 1;
   loading = false;
+  sortOrder = 'DESC';
   pageSize = 10;
   pageIndex = 1;
   contactSubscription!: Subscription;
@@ -35,23 +36,22 @@ export class ContactComponent implements OnInit {
 
   onTableRowClick(id: any) {
     console.log(id);
-    this.router.navigate([`/contact/${this.studentProfileId}/view`], { queryParams: { id } });
+    this.router.navigate([`/contact/view`], { queryParams: { id } });
   }
   ngOnInit(): void {
-    this.routeParamSubscription = this.route.paramMap.subscribe((params: ParamMap) => {
-      console.log(params);
-
-      this.studentProfileId = params.get('id');
+   // this.routeParamSubscription = this.route.paramMap.subscribe((params: ParamMap) => {
+    const studentProfileObj = JSON.parse(localStorage.getItem('studentProfileId')!);
+    this.studentProfileId = studentProfileObj.studentProfileId;
       this.commonService.profileSubject.next({ profileId: this.studentProfileId });
-      this.init();
-    })
+      this.init(this.pageIndex, this.pageSize, 'DESC');
+    //})
   }
   onQueryParamsChange(params: NzTableQueryParams): void {
     console.log(params);
     const { pageSize, pageIndex, sort, filter } = params;
     const currentSort = sort.find((item: any) => item.value !== null);
     const sortOrder = (currentSort && currentSort.value) || null;
-    //this.loadDataFromServer(pageIndex, pageSize, sortField, sortOrder, filter);
+    this.init(pageIndex, pageSize, sortOrder);
   }
   getRowValue(field: ITableViewConfig, value: any): IContact {
     if (field.field === 'dateofEntry' && value[field.field] && moment(value[field.field], 'MM/DD/YYYY').format('MM/DD/YYYY') === value[field.field]) {
@@ -60,9 +60,15 @@ export class ContactComponent implements OnInit {
     }
     return value[field.field] ? value[field.field] : '------------';
   }
-  init() {
-    this.contactSubscription = this.api.getBySearchCriteria({}).subscribe((data: IContactPage) => {
+  init(pageIndex: any, pageSize: any, sortOrder: any) {
+    this.loading = true;
+    pageIndex = pageIndex - 1;
+    this.contactSubscription = this.api.getBySearchCriteria({ pageNumber: pageIndex, pageSize: pageSize, sortDirection: this.sortOrder }).subscribe((data: IContactPage) => {
       console.log(data);
+      this.loading = false;
+      this.total = data.totalElements;
+      this.pageIndex = data.pageNumber + 1;
+      this.pageSize = data.pageSize;
       this.rowData = data.content;
       this.filterData = this.rowData;
     })

@@ -36,6 +36,7 @@ export interface IContactSearch {
   referenceType?: string,
   status?: number | null,
   pageNumber?: number,
+  sortDirection?:string,
   pageSize?: number,
   id?:number|null,
 }
