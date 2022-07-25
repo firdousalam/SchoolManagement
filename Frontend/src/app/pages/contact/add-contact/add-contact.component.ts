@@ -6,7 +6,7 @@ import { ContactQueryServiceService } from 'src/app/shared/services/api/contact-
 import { IContact } from 'src/app/shared/models/contact';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { CommonService } from 'src/app/shared/services/api/common.service';
-
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-add-contact',
@@ -36,7 +36,7 @@ export class AddContactComponent implements OnInit {
         queryOrClarification: ['', Validators.required],
         queryStatus: "pending",
         response: "",
-        date: new FormControl((new Date()).toISOString().substring(0,10))
+        date: new FormControl(moment().format('DD/MM/YYYY'))
       }
     );
     this.form.get('date')?.disable();

@@ -4,9 +4,11 @@ import { Subscription } from 'rxjs';
 import { queryColumnDefs } from 'src/app/shared/constants/query.constant';
 import { ContactQueryServiceService } from 'src/app/shared/services/api/contact-query-service.service';
 import { GlobalErrorService } from 'src/app/core/services/global-error.service';
-import { IContact,IContactSearch,IContactPage,contactSearch } from 'src/app/shared/models/contact';
+import { IContact, IContactSearch, IContactPage, contactSearch } from 'src/app/shared/models/contact';
 import { ITableViewConfig } from 'src/app/shared/models/table-view';
 import { CommonService } from 'src/app/shared/services/api/common.service';
+import * as moment from 'moment';
+import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
 @Component({
   selector: 'app-contact',
@@ -17,12 +19,16 @@ export class ContactComponent implements OnInit {
   adminTableConfig: ITableViewConfig[];
   rowData!: IContact[];
   filterData!: IContact[];
-  subscriptionArray:any[]=[];
+  subscriptionArray: any[] = [];
   searchTerm = '';
+  total = 10;
+  loading = false;
+  pageSize = 10;
+  pageIndex = 1;
   contactSubscription!: Subscription;
   routeParamSubscription!: Subscription;
-  studentProfileId:any;
-  constructor(private route:ActivatedRoute,private commonService:CommonService,private errorServices: GlobalErrorService, private router: Router, private api: ContactQueryServiceService) {
+  studentProfileId: any;
+  constructor(private route: ActivatedRoute, private commonService: CommonService, private errorServices: GlobalErrorService, private router: Router, private api: ContactQueryServiceService) {
     this.adminTableConfig = queryColumnDefs;
 
   }
@@ -32,18 +38,27 @@ export class ContactComponent implements OnInit {
     this.router.navigate([`/contact/${this.studentProfileId}/view`], { queryParams: { id } });
   }
   ngOnInit(): void {
-    this.routeParamSubscription = this.route.paramMap.subscribe((params:ParamMap)=>{
+    this.routeParamSubscription = this.route.paramMap.subscribe((params: ParamMap) => {
       console.log(params);
-      
+
       this.studentProfileId = params.get('id');
-      this.commonService.profileSubject.next({profileId:this.studentProfileId});
+      this.commonService.profileSubject.next({ profileId: this.studentProfileId });
       this.init();
     })
   }
+  onQueryParamsChange(params: NzTableQueryParams): void {
+    console.log(params);
+    const { pageSize, pageIndex, sort, filter } = params;
+    const currentSort = sort.find((item: any) => item.value !== null);
+    const sortOrder = (currentSort && currentSort.value) || null;
+    //this.loadDataFromServer(pageIndex, pageSize, sortField, sortOrder, filter);
+  }
+  getRowValue(field: ITableViewConfig, value: any): IContact {
+    if (field.field === 'dateofEntry' && value[field.field] && moment(value[field.field], 'MM/DD/YYYY').format('MM/DD/YYYY') === value[field.field]) {
 
-  getRowValue(field: ITableViewConfig,value: any):IContact{
-    console.log('hhh',field,value);
-    return value[field.field] ? value[field.field]:'------------';
+      value.dateofEntry = moment(value[field.field]).format('DD/MM/YYYY');
+    }
+    return value[field.field] ? value[field.field] : '------------';
   }
   init() {
     this.contactSubscription = this.api.getBySearchCriteria({}).subscribe((data: IContactPage) => {
