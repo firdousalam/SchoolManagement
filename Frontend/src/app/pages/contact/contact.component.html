@@ -1,7 +1,8 @@
 <app-heading [heading]="'Query List'">
   <div class="heading-actions d-flex">
     <ng-container>
-      <button type="button" [routerLink]="['/contact/'+studentProfileId+'/new']" class="btn kl-btn kl-btn-primary btn-sm mx-1">
+      <button type="button" [routerLink]="['/contact/new']"
+        class="btn kl-btn kl-btn-primary btn-sm mx-1">
         New Request
       </button>
     </ng-container>
@@ -12,14 +13,15 @@
     <div class="top-filter d-flex mt-3">
       <div class="row d-flex w-100">
         <div class="col-sm-8">
-          <button type="button" class="btn btn-secondary">
+          <button type="button" class="btn kl-btn kl-btn-dark-6">
             Add filter
           </button>
         </div>
         <div class="col-sm-4">
           <div class="row">
             <div class="col-sm-9">
-              <input type="text" [(ngModel)]="searchTerm" (input)="search(searchTerm)" class="form-control" id="referenceid" placeholder="search here">
+              <input type="text" [(ngModel)]="searchTerm" (input)="search(searchTerm)" class="form-control"
+                id="referenceid" placeholder="search here">
             </div>
             <div class="col-sm-3">
               <select class="form-select">
@@ -35,9 +37,10 @@
 
   </div>
 </div>
-<div class="inner-page mt-3"> 
-  <nz-table #table nzBordered [nzData]="rowData" [nzScroll]="{ y: '400px' }" [nzNoResult]="'No Records'" nzShowSizeChanger
-    [nzFrontPagination]="false">
+<div class="inner-page mt-3">
+  <nz-table #table [nzFrontPagination]="false" nzShowPagination [nzTotal]="total"
+    (nzQueryParams)="onQueryParamsChange($event)" [nzPageIndex]="pageIndex" [nzLoading]="loading"
+    [nzPageSize]="pageSize" nzBordered [nzData]="rowData" [nzNoResult]="'No Records'" nzShowSizeChanger>
     <thead>
       <tr>
         <ng-container *ngFor="let config of adminTableConfig">

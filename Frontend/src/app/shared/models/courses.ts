@@ -33,6 +33,7 @@ export interface ICourseSearch {
   pageNumber?: number,
   pageSize?: number,
   id?:number|null,
+  sortDirection?:string
 }
 
 export const contactSearch = <ICourseSearch>{

@@ -12,7 +12,7 @@
             <div class="row">
                 <label for="date" class="col-sm-2 col-form-label">Date</label>
                 <div class="col-sm-8 mt-2">
-                    <span for="date" class="col-sm-4">{{batchData?.validityTill?batchData?.validityTill:'xxxx'}}</span>
+                    <span for="date" class="col-sm-4">{{batchData?.validityTill? (batchData?.validityTill | date:'dd/MM/yyyy') :'xxxx'}}</span>
                 </div>
             </div>
         </div>

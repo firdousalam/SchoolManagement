@@ -1,0 +1,11 @@
+
+<div *nzModalTitle class="d-flex justify-content-between">
+    <div>Choose Payment Methode</div>
+    <span role="button" (click)="closeModal()">Back</span> 
+  </div>
+  <div class="d-flex flex-row justify-content-center">
+    <button type="button" (click)="openManual()" class="btn kl-btn kl-btn-dark-6 btn-sm manual me-3"
+          >Manual Payment</button>
+          <button type="button" disabled class="btn kl-btn kl-btn-dark-6 btn-sm auto"
+          >Payment Gateway</button>
+    </div>

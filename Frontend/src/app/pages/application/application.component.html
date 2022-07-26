@@ -1,22 +1,36 @@
 <!-- <app-heading [heading]="'Dashboard'"></app-heading> -->
 <div class="d-flex heading">
     <div class="p-2 heading-text">{{ heading }}</div>
-    <div class="p-2 align-self-start"><button type="button" class="btn kl-btn-primary btn-sm pr-3" (click)="saveDraft()">Save As Draft</button></div>
-    <div class="p-2"><button type="button" class="btn kl-btn-primary btn-sm button-width" (click)="applicationSubmit(studentApplication)">Submit</button></div>
+    <ng-container *ngIf="pageTraverseStatus === 'APPLICATION_STARTED'">
+        <div class="p-2 align-self-start">
+            <button type="button" class="btn kl-btn-primary btn-sm pr-3"
+                (click)="applicationDraft(studentApplication)">Save As Draft</button>
+        </div>
+        <div class="p-2"><button type="button" class="btn kl-btn-primary btn-sm button-width"
+                (click)="applicationSubmit(studentApplication)">Submit</button></div>
+    </ng-container>
+    <ng-container *ngIf="pageTraverseStatus === 'DRAFT'">
+        <div class="p-2"><button type="button" class="btn kl-btn-primary btn-sm button-width"
+                (click)="applicationSubmittedPostDraft(editDraft)">Submit</button></div>
+    </ng-container>
 </div>
 <div class="d-flex flex-row bd-highlight mb-0">
-    <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;" (click)="applicationStatusChange('applicationForm')"> Application Form </div>
-    <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;" (click)="applicationView()"> View Application </div>
-    <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;"(click)="applicationStatusChange('saveAsDraft')"> Save as Draft </div>
+    <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;"
+        (click)="applicationStatusChange('applicationForm')"> Application Form </div>
+    <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;"
+        (click)="applicationView()"> View Application </div>
+    <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;"
+        (click)="applicationStatusChange('saveAsDraft')"> Save as Draft </div>
 </div>
 <div class="inner-page d-flex flex-row mt-0" *ngIf="applicationStatus=='1'">
     <div class="container-fluid">
         <form>
+            ADD
             <div class="row mb-4">
                 <div class="col">
                     Reference ID:
                 </div>
-                <div class="col">                    
+                <div class="col">
                 </div>
                 <div class="col">
                     Date:
@@ -27,13 +41,13 @@
             </div>
             <div class="row personal-details">
                 <div class="col">
-                Personal Details
-                </div>            
-            </div>  
+                    Personal Details
+                </div>
+            </div>
             <div class="row mt-3">
                 <div class="col">
-                    <div class="details-header d-flex column">Details</div>                
-                </div>     
+                    <div class="details-header d-flex column">Details</div>
+                </div>
             </div>
             <div class="row mt-0">
                 <div class="col">
@@ -43,11 +57,28 @@
                                 Application Name
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="" name="application_name" [(ngModel)]="studentApplication.personalDetails.applicantName">
+                                <input type="text" class="form-control" placeholder="" id="application_name"
+                                    name="application_name" required #application_name="ngModel"
+                                    [(ngModel)]="studentApplication.personalDetails.applicantName">
+
+                                <div *ngIf="application_name.invalid && (application_name.dirty || application_name.touched)"
+                                    class="alert">
+                                    <div *ngIf="application_name.errors?.['required']">
+                                        Application Name is Required
+                                    </div>
+                                </div>
                             </div>
                             <div class="col">Date of Birth</div>
                             <div class="col">
-                                <input type="date" class="form-control" placeholder="" name="date_of_birth" [(ngModel)]="studentApplication.personalDetails.dob">                            
+                                <input type="date" class="form-control" placeholder="dd/mm/yyyy" name="date_of_birth"
+                                    id="date_of_birth" required #date_of_birth="ngModel"
+                                    [(ngModel)]="studentApplication.personalDetails.dob" max="2020-12-31">
+                                <div *ngIf="date_of_birth.invalid && (date_of_birth.dirty || date_of_birth.touched)"
+                                    class="alert">
+                                    <div *ngIf="date_of_birth.errors?.['required']">
+                                        Date of Birth is Required
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row mt-3 ">
@@ -55,16 +86,30 @@
                                 Sex
                             </div>
                             <div class="col">
-                                <select class="form-select" name="sex" [(ngModel)]="studentApplication.personalDetails.gender">
+                                <select class="form-select" name="sex" id="sex" required #sex="ngModel"
+                                    [(ngModel)]="studentApplication.personalDetails.gender">
                                     <option>Male</option>
-                                    <option>Female</option>                                
+                                    <option>Female</option>
+                                    <option>Other</option>
                                 </select>
+                                <div *ngIf="sex.invalid && (sex.dirty || sex.touched)" class="alert">
+                                    <div *ngIf="sex.errors?.['required']">
+                                        Please Select Sex
+                                    </div>
+                                </div>
                             </div>
                             <div class="col">Nationality</div>
                             <div class="col">
-                                <select class="form-select" name="nationality" [(ngModel)]="studentApplication.personalDetails.nationality">
-                                    <option>Indian</option>                                                             
+                                <select class="form-select" name="nationality" id="nationality" required
+                                    #nationality="ngModel" [(ngModel)]="studentApplication.personalDetails.nationality">
+                                    <option>Indian</option>
                                 </select>
+                                <div *ngIf="nationality.invalid && (nationality.dirty || nationality.touched)"
+                                    class="alert">
+                                    <div *ngIf="nationality.errors?.['required']">
+                                        Please Select Nationality
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row mt-3">
@@ -73,17 +118,27 @@
                             </div>
                             <div class="col">
                                 <span>
-                                    <input type="radio" class="form-check-input" name="father_guardian" value="father" [(ngModel)]="studentApplication.personalDetails.fatherOrGuardian">
-                                    <label class="form-check-label radio-button" >Father</label>
+                                    <input type="radio" class="form-check-input" name="father_guardian" value="father"
+                                        [(ngModel)]="studentApplication.personalDetails.fatherOrGuardian">
+                                    <label class="form-check-label radio-button">Father</label>
                                 </span>
                                 <span class="p-3">
-                                    <input type="radio" class="form-check-input" name="father_guardian" value="guardian" checked [(ngModel)]="studentApplication.personalDetails.fatherOrGuardian">
+                                    <input type="radio" class="form-check-input" name="father_guardian" value="guardian"
+                                        checked [(ngModel)]="studentApplication.personalDetails.fatherOrGuardian">
                                     <label class="form-check-label radio-button">Guardian</label>
-                                </span>                           
+                                </span>
                             </div>
                             <div class="col">Name(Father/Guardian)</div>
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="" name="father_guardian_name" [(ngModel)]="studentApplication.personalDetails.nameOfFatherOrGuardian">
+                                <input type="text" class="form-control" placeholder="" name="father_guardian_name"
+                                    id="father_guardian_name" required #father_guardian_name="ngModel"
+                                    [(ngModel)]="studentApplication.personalDetails.nameOfFatherOrGuardian">
+                                <div *ngIf="father_guardian_name.invalid && (father_guardian_name.dirty || father_guardian_name.touched)"
+                                    class="alert">
+                                    <div *ngIf="father_guardian_name.errors?.['required']">
+                                        Please Enter Name(Father/Guardian)
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -92,51 +147,70 @@
                             </div>
                             <div class="col">
                                 <span>
-                                    <input type="radio" class="form-check-input" name="sc_st" value="sc" checked [(ngModel)]="studentApplication.personalDetails.scOrSt"> 
+                                    <input type="radio" class="form-check-input" name="sc_st" value="sc" checked
+                                        [(ngModel)]="studentApplication.personalDetails.scOrSt">
                                     <label class="form-check-label radio-button">SC</label>
                                 </span>
                                 <span class="p-3">
-                                    <input type="radio" class="form-check-input" name="sc_st" value="st" checked [(ngModel)]="studentApplication.personalDetails.scOrSt">
+                                    <input type="radio" class="form-check-input" name="sc_st" value="st" checked
+                                        [(ngModel)]="studentApplication.personalDetails.scOrSt">
                                     <label class="form-check-label radio-button">ST</label>
                                 </span>
                                 <span class="p-1">
-                                    <input type="radio" class="form-check-input" name="sc_st" value="general" checked [(ngModel)]="studentApplication.personalDetails.scOrSt">
+                                    <input type="radio" class="form-check-input" name="sc_st" value="general" checked
+                                        [(ngModel)]="studentApplication.personalDetails.scOrSt">
                                     <label class="form-check-label radio-button">General</label>
                                 </span>
                             </div>
                             <div class="col"></div>
                             <div class="col"></div>
                         </div>
-                    </div>                
-                </div>     
+                    </div>
+                </div>
             </div>
             <div class="row contact-details mt-3">
                 <div class="col">
-                Contact Details
-                </div>            
-            </div>  
+                    Contact Details
+                </div>
+            </div>
             <div class="row mt-3">
                 <div class="col">
-                    <div class="details-header d-flex column">Address</div>                
-                </div>     
+                    <div class="details-header d-flex column">Address</div>
+                </div>
             </div>
             <div class="row mt-0">
                 <div class="col">
-                    <div class="d-flex flex-column details-content p-3 pt-0" >
+                    <div class="d-flex flex-column details-content p-3 pt-0">
                         <div class="row mt-3">
                             <div class="col-3">
                                 Permanent Address
                             </div>
                             <div class="col-3">
-                                <textarea class="form-control" rows="5" name="cAddress" value= "studentApplication.stdContactDetail.caddress" [(ngModel)]="studentApplication.stdContactDetail.caddress"></textarea>
-                            </div>                        
+                                <textarea class="form-control" rows="5" name="cAddress" id="cAddress"
+                                    value="studentApplication.stdContactDetail.caddress" required #cAddress="ngModel"
+                                    [(ngModel)]="studentApplication.stdContactDetail.caddress"></textarea>
+                                <div *ngIf="cAddress.invalid && (cAddress.dirty || cAddress.touched)" class="alert">
+                                    <div *ngIf="cAddress.errors?.['required']">
+                                        Please Enter Permanent Address
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-6">
                                 <div class="row mt-0">
                                     <div class="col">
                                         District
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="" name="cdistrict" value= "studentApplication.stdContactDetail.cdistrict" [(ngModel)]="studentApplication.stdContactDetail.cdistrict">
+                                        <input type="text" class="form-control" placeholder="" name="cdistrict"
+                                            id="cdistrict" value="studentApplication.stdContactDetail.cdistrict"
+                                            required #cdistrict="ngModel"
+                                            [(ngModel)]="studentApplication.stdContactDetail.cdistrict">
+                                        <div *ngIf="cdistrict.invalid && (cdistrict.dirty || cdistrict.touched)"
+                                            class="alert">
+                                            <div *ngIf="cdistrict.errors?.['required']">
+                                                Please Enter District
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row mt-3">
@@ -144,7 +218,14 @@
                                         State
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="" name="cstate" value= "studentApplication.stdContactDetail.cstate" [(ngModel)]="studentApplication.stdContactDetail.cstate">
+                                        <input type="text" class="form-control" placeholder="" name="cstate" id="cstate"
+                                            value="studentApplication.stdContactDetail.cstate" required
+                                            #cstate="ngModel" [(ngModel)]="studentApplication.stdContactDetail.cstate">
+                                        <div *ngIf="cstate.invalid && (cstate.dirty || cstate.touched)" class="alert">
+                                            <div *ngIf="cstate.errors?.['required']">
+                                                Please Enter State
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -155,38 +236,68 @@
                                 Pin Code
                             </div>
                             <div class="col-3">
-                                <input type="text" class="form-control" placeholder="" name="cpincode" value="studentApplication.stdContactDetail.cpinCode" [(ngModel)]="studentApplication.stdContactDetail.cpinCode">
-                            </div>                                               
-                        </div> 
+                                <input type="number" class="form-control" placeholder="" name="cpincode" id="cpincode"
+                                    value="studentApplication.stdContactDetail.cpinCode" required minlength="6"
+                                    maxlength="6" #cpincode="ngModel"
+                                    [(ngModel)]="studentApplication.stdContactDetail.cpinCode">
+                                <div *ngIf="cpincode.invalid && (cpincode.dirty || cpincode.touched)" class="alert">
+                                    <div *ngIf="cpincode.errors?.['required']">
+                                        Please Enter Pincode
+                                    </div>
+                                    <div *ngIf="cpincode.errors?.['minlength']">
+                                        Enter 6 Digits Pin Code
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row mt-3">
                             <div class="col-3">
                                 Same as Permanent Address
                             </div>
                             <div class="col-3">
                                 <span>
-                                    <input type="radio" class="form-check-input" name="same_permanent_address" (click)= "sameCorrespondingAddress('YES')" value="Yes" [(ngModel)]="studentApplication.stdContactDetail.isPASameAsCA">
+                                    <input type="radio" class="form-check-input" name="same_permanent_address"
+                                        (click)="sameCorrespondingAddress('YES')" value="Yes"
+                                        [(ngModel)]="studentApplication.stdContactDetail.isPASameAsCA">
                                     <label class="form-check-label radio-button">Yes</label>
                                 </span>
                                 <span class="p-3">
-                                    <input type="radio" class="form-check-input" name="same_permanent_address" (click)= "sameCorrespondingAddress('NO')" value="No" [(ngModel)]="studentApplication.stdContactDetail.isPASameAsCA">
+                                    <input type="radio" class="form-check-input" name="same_permanent_address"
+                                        (click)="sameCorrespondingAddress('NO')" value="No"
+                                        [(ngModel)]="studentApplication.stdContactDetail.isPASameAsCA">
                                     <label class="form-check-label radio-button">No</label>
                                 </span>
-                            </div>                        
-                        </div>    
+                            </div>
+                        </div>
                         <div class="row mt-3">
                             <div class="col-3">
                                 Corresponding Address
                             </div>
                             <div class="col-3">
-                                <textarea class="form-control" name="pAddress" rows="5" [(ngModel)]="studentApplication.stdContactDetail.paddress"></textarea>
-                            </div>                        
+                                <textarea class="form-control" name="pAddress" rows="5" id="pAddress" required
+                                    #pAddress="ngModel"
+                                    [(ngModel)]="studentApplication.stdContactDetail.paddress"></textarea>
+                                <div *ngIf="pAddress.invalid && (pAddress.dirty || pAddress.touched)" class="alert">
+                                    <div *ngIf="pAddress.errors?.['required']">
+                                        Please Enter Corresponding Address
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-6">
                                 <div class="row mt-0">
                                     <div class="col">
                                         District
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="" name="pdistrict" [(ngModel)]="studentApplication.stdContactDetail.pdistrict">
+                                        <input type="text" class="form-control" placeholder="" name="pdistrict"
+                                            id="pdistrict" required #pdistrict="ngModel"
+                                            [(ngModel)]="studentApplication.stdContactDetail.pdistrict">
+                                        <div *ngIf="pdistrict.invalid && (pdistrict.dirty || pdistrict.touched)"
+                                            class="alert">
+                                            <div *ngIf="pdistrict.errors?.['required']">
+                                                Please Enter District
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row mt-3">
@@ -194,18 +305,35 @@
                                         State
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" placeholder="" name="pstate" [(ngModel)]="studentApplication.stdContactDetail.pstate">
+                                        <input type="text" class="form-control" placeholder="" name="pstate" id="pstate"
+                                            required #pstate="ngModel"
+                                            [(ngModel)]="studentApplication.stdContactDetail.pstate">
+                                        <div *ngIf="pstate.invalid && (pstate.dirty || pstate.touched)" class="alert">
+                                            <div *ngIf="pstate.errors?.['required']">
+                                                Please Enter State
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>                        
+                            </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-3">
                                 Pin Code
                             </div>
                             <div class="col-3">
-                                <input type="text" class="form-control" placeholder="" name="ppincode" [(ngModel)]="studentApplication.stdContactDetail.ppinCode">
-                            </div>                
+                                <input type="text" class="form-control" placeholder="" name="ppincode" id="ppincode"
+                                    required #ppincode="ngModel" minlength="6" maxlength="6"
+                                    [(ngModel)]="studentApplication.stdContactDetail.ppinCode">
+                                <div *ngIf="ppincode.invalid && (ppincode.dirty || ppincode.touched)" class="alert">
+                                    <div *ngIf="ppincode.errors?.['required']">
+                                        Please Enter Pincode
+                                    </div>
+                                    <div *ngIf="ppincode.errors?.['minlength']">
+                                        Enter 6 Digits Pin Code
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="row mt-3 line-break">
                             <div class="col-12"></div>
@@ -215,11 +343,35 @@
                                 Mobile Phone
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="" name="mobile_phone" [(ngModel)]="studentApplication.stdContactDetail.mobileNumber">
+                                <input type="number" id="mobile_phone" name="mobile_phone" class="form-control" required
+                                    minlength="10" placeholder="" #mobile_phone="ngModel"
+                                    [(ngModel)]="studentApplication.stdContactDetail.mobileNumber">
+                                <div *ngIf="mobile_phone.invalid && (mobile_phone.dirty || mobile_phone.touched)"
+                                    class="alert">
+                                    <div *ngIf="mobile_phone.errors?.['required']">
+                                        Mobile number is required.
+                                    </div>
+                                    <div *ngIf="mobile_phone.errors?.['minlength']">
+                                        Min. 10 Digits
+                                    </div>
+                                </div>
                             </div>
                             <div class="col">Alternate Mobile No</div>
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="" name="alternate_mobile_no" [(ngModel)]="studentApplication.stdContactDetail.alternateMobileNumber">
+                                <input type="number" id="alternate_mobile_no" name="alternate_mobile_no"
+                                    class="form-control" placeholder="" required minlength="10"
+                                    #alternate_mobile_no="ngModel"
+                                    [(ngModel)]="studentApplication.stdContactDetail.alternateMobileNumber">
+                                <div *ngIf="alternate_mobile_no.invalid && (alternate_mobile_no.dirty || alternate_mobile_no.touched)"
+                                    class="alert">
+                                    <div *ngIf="alternate_mobile_no.errors?.['required']">
+                                        Alternative Mobile number is required.
+                                    </div>
+                                    <div *ngIf="alternate_mobile_no.errors?.['minlength']">
+                                        Min. 10 Digits
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                         <div class="row mt-3">
@@ -227,29 +379,31 @@
                                 Landline
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="" name="landline" [(ngModel)]="studentApplication.stdContactDetail.landlineNumber">
+                                <input type="text" class="form-control" placeholder="" name="landline"
+                                    [(ngModel)]="studentApplication.stdContactDetail.landlineNumber">
                             </div>
                             <div class="col">Email</div>
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="" name="email" [(ngModel)]="studentApplication.stdContactDetail.emailId">
+                                <input type="text" class="form-control" placeholder="" name="email"
+                                    [(ngModel)]="studentApplication.stdContactDetail.emailId">
                             </div>
-                        </div>                                  
-                    </div>                
-                </div>     
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="row educational-details mt-3">
                 <div class="col">
-                Educational Details
-                </div>            
-            </div> 
+                    Educational Details
+                </div>
+            </div>
             <div class="row mt-3">
                 <div class="col">
-                    <div class="details-header d-flex column">Educational Details</div>                
-                </div>  
+                    <div class="details-header d-flex column">Educational Details</div>
+                </div>
             </div>
             <div class="row mt-0">
                 <div class="col">
-                    <div class="d-flex flex-column details-content p-3 pt-0" >
+                    <div class="d-flex flex-column details-content p-3 pt-0">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -265,20 +419,26 @@
                             <tbody>
                                 <tr *ngFor="let education of studentApplication.stdEducationList; let i = index;">
                                     <td>{{i+1}}.</td>
-                                    <td><input type="text" class="form-control" name="courseName[i]" [(ngModel)]="education.courseName" value="{{education.courseName"></td>
-                                    <td><input type="text" class="form-control" name="institution[i]" [(ngModel)]="education.institution" value="{{ education.institution }}"></td>
+                                    <td><input type="text" class="form-control" name="courseName[i]"
+                                            [(ngModel)]="education.courseName" value="{{education.courseName"></td>
+                                    <td><input type="text" class="form-control" name="institution[i]"
+                                            [(ngModel)]="education.institution" value="{{ education.institution }}">
+                                    </td>
                                     <td>
-                                        <select class="form-select" name="educationStatus[i]" [(ngModel)]="education.educationStatus">
+                                        <select class="form-select" name="educationStatus[i]"
+                                            [(ngModel)]="education.educationStatus">
                                             <option>Completed</option>
-                                            <option>Pending</option>                                
+                                            <option>Pending</option>
                                         </select>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" placeholder="" name="percentage[i]" [(ngModel)]="education.percentage">
+                                        <input type="text" class="form-control" placeholder="" name="percentage[i]"
+                                            [(ngModel)]="education.percentage">
                                     </td>
-                                    <td><input type="text" class="form-control" placeholder="" name="year[i]" [(ngModel)]="education.yearofCompletion"></td>
+                                    <td><input type="text" class="form-control" placeholder="" name="year[i]"
+                                            [(ngModel)]="education.yearofCompletion"></td>
                                     <td><i class="bi bi-trash3"></i></td>
-                                </tr>                                
+                                </tr>
                                 <!-- <tr>
                                     <td>01.</td>
                                     <td><input type="text" class="form-control" placeholder="" name="course_name" [(ngModel)]="educationRecord.courseName"></td>
@@ -314,38 +474,42 @@
                                     <td><i class="bi bi-trash3"></i></td>
                                 </tr>
                             </tbody> -->
-                        </table> 
+                        </table>
                         <div class="row mt-0">
                             <div class="col-2">
-                                <button type="button" class="btn btn-secondary btn-sm" (click)="addRow()">Add New Row</button>
+                                <button type="button" class="btn btn-secondary btn-sm" (click)="addRow()">Add New
+                                    Row</button>
                             </div>
                         </div>
-                    </div>                
-                </div>     
+                    </div>
+                </div>
             </div>
             <div class="row mt-3">
                 <div class="col">
-                    <div class="details-header d-flex column">Professional Details</div>                
-                </div>     
+                    <div class="details-header d-flex column">Professional Details</div>
+                </div>
             </div>
             <div class="row mt-0">
                 <div class="col">
-                    <div class="d-flex flex-column details-content p-3 pt-0" >
+                    <div class="d-flex flex-column details-content p-3 pt-0">
                         <div class="row mt-3">
                             <div class="col-3">
                                 Status
                             </div>
                             <div class="col-5">
                                 <span>
-                                    <input type="radio" class="form-check-input" name="professional_status" value="EMPLOYEE" (click)="professionalDetailsShow=false">
+                                    <input type="radio" class="form-check-input" name="professional_status"
+                                        value="EMPLOYEE" (click)="professionalDetailsShow=false">
                                     <label class="form-check-label radio-button">Employment</label>
                                 </span>
                                 <span class="p-3">
-                                    <input type="radio" class="form-check-input" name="professional_status" value="STUDENT" (click)="professionalDetailsShow=true">
+                                    <input type="radio" class="form-check-input" name="professional_status"
+                                        value="STUDENT" (click)="professionalDetailsShow=true">
                                     <label class="form-check-label radio-button">Student</label>
-                                </span>  
+                                </span>
                                 <span class="p-3">
-                                    <input type="radio" class="form-check-input" name="professional_status" value="OTHERS" (click)="professionalDetailsShow=true">
+                                    <input type="radio" class="form-check-input" name="professional_status"
+                                        value="OTHERS" (click)="professionalDetailsShow=true">
                                     <label class="form-check-label radio-button">Other</label>
                                 </span>
                             </div>
@@ -355,31 +519,37 @@
                                 Organization
                             </div>
                             <div class="col-5">
-                                <input type="text" class="form-control" placeholder="" name="organization" [disabled]="professionalDetailsShow" [(ngModel)]="studentApplication.stdProfessionList.organization">
+                                <input type="text" class="form-control" placeholder="" name="organization"
+                                    [disabled]="professionalDetailsShow"
+                                    [(ngModel)]="studentApplication.stdProfessionList.organization">
                             </div>
                             <div class="col-2">
                                 Designation
                             </div>
                             <div class="col-2">
-                                <input type="text" class="form-control" placeholder="" name="desigation" [disabled]="professionalDetailsShow" [(ngModel)]="studentApplication.stdProfessionList.designation">
-                            </div>                                               
+                                <input type="text" class="form-control" placeholder="" name="desigation"
+                                    [disabled]="professionalDetailsShow"
+                                    [(ngModel)]="studentApplication.stdProfessionList.designation">
+                            </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-3">
                                 Place of Duty
                             </div>
                             <div class="col-5">
-                                <input type="text" class="form-control" placeholder="" name="placeOfDuty" [disabled]="professionalDetailsShow" [(ngModel)]="studentApplication.stdProfessionList.placeOfDuty">
-                            </div>                                                                       
-                        </div>                                                       
-                    </div>                
-                </div>     
-            </div>   
+                                <input type="text" class="form-control" placeholder="" name="placeOfDuty"
+                                    [disabled]="professionalDetailsShow"
+                                    [(ngModel)]="studentApplication.stdProfessionList.placeOfDuty">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row mt-3">
                 <div class="col-2">
-                    <span>Upload Documents</span>             
-                </div>  
-                <div class="col-10">                
+                    <span>Upload Documents</span>
+                </div>
+                <div class="col-10">
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -393,25 +563,32 @@
                             <tr>
                                 <td>01.</td>
                                 <td>
-                                    <select class="form-select" name="document_type">
-                                        <option>Completed</option>
-                                        <option>Pending</option>  
+                                    <select class="form-select" name="document_type"
+                                        [(ngModel)]="studentApplication.docList.id">
+                                        <option *ngFor="let document of documentTypeList" value={{document.id}}>
+                                            {{document.name}}
+                                        </option>
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" placeholder="" name="descritpion">
+                                    <input type="text" class="form-control" placeholder="" name="descritpion"
+                                        [(ngModel)]="studentApplication.docList.description">
                                 </td>
-                                <td><button type="button" class="btn btn-secondary btn-sm button-width" >Upload</button></td>
-                            </tr>                 
-                        </tbody>                        
-                    </table> 
-                    <div class="row mt-0">
+                                <td>
+                                    <!-- <button type="button" class="btn btn-secondary btn-sm button-width" >Upload</button> -->
+                                    <input type="file" class="file-input" [(ngModel)]="studentApplication.docList.file"
+                                        (change)="documntUpload($event)" #fileUpload>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- <div class="row mt-0">
                         <div class="col-2">
                             <button type="button" class="btn btn-secondary btn-sm">Add New Row</button>
                         </div>
-                    </div>                     
+                    </div>                      -->
                 </div>
-            </div>     
+            </div>
         </form>
     </div>
 </div>
@@ -433,13 +610,13 @@
         </div>
         <div class="row personal-details">
             <div class="col">
-               Personal Details
-            </div>            
-        </div>  
+                Personal Details
+            </div>
+        </div>
         <div class="row mt-3">
             <div class="col">
-                <div class="details-header d-flex column">Details</div>                
-            </div>     
+                <div class="details-header d-flex column">Details</div>
+            </div>
         </div>
         <div class="row mt-0">
             <div class="col">
@@ -449,11 +626,11 @@
                             Application Name
                         </div>
                         <div class="col">
-                            <span>{{personal?.applicantName}}</span>                            
+                            <span>{{personal?.applicantName}}</span>
                         </div>
                         <div class="col">Date of Birth</div>
                         <div class="col">
-                            <span>{{personal?.dob}}</span>                            
+                            <span>{{personal?.dob}}</span>
                         </div>
                     </div>
                     <div class="row mt-3 ">
@@ -461,18 +638,18 @@
                             Sex
                         </div>
                         <div class="col">
-                            <span>{{personal?.gender}}</span>                            
+                            <span>{{personal?.gender}}</span>
                         </div>
                         <div class="col">Nationality</div>
                         <div class="col">
-                            <span>{{personal?.nationality}}</span>                            
+                            <span>{{personal?.nationality}}</span>
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col">
                             Father/Guardian
                         </div>
-                        <div class="col">                           
+                        <div class="col">
                             <span>{{personal?.fatherOrGuardian}}</span>
                         </div>
                         <div class="col">Name(Father/Guardian)</div>
@@ -490,36 +667,36 @@
                         <div class="col"></div>
                         <div class="col"></div>
                     </div>
-                </div>               
-            </div>     
+                </div>
+            </div>
         </div>
         <div class="row contact-details mt-3">
             <div class="col">
-               Contact Details
-            </div>            
-        </div>  
+                Contact Details
+            </div>
+        </div>
         <div class="row mt-3">
             <div class="col">
-                <div class="details-header d-flex column">Address</div>                
-            </div>     
+                <div class="details-header d-flex column">Address</div>
+            </div>
         </div>
         <div class="row mt-0">
             <div class="col">
-                <div class="d-flex flex-column details-content p-3 pt-0" >
+                <div class="d-flex flex-column details-content p-3 pt-0">
                     <div class="row mt-3">
                         <div class="col-3">
                             Permanent Address
                         </div>
                         <div class="col-3">
-                            <span>{{contact?.caddress}}</span>                        
-                        </div>                        
+                            <span>{{contact?.caddress}}</span>
+                        </div>
                         <div class="col-6">
                             <div class="row mt-0">
                                 <div class="col">
                                     District
                                 </div>
                                 <div class="col">
-                                    <span>{{contact?.cdistrict}}</span>                        
+                                    <span>{{contact?.cdistrict}}</span>
                                 </div>
                             </div>
                             <div class="row mt-3">
@@ -527,7 +704,7 @@
                                     State
                                 </div>
                                 <div class="col">
-                                    <span>{{contact?.cstate}}</span>     
+                                    <span>{{contact?.cstate}}</span>
                                 </div>
                             </div>
                         </div>
@@ -538,24 +715,24 @@
                             Pin Code
                         </div>
                         <div class="col-3">
-                            <span>{{contact?.cpinCode}}</span> 
-                        </div>                                               
-                    </div> 
+                            <span>{{contact?.cpinCode}}</span>
+                        </div>
+                    </div>
                     <div class="row mt-3">
                         <div class="col-3">
                             Same as Permanent Address
                         </div>
                         <div class="col-3">
-                            <span>{{contact?.isPASameAsCA}}</span> 
-                        </div>                        
-                    </div>    
+                            <span>{{contact?.isPASameAsCA}}</span>
+                        </div>
+                    </div>
                     <div class="row mt-3">
                         <div class="col-3">
                             Corresponding Address
                         </div>
                         <div class="col-3">
                             <span>{{contact?.paddress}}</span>
-                        </div>                        
+                        </div>
                         <div class="col-6">
                             <div class="row mt-0">
                                 <div class="col">
@@ -573,7 +750,7 @@
                                     <span>{{contact?.pstate}}</span>
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-3">
@@ -581,7 +758,7 @@
                         </div>
                         <div class="col-3">
                             <span>{{contact?.pinCode}}</span>
-                        </div>                
+                        </div>
                     </div>
                     <div class="row mt-3 line-break">
                         <div class="col-12"></div>
@@ -609,23 +786,23 @@
                         <div class="col">
                             <span>{{contact?.emailId}}</span>
                         </div>
-                    </div>                                  
-                </div>                
-            </div>     
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row educational-details mt-3">
             <div class="col">
-               Educational Details
-            </div>            
-        </div> 
+                Educational Details
+            </div>
+        </div>
         <div class="row mt-3">
             <div class="col">
-                <div class="details-header d-flex column">Educational Details</div>                
-            </div>  
+                <div class="details-header d-flex column">Educational Details</div>
+            </div>
         </div>
         <div class="row mt-0">
             <div class="col">
-                <div class="d-flex flex-column details-content p-3 pt-0" >
+                <div class="d-flex flex-column details-content p-3 pt-0">
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -634,7 +811,7 @@
                                 <th>Institution</th>
                                 <th>Status</th>
                                 <th>Percentage %</th>
-                                <th>Year of Passing</th>                                
+                                <th>Year of Passing</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -644,21 +821,21 @@
                                 <td>{{education?.institution}}</td>
                                 <td>{{education?.educationStatus}}</td>
                                 <td>{{education?.percentage}}</td>
-                                <td>{{education?.yearofCompletion}}</td>                               
-                            </tr>                                                                              
+                                <td>{{education?.yearofCompletion}}</td>
+                            </tr>
                         </tbody>
-                    </table>                    
-                </div>                
-            </div>     
+                    </table>
+                </div>
+            </div>
         </div>
         <div class="row mt-3">
             <div class="col">
-                <div class="details-header d-flex column">Professional Details</div>                
-            </div>     
+                <div class="details-header d-flex column">Professional Details</div>
+            </div>
         </div>
         <div class="row mt-0">
             <div class="col">
-                <div class="d-flex flex-column details-content p-3 pt-0" >
+                <div class="d-flex flex-column details-content p-3 pt-0">
                     <div class="row mt-3">
                         <div class="col-3">
                             Status
@@ -679,7 +856,7 @@
                         </div>
                         <div class="col-2">
                             <span>{{profession?.designation}}</span>
-                        </div>                                               
+                        </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-3">
@@ -687,16 +864,16 @@
                         </div>
                         <div class="col-5">
                             <span>{{profession?.placeOfDuty}}</span>
-                        </div>                                                                       
-                    </div>                                                       
-                </div>                
-            </div>     
-        </div>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row mt-3">
             <div class="col-2">
-                <span>Upload Documents</span>             
-            </div>  
-            <div class="col-10">                
+                <span>Upload Documents</span>
+            </div>
+            <div class="col-10">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -712,7 +889,7 @@
                             <td>
                                 <select class="form-select" name="document_type" disabled>
                                     <option>Completed</option>
-                                    <option>Pending</option>  
+                                    <option>Pending</option>
                                 </select>
                             </td>
                             <td>
@@ -720,13 +897,13 @@
                             </td>
                             <td>Attachment Id: text.jpg</td>
                         </tr>
-                        <tr *ngIf="!application?.docList.length">                            
-                           <td colspan="4" class="text-center">No document found</td> 
-                        </tr>                 
-                    </tbody>                    
-                </table>                                     
+                        <tr *ngIf="!application?.docList.length">
+                            <td colspan="4" class="text-center">No document found</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        </div>  
+        </div>
 
 
 
@@ -755,27 +932,27 @@
     <div class="container-fluid">
         <div class="row mb-4">
             <div class="col">
-                Reference IDss:
+                Reference ID:
             </div>
             <div class="col">
-                12345
+                {{editDraft?.userId}}
             </div>
             <div class="col">
                 Date:
             </div>
             <div class="col">
-                12th, July,2022
+                {{editDraft?.createdAt}}
             </div>
         </div>
         <div class="row personal-details">
             <div class="col">
-               Personal Details
-            </div>            
-        </div>  
+                Personal Details
+            </div>
+        </div>
         <div class="row mt-3">
             <div class="col">
-                <div class="details-header d-flex column">Details</div>                
-            </div>     
+                <div class="details-header d-flex column">Details</div>
+            </div>
         </div>
         <div class="row mt-0">
             <div class="col">
@@ -785,11 +962,29 @@
                             Application Name
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="" name="application_name">
+
+                            <input type="text" class="form-control" placeholder="" id="application_name_edit"
+                                name="application_name_edit" required #application_name_edit="ngModel"
+                                [(ngModel)]="editDraft.stdPersonalDetail.applicantName">
+
+                            <div *ngIf="application_name_edit.invalid && (application_name_edit.dirty || application_name_edit.touched)"
+                                class="alert">
+                                <div *ngIf="application_name_edit.errors?.['required']">
+                                    Application Name is Required
+                                </div>
+                            </div>
                         </div>
                         <div class="col">Date of Birth</div>
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="" name="date_of_birth">
+                            <input type="date" class="form-control" placeholder="" name="date_of_birth_edit"
+                                id="date_of_birth_edit" required #date_of_birth_edit="ngModel"
+                                [(ngModel)]="editDraft.stdPersonalDetail.dob">
+                            <div *ngIf="date_of_birth_edit.invalid && (date_of_birth_edit.dirty || date_of_birth_edit.touched)"
+                                class="alert">
+                                <div *ngIf="date_of_birth_edit.errors?.['required']">
+                                    Date of Birth is Required
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row mt-3 ">
@@ -797,15 +992,18 @@
                             Sex
                         </div>
                         <div class="col">
-                            <select class="form-select" name="sex">
+                            <select class="form-select" name="sex_edit"
+                                [(ngModel)]="editDraft.stdPersonalDetail.gender">
                                 <option>Male</option>
-                                <option>Female</option>                                
+                                <option>Female</option>
+                                <option>Other</option>
                             </select>
                         </div>
                         <div class="col">Nationality</div>
                         <div class="col">
-                            <select class="form-select" name="sex">
-                                <option>Indian</option>                                                             
+                            <select class="form-select" name="nationality_edit"
+                                [(ngModel)]="editDraft.stdPersonalDetail.nationality">
+                                <option>Indian</option>
                             </select>
                         </div>
                     </div>
@@ -815,17 +1013,29 @@
                         </div>
                         <div class="col">
                             <span>
-                                <input type="radio" class="form-check-input" name="father_guardian" value="option1" checked>
-                                <label class="form-check-label radio-button" >Father</label>
+                                <input type="radio" class="form-check-input" name="father_guardian_edit" value="Father"
+                                    [(ngModel)]="editDraft.stdPersonalDetail.fatherOrGuardian" checked>
+                                <label class="form-check-label radio-button">Father</label>
                             </span>
                             <span class="p-3">
-                                <input type="radio" class="form-check-input" name="father_guardian" value="option1" checked>
+                                <input type="radio" class="form-check-input" name="father_guardian_edit"
+                                    value="Guardian" [(ngModel)]="editDraft.stdPersonalDetail.fatherOrGuardian" checked>
                                 <label class="form-check-label radio-button">Guardian</label>
-                            </span>                           
+                            </span>
                         </div>
                         <div class="col">Name(Father/Guardian)</div>
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="" name="father_guardian_name">
+
+                            <input type="text" class="form-control" placeholder="" name="father_guardian_name_edit"
+                                id="father_guardian_name_edit" required #father_guardian_name_edit="ngModel"
+                                [(ngModel)]="editDraft.stdPersonalDetail.nameOfFatherOrGuardian">
+                            <div *ngIf="father_guardian_name_edit.invalid && (father_guardian_name_edit.dirty || father_guardian_name_edit.touched)"
+                                class="alert">
+                                <div *ngIf="father_guardian_name_edit.errors?.['required']">
+                                    Please Enter Name(Father/Guardian)
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -834,47 +1044,75 @@
                         </div>
                         <div class="col">
                             <span>
-                                <input type="radio" class="form-check-input" name="sc_st" value="option1" checked>
+                                <input type="radio" class="form-check-input" name="edit_sc_st" value="Sc"
+                                    [(ngModel)]="editDraft.stdPersonalDetail.scOrSt" checked>
                                 <label class="form-check-label radio-button">SC</label>
                             </span>
                             <span class="p-3">
-                                <input type="radio" class="form-check-input" name="sc_st" value="option1" checked>
+                                <input type="radio" class="form-check-input" name="edit_sc_st" value="St"
+                                    [(ngModel)]="editDraft.stdPersonalDetail.scOrSt" checked>
                                 <label class="form-check-label radio-button">ST</label>
+                            </span>
+                            <span class="p-3">
+                                <input type="radio" class="form-check-input" name="edit_sc_st" value="General"
+                                    [(ngModel)]="editDraft.stdPersonalDetail.scOrSt" checked>
+                                <label class="form-check-label radio-button">General</label>
                             </span>
                         </div>
                         <div class="col"></div>
                         <div class="col"></div>
                     </div>
-                </div>                
-            </div>     
+                </div>
+            </div>
         </div>
         <div class="row contact-details mt-3">
             <div class="col">
-               Contact Details
-            </div>            
-        </div>  
+                Contact Details
+            </div>
+        </div>
         <div class="row mt-3">
             <div class="col">
-                <div class="details-header d-flex column">Address</div>                
-            </div>     
+                <div class="details-header d-flex column">Address</div>
+            </div>
         </div>
         <div class="row mt-0">
             <div class="col">
-                <div class="d-flex flex-column details-content p-3 pt-0" >
+                <div class="d-flex flex-column details-content p-3 pt-0">
                     <div class="row mt-3">
                         <div class="col-3">
                             Permanent Address
                         </div>
                         <div class="col-3">
-                            <textarea class="form-control" rows="5"></textarea>
-                        </div>                        
+                            <textarea class="form-control" rows="5" name="edit_paddress"
+                                [(ngModel)]="editDraft.stdContactDetail.caddress"></textarea>
+
+                            <textarea class="form-control" rows="5" name="edit_paddress" id="edit_paddress" required
+                                #edit_paddress="ngModel" [(ngModel)]="editDraft.stdContactDetail.caddress"></textarea>
+                            <div *ngIf="edit_paddress.invalid && (edit_paddress.dirty || edit_paddress.touched)"
+                                class="alert">
+                                <div *ngIf="edit_paddress.errors?.['required']">
+                                    Please Enter Permanent Address
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-6">
                             <div class="row mt-0">
                                 <div class="col">
                                     District
                                 </div>
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="" name="district">
+                                    <input type="text" class="form-control" placeholder="" name="edit_pdistrict"
+                                        [(ngModel)]="editDraft.stdContactDetail.cdistrict">
+
+                                    <input type="text" class="form-control" placeholder="" name="edit_pdistrict"
+                                        id="edit_pdistrict" value="editDraft.stdContactDetail.cdistrict" required
+                                        #edit_pdistrict="ngModel" [(ngModel)]="editDraft.stdContactDetail.cdistrict">
+                                    <div *ngIf="edit_pdistrict.invalid && (edit_pdistrict.dirty || edit_pdistrict.touched)"
+                                        class="alert">
+                                        <div *ngIf="edit_pdistrict.errors?.['required']">
+                                            Please Enter District
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row mt-3">
@@ -882,7 +1120,17 @@
                                     State
                                 </div>
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="" name="state">
+
+
+                                    <input type="text" class="form-control" placeholder="" name="edit_pstate"
+                                        id="edit_pstate" value="editDraft.stdContactDetail.cstate" required
+                                        #edit_pstate="ngModel" [(ngModel)]="editDraft.stdContactDetail.cstate">
+                                    <div *ngIf="edit_pstate.invalid && (edit_pstate.dirty || edit_pstate.touched)"
+                                        class="alert">
+                                        <div *ngIf="edit_pstate.errors?.['required']">
+                                            Please Enter State
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -893,38 +1141,71 @@
                             Pin Code
                         </div>
                         <div class="col-3">
-                            <input type="text" class="form-control" placeholder="" name="pincode">
-                        </div>                                               
-                    </div> 
+
+                            <input type="number" class="form-control" placeholder="" name="edit_ppincode"
+                                id="edit_ppincode" value="editDraft.stdContactDetail.cpinCode" required minlength="6"
+                                maxlength="6" #edit_ppincode="ngModel"
+                                [(ngModel)]="editDraft.stdContactDetail.cpinCode">
+                            <div *ngIf="edit_ppincode.invalid && (edit_ppincode.dirty || edit_ppincode.touched)"
+                                class="alert">
+                                <div *ngIf="edit_ppincode.errors?.['required']">
+                                    Please Enter Pincode
+                                </div>
+                                <div *ngIf="edit_ppincode.errors?.['minlength']">
+                                    Enter 6 Digits Pin Code
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row mt-3">
                         <div class="col-3">
                             Same as Permanent Address
                         </div>
                         <div class="col-3">
                             <span>
-                                <input type="radio" class="form-check-input" name="same_permanent_address" value="Yes" checked>
+                                <input type="radio" class="form-check-input" name="same_permanent_address" value="Yes"
+                                    checked>
                                 <label class="form-check-label radio-button">Yes</label>
                             </span>
                             <span class="p-3">
-                                <input type="radio" class="form-check-input" name="same_permanent_address" value="No" checked>
+                                <input type="radio" class="form-check-input" name="same_permanent_address" value="No"
+                                    checked>
                                 <label class="form-check-label radio-button">No</label>
                             </span>
-                        </div>                        
-                    </div>    
+                        </div>
+                    </div>
                     <div class="row mt-3">
                         <div class="col-3">
                             Corresponding Address
                         </div>
                         <div class="col-3">
-                            <textarea class="form-control" rows="5"></textarea>
-                        </div>                        
+
+                            <textarea class="form-control" rows="5" name="edit_caddress" id="edit_caddress" required
+                                #edit_caddress="ngModel" [(ngModel)]="editDraft.stdContactDetail.paddress"></textarea>
+                            <div *ngIf="edit_caddress.invalid && (edit_caddress.dirty || edit_caddress.touched)"
+                                class="alert">
+                                <div *ngIf="edit_caddress.errors?.['required']">
+                                    Please Enter Corresponding Address
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-6">
                             <div class="row mt-0">
                                 <div class="col">
                                     District
                                 </div>
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="" name="district">
+
+
+                                    <input type="text" class="form-control" placeholder="" name="edit_cdistrict"
+                                        id="edit_cdistrict" required #edit_cdistrict="ngModel"
+                                        [(ngModel)]="editDraft.stdContactDetail.pdistrict">
+                                    <div *ngIf="edit_cdistrict.invalid && (edit_cdistrict.dirty || edit_cdistrict.touched)"
+                                        class="alert">
+                                        <div *ngIf="edit_cdistrict.errors?.['required']">
+                                            Please Enter District
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row mt-3">
@@ -932,18 +1213,38 @@
                                     State
                                 </div>
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="" name="state">
+
+                                    <input type="text" class="form-control" placeholder="" name="edit_cstate"
+                                        id="edit_cstate" required #edit_cstate="ngModel"
+                                        [(ngModel)]="editDraft.stdContactDetail.pstate">
+                                    <div *ngIf="edit_cstate.invalid && (edit_cstate.dirty || edit_cstate.touched)"
+                                        class="alert">
+                                        <div *ngIf="edit_cstate.errors?.['required']">
+                                            Please Enter State
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-3">
                             Pin Code
                         </div>
                         <div class="col-3">
-                            <input type="text" class="form-control" placeholder="" name="pincode">
-                        </div>                
+
+                                <input type="number" class="form-control" placeholder="" name="edit_cpincode" id="edit_cpincode"
+                                required minlength="6" maxlength="6" #edit_cpincode="ngModel"[(ngModel)]="editDraft.stdContactDetail.ppinCode">
+                                <div *ngIf="edit_cpincode.invalid && (edit_cpincode.dirty || edit_cpincode.touched)"
+                                class="alert">
+                                    <div *ngIf="edit_cpincode.errors?.['required']">
+                                        Please Enter Pincode
+                                    </div>
+                                    <div *ngIf="edit_cpincode.errors?.['minlength']">
+                                        Enter 6 Digits Pin Code
+                                    </div>
+                                </div>
+                        </div>
                     </div>
                     <div class="row mt-3 line-break">
                         <div class="col-12"></div>
@@ -953,11 +1254,37 @@
                             Mobile Phone
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="" name="mobile_phone">
+                            
+                                <input type="number" id="edit_mobile_phone" name="edit_mobile_phone" class="form-control" required
+                                    minlength="10" placeholder="" #edit_mobile_phone="ngModel"
+                                    [(ngModel)]="editDraft.stdContactDetail.mobileNumber">
+                                <div *ngIf="edit_mobile_phone.invalid && (edit_mobile_phone.dirty || edit_mobile_phone.touched)"
+                                    class="alert">
+                                    <div *ngIf="edit_mobile_phone.errors?.['required']">
+                                        Mobile number is required.
+                                    </div>
+                                    <div *ngIf="edit_mobile_phone.errors?.['minlength']">
+                                        Min. 10 Digits
+                                    </div>
+                                </div>
                         </div>
                         <div class="col">Alternate Mobile No</div>
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="" name="alternate_mobile_no">
+                            
+                                <input type="number" id="edit_alternate_mobile_no" name="edit_alternate_mobile_no"
+                                class="form-control" placeholder="" required minlength="10"
+                                #edit_alternate_mobile_no="ngModel"
+                                [(ngModel)]="editDraft.stdContactDetail.alternateMobileNumber">
+                            <div *ngIf="edit_alternate_mobile_no.invalid && (edit_alternate_mobile_no.dirty || edit_alternate_mobile_no.touched)"
+                                class="alert">
+                                <div *ngIf="edit_alternate_mobile_no.errors?.['required']">
+                                    Alternative Mobile number is required.
+                                </div>
+                                <div *ngIf="edit_alternate_mobile_no.errors?.['minlength']">
+                                    Min. 10 Digits
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -965,29 +1292,31 @@
                             Landline
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="" name="landline">
+                            <input type="text" class="form-control" placeholder="" name="edit_landline"
+                                [(ngModel)]="editDraft.stdContactDetail.landlineNumber">
                         </div>
                         <div class="col">Email</div>
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="" name="email">
+                            <input type="text" class="form-control" placeholder="" name="edit_email"
+                                [(ngModel)]="editDraft.stdContactDetail.emailId">
                         </div>
-                    </div>                                  
-                </div>                
-            </div>     
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row educational-details mt-3">
             <div class="col">
-               Educational Details
-            </div>            
-        </div> 
+                Educational Details
+            </div>
+        </div>
         <div class="row mt-3">
             <div class="col">
-                <div class="details-header d-flex column">Educational Details</div>                
-            </div>  
+                <div class="details-header d-flex column">Educational Details</div>
+            </div>
         </div>
         <div class="row mt-0">
             <div class="col">
-                <div class="d-flex flex-column details-content p-3 pt-0" >
+                <div class="d-flex flex-column details-content p-3 pt-0">
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -1001,93 +1330,63 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>01.</td>
-                                <td>xxxxxxxxxx</td>
-                                <td>xxxxxxxxxx</td>
-                                <td>Completed</td>
-                                <td>87</td>
-                                <td>2018</td>
-                                <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
-                            </tr>
-                            <tr>
-                                <td>02.</td>
-                                <td>xxxxxxxxxx</td>
-                                <td>xxxxxxxxxx</td>
-                                <td>Completed</td>
-                                <td>87</td>
-                                <td>2018</td>
-                                <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
-                            </tr>
-                            <tr>
-                                <td>03.</td>
-                                <td>xxxxxxxxxx</td>
-                                <td>xxxxxxxxxx</td>
-                                <td>Completed</td>
-                                <td>87</td>
-                                <td>2018</td>
-                                <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
-                            </tr>  
-                            <tr>
-                                <td>03.</td>
-                                <td>xxxxxxxxxx</td>
-                                <td>xxxxxxxxxx</td>
-                                <td>Completed</td>
-                                <td>87</td>
-                                <td>2018</td>
-                                <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
-                            </tr>                        
-                        </tbody>
-                        <tbody>
-                            <tr>
-                                <td>04.</td>
-                                <td><input type="text" class="form-control" placeholder="" name="course_name"></td>
-                                <td><input type="text" class="form-control" placeholder="" name="institution"></td>
+                            <tr *ngFor="let education of editDraft.stdEducationList; let i = index;">
+                                <td>{{i+1}}.</td>
+                                <td><input type="text" class="form-control" name="courseName[i]"
+                                        [(ngModel)]="education.courseName" value="{{education.courseName"></td>
+                                <td><input type="text" class="form-control" name="institution[i]"
+                                        [(ngModel)]="education.institution" value="{{ education.institution }}"></td>
                                 <td>
-                                    <select class="form-select" name="course_status">
+                                    <select class="form-select" name="educationStatus[i]"
+                                        [(ngModel)]="education.educationStatus">
                                         <option>Completed</option>
-                                        <option>Pending</option>                                
+                                        <option>Pending</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" placeholder="" name="percentage">
+                                    <input type="text" class="form-control" placeholder="" name="percentage[i]"
+                                        [(ngModel)]="education.percentage">
                                 </td>
-                                <td><input type="text" class="form-control" placeholder="" name="year"></td>
+                                <td><input type="text" class="form-control" placeholder="" name="year[i]"
+                                        [(ngModel)]="education.yearofCompletion"></td>
                                 <td><i class="bi bi-trash3"></i></td>
                             </tr>
                         </tbody>
-                    </table> 
+                    </table>
                     <div class="row mt-0">
                         <div class="col-2">
                             <button type="button" class="btn btn-secondary btn-sm">Add New Row</button>
                         </div>
                     </div>
-                </div>                
-            </div>     
+                </div>
+            </div>
         </div>
         <div class="row mt-3">
             <div class="col">
-                <div class="details-header d-flex column">Professional Details</div>                
-            </div>     
+                <div class="details-header d-flex column">Professional Details</div>
+            </div>
         </div>
         <div class="row mt-0">
             <div class="col">
-                <div class="d-flex flex-column details-content p-3 pt-0" >
+                <div class="d-flex flex-column details-content p-3 pt-0">
                     <div class="row mt-3">
                         <div class="col-3">
                             Status
                         </div>
                         <div class="col-5">
                             <span>
-                                <input type="radio" class="form-check-input" name="professional_status" value="option1" checked>
+                                <input type="radio" class="form-check-input" name="edit_professional_status"
+                                    value="EMPLOYEE" (click)="professionalDetailsShow=false">
                                 <label class="form-check-label radio-button">Employment</label>
                             </span>
                             <span class="p-3">
-                                <input type="radio" class="form-check-input" name="professional_status" value="option1" checked>
+                                <input type="radio" class="form-check-input" name="edit_professional_status"
+                                    value="STUDENT" (click)="professionalDetailsShow=true">
                                 <label class="form-check-label radio-button">Student</label>
-                            </span>  
+                            </span>
                             <span class="p-3">
-                                <input type="radio" class="form-check-input" name="professional_status" value="option1" checked>
+                                <input type="radio" class="form-check-input" name="edit_professional_status"
+                                    value="OTHERS" (click)="professionalDetailsShow=true">
                                 <label class="form-check-label radio-button">Other</label>
                             </span>
                         </div>
@@ -1097,31 +1396,34 @@
                             Organization
                         </div>
                         <div class="col-5">
-                            <span>Created by User</span>
+                            <input type="text" class="form-control" placeholder="" name="edit_organization"
+                                [disabled]="professionalDetailsShow" [(ngModel)]="editDraft.stdProfession.organization">
                         </div>
                         <div class="col-2">
                             Designation
                         </div>
                         <div class="col-2">
-                            <span>Created by User</span>
-                        </div>                                               
+                            <input type="text" class="form-control" placeholder="" name="edit_desigation"
+                                [disabled]="professionalDetailsShow" [(ngModel)]="editDraft.stdProfession.designation">
+                        </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-3">
                             Place of Duty
                         </div>
                         <div class="col-5">
-                            <span>Created by User</span>
-                        </div>                                                                       
-                    </div>                                                       
-                </div>                
-            </div>     
-        </div>   
+                            <input type="text" class="form-control" placeholder="" name="edit_placeOfDuty"
+                                [disabled]="professionalDetailsShow" [(ngModel)]="editDraft.stdProfession.placeOfDuty">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row mt-3">
             <div class="col-2">
-                <span>Upload Documents</span>             
-            </div>  
-            <div class="col-10">                
+                <span>Upload Documents</span>
+            </div>
+            <div class="col-10">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -1137,19 +1439,19 @@
                             <td>
                                 <select class="form-select" name="document_type">
                                     <option>Completed</option>
-                                    <option>Pending</option>  
+                                    <option>Pending</option>
                                 </select>
                             </td>
                             <td>
                                 <select class="form-select" name="document_description">
                                     <option>Completed</option>
-                                    <option>Pending</option>  
+                                    <option>Pending</option>
                                 </select>
                             </td>
-                            <td>Attachment On<i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
-                        </tr>                 
+                            <td>Attachment On<i class="bi bi-trash3"></i></td>
+                        </tr>
                     </tbody>
-                    <tbody>                                
+                    <!-- <tbody>                                
                         <tr>
                             <td>04.</td>
                             <td>
@@ -1166,21 +1468,28 @@
                             </td>
                             <td><button type="button" class="btn btn-secondary btn-sm">Upload</button></td>
                         </tr>
-                    </tbody>
-                </table> 
+                    </tbody> -->
+                </table>
                 <div class="row mt-0">
                     <div class="col-2">
                         <button type="button" class="btn btn-secondary btn-sm">Add New Row</button>
                     </div>
-                </div>                     
+                </div>
             </div>
-        </div>     
+        </div>
     </div>
 </div>
-<div class="inner-page d-flex flex-row mt-0" *ngIf="applicationStatus==='3' && !saveAsDraft">
+<div class="inner-page d-flex flex-row mt-0" *ngIf="applicationStatus==='6'">
     <div class="container-fluid">
         <div class="row mb-4">
             No Save Draft Found
+        </div>
+    </div>
+</div>
+<div class="inner-page d-flex flex-row mt-0" *ngIf="applicationStatus==='7'">
+    <div class="container-fluid">
+        <div class="row mb-4">
+            Draft saved successfully
         </div>
     </div>
 </div>

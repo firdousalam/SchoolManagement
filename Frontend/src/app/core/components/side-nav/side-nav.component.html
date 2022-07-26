@@ -1,10 +1,36 @@
-<nz-sider nzCollapsible nzTheme="light" class="side-nav-layout">
-  <div class="logo"></div>
-  <ul nz-menu nzMode="inline">
-    <li nz-submenu nzTitle="Dashboard" nzIcon="book">
-      <ul>
-        <li nz-menu-item [routerLink]="['/dashboard',studentProfileId]">Dashboard</li>
-      </ul>
-    </li>
-  </ul>
-</nz-sider>
+<nz-layout>
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+    <ul nz-menu   style="height:100%" nzMode="inline">
+      
+      <li nz-menu-item nz-tooltip
+      nzTooltipPlacement="right"
+      [nzTooltipTitle]="isCollapsed ? 'Dashboard' : ''" nzMatchRouter routerLinkActive="active"  [routerLink]="['/dashboard']">
+        <i nz-icon nzType="dashboard"></i>
+        <span >Dashboard</span>
+      </li>
+      <li nz-submenu [nzOpen]="isOpen()" nzTitle="User" nzIcon="user">
+        <ul>
+          <li nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/student/profile']">
+            <i nz-icon nzType="profile"></i>
+            <span>Profile</span>           
+          </li>
+          <li nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/application']">
+            <i nz-icon nzType="setting"></i>
+            <span>Application</span>           
+          </li>
+          <li nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/admission']">
+            <i nz-icon nzType="profile"></i>
+            <span>Admission</span>           
+          </li>
+          <li nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/courses']">
+            <i nz-icon nzType="book"></i>
+            <span>Courses</span>           
+          </li>
+          <li nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/contact']">
+            <i nz-icon nzType="contacts"></i>
+            <span>Contact/Query</span>           
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>

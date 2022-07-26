@@ -14,16 +14,19 @@ export class DashboardComponent implements OnInit {
   routeParamSubscription!:Subscription;
   studentProfileId:any;
   notificationSubscription!: Subscription;
-  constructor(private commonService:CommonService,private router:Router,private route:ActivatedRoute,private api: NotificationService) {}
+  constructor(private commonService:CommonService,private router:Router,private route:ActivatedRoute,private api: NotificationService) {
+    const profileObj:any={studentProfileId:1,userId:1};
+    localStorage.setItem('studentProfileId',JSON.stringify(profileObj));
+  }
 
   ngOnInit(): void {
-    this.routeParamSubscription = this.route.paramMap.subscribe((params:ParamMap)=>{
-      console.log(params);
-      
-      this.studentProfileId = params.get('id');
+   // this.routeParamSubscription = this.route.paramMap.subscribe((params:ParamMap)=>{
+     // console.log(params);
+     const studentProfileObj = JSON.parse(localStorage.getItem('studentProfileId')!);
+     this.studentProfileId = studentProfileObj.studentProfileId;
       this.commonService.profileSubject.next({profileId:this.studentProfileId});
       this.Init();
-    })
+   // })
   }
 
   Init(){
@@ -36,6 +39,6 @@ export class DashboardComponent implements OnInit {
     throw new Error('Not Implemented!');
   }
   openApplication():void{
-    this.router.navigate(['/application',this.studentProfileId]);
+    this.router.navigate(['/application']);
   }
 }

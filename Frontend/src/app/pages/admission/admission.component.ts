@@ -33,13 +33,12 @@ export class AdmissionComponent implements OnInit, OnDestroy {
   admissionPaymentTabNames: any = admissionPaymentTabNames;
   constructor(private commonService:CommonService,private paymentApi:FeePaymentService,private noti:NotificationService,private route:ActivatedRoute,private api: AdmissionServiceService,private bacthApi:BatchDetailsService) {
     this.tabs = admissionPaymentTabs;
-    this.routeParamSubscription = this.route.paramMap.subscribe((params: ParamMap) => {
-      console.log(params);
-
-      this.studentProfileId = params.get('id');
+  //  this.routeParamSubscription = this.route.paramMap.subscribe((params: ParamMap) => {
+    const studentProfileObj = JSON.parse(localStorage.getItem('studentProfileId')!);
+    this.studentProfileId = studentProfileObj.studentProfileId;
       this.commonService.profileSubject.next({profileId:this.studentProfileId});
-    })
-    this.subscriptionArr.push(this.routeParamSubscription);
+   // })
+    //this.subscriptionArr.push(this.routeParamSubscription);
    }
 
   ngOnInit(): void {

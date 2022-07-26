@@ -1,17 +1,25 @@
 <!-- <app-heading [heading]="'Dashboard'"></app-heading> -->
 <div class="d-flex heading">
     <div class="p-2 heading-text">{{ heading }}</div>
-    <div class="p-2 align-self-start"><button type="button" class="btn btn-secondary btn-sm pr-3" (click)="saveDraft()">Save As Draft</button></div>
-    <div class="p-2"><button type="button" class="btn btn-secondary btn-sm button-width" (click)="applicationSubmit(studentApplication)">Submit</button></div>
+    <ng-container *ngIf="pageTraverseStatus === 'APPLICATION_STARTED'" >
+        <div class="p-2 align-self-start">
+            <button type="button" class="btn kl-btn-primary btn-sm pr-3" (click)="applicationDraft(studentApplication)">Save As Draft</button>
+        </div>
+        <div class="p-2"><button type="button" class="btn kl-btn-primary btn-sm button-width" (click)="applicationSubmit(studentApplication)">Submit</button></div>        
+    </ng-container>
+    <ng-container *ngIf="pageTraverseStatus === 'DRAFT'">
+        <div class="p-2"><button type="button" class="btn kl-btn-primary btn-sm button-width" (click)="applicationSubmittedPostDraft(editDraft)">Submit</button></div>
+    </ng-container>
 </div>
 <div class="d-flex flex-row bd-highlight mb-0">
-    <div class="p-2 pb-0 bd-highlight " (click)="applicationStatusChange('applicationForm')">Application Form</div>
-    <div class="p-2 pb-0 bd-highlight" (click)="applicationView()">View Application</div>
-    <div class="p-2 pb-0 bd-highlight"(click)="applicationStatusChange('saveAsDraft')">Save as Draft</div>
+    <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;" (click)="applicationStatusChange('applicationForm')"> Application Form </div>
+    <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;" (click)="applicationView()"> View Application </div>
+    <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;"(click)="applicationStatusChange('saveAsDraft')"> Save as Draft </div>
 </div>
 <div class="inner-page d-flex flex-row mt-0" *ngIf="applicationStatus=='1'">
     <div class="container-fluid">
         <form>
+            ADD
             <div class="row mb-4">
                 <div class="col">
                     Reference ID:
@@ -98,6 +106,10 @@
                                 <span class="p-3">
                                     <input type="radio" class="form-check-input" name="sc_st" value="st" checked [(ngModel)]="studentApplication.personalDetails.scOrSt">
                                     <label class="form-check-label radio-button">ST</label>
+                                </span>
+                                <span class="p-1">
+                                    <input type="radio" class="form-check-input" name="sc_st" value="general" checked [(ngModel)]="studentApplication.personalDetails.scOrSt">
+                                    <label class="form-check-label radio-button">General</label>
                                 </span>
                             </div>
                             <div class="col"></div>
@@ -211,7 +223,20 @@
                                 Mobile Phone
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="" name="mobile_phone" [(ngModel)]="studentApplication.stdContactDetail.mobileNumber">
+                                <input type="text" id="mobile_phone" name="mobile_phone" class="form-control"
+                                required minlength="10" placeholder="" #mobile_phone="ngModel" [(ngModel)]="studentApplication.stdContactDetail.mobileNumber">
+                                <div *ngIf="mobile_phone.invalid && (mobile_phone.dirty || mobile_phone.touched)"
+                                class="alert">
+                                    <div *ngIf="mobile_phone.errors?.['required']">
+                                        Mobile number is required.
+                                    </div>
+                                    <div *ngIf="mobile_phone.errors?.['minlength']">
+                                        Mobile number is required must be at least 10 characters long.
+                                    </div>
+                                    <div *ngIf="mobile_phone.errors?.['forbiddenName']">
+                                        Mobile number cannot be Bob.
+                                    </div>
+                                </div>
                             </div>
                             <div class="col">Alternate Mobile No</div>
                             <div class="col">
@@ -335,7 +360,7 @@
                                 <span>
                                     <input type="radio" class="form-check-input" name="professional_status" value="EMPLOYEE" (click)="professionalDetailsShow=false">
                                     <label class="form-check-label radio-button">Employment</label>
-                                </span>
+                                </span>  
                                 <span class="p-3">
                                     <input type="radio" class="form-check-input" name="professional_status" value="STUDENT" (click)="professionalDetailsShow=true">
                                     <label class="form-check-label radio-button">Student</label>
@@ -382,30 +407,34 @@
                                 <th>Sl.No</th>
                                 <th>Type of Documents</th>
                                 <th>Description</th>
-                                <th>View Documents</th>
+                                <th>Documents Upload</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>01.</td>
                                 <td>
-                                    <select class="form-select" name="document_type">
-                                        <option>Completed</option>
-                                        <option>Pending</option>  
+                                    <select class="form-select" name="document_type" [(ngModel)] = "studentApplication.docList.id">
+                                        <option *ngFor="let document of documentTypeList" value={{document.id}}>
+                                            {{document.name}}
+                                        </option>
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" placeholder="" name="descritpion">
+                                    <input type="text" class="form-control" placeholder="" name="descritpion" [(ngModel)] = "studentApplication.docList.description">
                                 </td>
-                                <td>Attachment On<i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
+                                <td>
+                                    <!-- <button type="button" class="btn btn-secondary btn-sm button-width" >Upload</button> -->
+                                    <input type="file" class="file-input" [(ngModel)] = "studentApplication.docList.file" (change)="documntUpload($event)" #fileUpload>                                    
+                                </td>
                             </tr>                 
                         </tbody>                        
                     </table> 
-                    <div class="row mt-0">
+                    <!-- <div class="row mt-0">
                         <div class="col-2">
                             <button type="button" class="btn btn-secondary btn-sm">Add New Row</button>
                         </div>
-                    </div>                     
+                    </div>                      -->
                 </div>
             </div>     
         </form>
@@ -445,11 +474,11 @@
                             Application Name
                         </div>
                         <div class="col">
-                            <span>{{application?.stdPersonalDetail.applicantName}}</span>                            
+                            <span>{{personal?.applicantName}}</span>                            
                         </div>
                         <div class="col">Date of Birth</div>
                         <div class="col">
-                            <span>{{application?.stdPersonalDetail.dob}}</span>                            
+                            <span>{{personal?.dob}}</span>                            
                         </div>
                     </div>
                     <div class="row mt-3 ">
@@ -457,11 +486,11 @@
                             Sex
                         </div>
                         <div class="col">
-                            <span>{{application?.stdPersonalDetail.gender}}</span>                            
+                            <span>{{personal?.gender}}</span>                            
                         </div>
                         <div class="col">Nationality</div>
                         <div class="col">
-                            <span>{{application?.stdPersonalDetail.gender}}</span>                            
+                            <span>{{personal?.nationality}}</span>                            
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -469,11 +498,11 @@
                             Father/Guardian
                         </div>
                         <div class="col">                           
-                            <span>{{application?.stdPersonalDetail.fatherOrGuardian}}</span>
+                            <span>{{personal?.fatherOrGuardian}}</span>
                         </div>
                         <div class="col">Name(Father/Guardian)</div>
                         <div class="col">
-                            <span>{{application?.stdPersonalDetail.nameOfFatherOrGuardian}}</span>
+                            <span>{{personal?.nameOfFatherOrGuardian}}</span>
                         </div>
                     </div>
                     <div class="row mb-3 mt-3">
@@ -481,7 +510,7 @@
                             SC/ST
                         </div>
                         <div class="col">
-                            <span>{{application?.stdPersonalDetail.scOrSt}}</span>
+                            <span>{{personal?.scOrSt}}</span>
                         </div>
                         <div class="col"></div>
                         <div class="col"></div>
@@ -507,7 +536,7 @@
                             Permanent Address
                         </div>
                         <div class="col-3">
-                            <span>{{application?.stdContactDetail?.caddress}}</span>                        
+                            <span>{{contact?.caddress}}</span>                        
                         </div>                        
                         <div class="col-6">
                             <div class="row mt-0">
@@ -515,7 +544,7 @@
                                     District
                                 </div>
                                 <div class="col">
-                                    <span>{{application?.stdContactDetail?.cdistrict}}</span>                        
+                                    <span>{{contact?.cdistrict}}</span>                        
                                 </div>
                             </div>
                             <div class="row mt-3">
@@ -523,7 +552,7 @@
                                     State
                                 </div>
                                 <div class="col">
-                                    <span>{{application?.stdContactDetail?.cstate}}</span>     
+                                    <span>{{contact?.cstate}}</span>     
                                 </div>
                             </div>
                         </div>
@@ -534,7 +563,7 @@
                             Pin Code
                         </div>
                         <div class="col-3">
-                            <span>{{application?.stdContactDetail?.cpinCode}}</span> 
+                            <span>{{contact?.cpinCode}}</span> 
                         </div>                                               
                     </div> 
                     <div class="row mt-3">
@@ -542,7 +571,7 @@
                             Same as Permanent Address
                         </div>
                         <div class="col-3">
-                            <span>{{application?.stdContactDetail?.isPASameAsCA}}</span> 
+                            <span>{{contact?.isPASameAsCA}}</span> 
                         </div>                        
                     </div>    
                     <div class="row mt-3">
@@ -550,7 +579,7 @@
                             Corresponding Address
                         </div>
                         <div class="col-3">
-                            <span>{{application?.stdContactDetail?.paddress}}</span>
+                            <span>{{contact?.paddress}}</span>
                         </div>                        
                         <div class="col-6">
                             <div class="row mt-0">
@@ -558,7 +587,7 @@
                                     District
                                 </div>
                                 <div class="col">
-                                    <span>{{application?.stdContactDetail?.pdistrict}}</span>
+                                    <span>{{contact?.pdistrict}}</span>
                                 </div>
                             </div>
                             <div class="row mt-3">
@@ -566,7 +595,7 @@
                                     State
                                 </div>
                                 <div class="col">
-                                    <span>{{application?.stdContactDetail?.pstate}}</span>
+                                    <span>{{contact?.pstate}}</span>
                                 </div>
                             </div>
                         </div>                        
@@ -576,7 +605,7 @@
                             Pin Code
                         </div>
                         <div class="col-3">
-                            <span>{{application?.stdContactDetail?.pinCode}}</span>
+                            <span>{{contact?.pinCode}}</span>
                         </div>                
                     </div>
                     <div class="row mt-3 line-break">
@@ -587,11 +616,11 @@
                             Mobile Phone
                         </div>
                         <div class="col">
-                            <span>{{application?.stdContactDetail?.mobileNumber}}</span>
+                            <span>{{contact?.mobileNumber}}</span>
                         </div>
                         <div class="col">Alternate Mobile No</div>
                         <div class="col">
-                            <span>{{application?.stdContactDetail?.alternateMobileNumber}}</span>
+                            <span>{{contact?.alternateMobileNumber}}</span>
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -599,11 +628,11 @@
                             Landline
                         </div>
                         <div class="col">
-                            <span>{{application?.stdContactDetail?.landlineNumber}}</span>
+                            <span>{{contact?.landlineNumber}}</span>
                         </div>
                         <div class="col">Email</div>
                         <div class="col">
-                            <span>{{application?.stdContactDetail?.emailId}}</span>
+                            <span>{{contact?.emailId}}</span>
                         </div>
                     </div>                                  
                 </div>                
@@ -634,13 +663,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let education of application?.stdEducationList;let serialNumber = index">
+                            <tr *ngFor="let education of education;let serialNumber = index">
                                 <td>{{serialNumber+1}}.</td>
-                                <td>{{education.courseName}}</td>
-                                <td>{{education.institution}}</td>
-                                <td>{{education.educationStatus}}</td>
-                                <td>{{education.percentage}}</td>
-                                <td>{{education.yearofCompletion}}</td>                               
+                                <td>{{education?.courseName}}</td>
+                                <td>{{education?.institution}}</td>
+                                <td>{{education?.educationStatus}}</td>
+                                <td>{{education?.percentage}}</td>
+                                <td>{{education?.yearofCompletion}}</td>                               
                             </tr>                                                                              
                         </tbody>
                     </table>                    
@@ -668,13 +697,13 @@
                             Organization
                         </div>
                         <div class="col-5">
-                            <span>{{application?.stdProfession?.organization}}</span>
+                            <span>{{profession?.organization}}</span>
                         </div>
                         <div class="col-2">
                             Designation
                         </div>
                         <div class="col-2">
-                            <span>{{application?.stdProfession?.designation}}</span>
+                            <span>{{profession?.designation}}</span>
                         </div>                                               
                     </div>
                     <div class="row mt-3">
@@ -682,7 +711,7 @@
                             Place of Duty
                         </div>
                         <div class="col-5">
-                            <span>{{application?.stdProfession?.placeOfDuty}}</span>
+                            <span>{{profession?.placeOfDuty}}</span>
                         </div>                                                                       
                     </div>                                                       
                 </div>                
@@ -703,7 +732,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let doc of application?.docList">
+                        <tr *ngFor="let doc of docList">
                             <td>01.</td>
                             <td>
                                 <select class="form-select" name="document_type" disabled>
@@ -749,18 +778,18 @@
 
 <div class="inner-page d-flex flex-row mt-0" *ngIf="applicationStatus==='3' && saveAsDraft">
     <div class="container-fluid">
-        <div class="row mb-4">
+        <div class="row mb-4">           
             <div class="col">
-                Reference IDss:
+                Reference ID:
             </div>
             <div class="col">
-                12345
+                {{editDraft?.userId}}
             </div>
             <div class="col">
                 Date:
             </div>
             <div class="col">
-                12th, July,2022
+                {{editDraft?.createdAt}}
             </div>
         </div>
         <div class="row personal-details">
@@ -781,11 +810,11 @@
                             Application Name
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="" name="application_name">
+                            <input type="text" class="form-control" placeholder="" name="application_name_edit" [(ngModel)]="editDraft.stdPersonalDetail.applicantName">
                         </div>
                         <div class="col">Date of Birth</div>
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="" name="date_of_birth">
+                            <input type="text" class="form-control" placeholder="" name="date_of_birth_edit" [(ngModel)]="editDraft.stdPersonalDetail.dob">
                         </div>
                     </div>
                     <div class="row mt-3 ">
@@ -793,14 +822,14 @@
                             Sex
                         </div>
                         <div class="col">
-                            <select class="form-select" name="sex">
+                            <select class="form-select" name="sex_edit" [(ngModel)]="editDraft.stdPersonalDetail.gender">
                                 <option>Male</option>
                                 <option>Female</option>                                
                             </select>
                         </div>
                         <div class="col">Nationality</div>
                         <div class="col">
-                            <select class="form-select" name="sex">
+                            <select class="form-select" name="nationality_edit" [(ngModel)]="editDraft.stdPersonalDetail.nationality">
                                 <option>Indian</option>                                                             
                             </select>
                         </div>
@@ -811,17 +840,17 @@
                         </div>
                         <div class="col">
                             <span>
-                                <input type="radio" class="form-check-input" name="father_guardian" value="option1" checked>
+                                <input type="radio" class="form-check-input" name="father_guardian_edit" value="Father" [(ngModel)]="editDraft.stdPersonalDetail.fatherOrGuardian" checked>
                                 <label class="form-check-label radio-button" >Father</label>
                             </span>
                             <span class="p-3">
-                                <input type="radio" class="form-check-input" name="father_guardian" value="option1" checked>
+                                <input type="radio" class="form-check-input" name="father_guardian_edit" value="Guardian" [(ngModel)]="editDraft.stdPersonalDetail.fatherOrGuardian" checked>
                                 <label class="form-check-label radio-button">Guardian</label>
                             </span>                           
                         </div>
                         <div class="col">Name(Father/Guardian)</div>
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="" name="father_guardian_name">
+                            <input type="text" class="form-control" placeholder="" name="father_guardian_name_edit" [(ngModel)]="editDraft.stdPersonalDetail.nameOfFatherOrGuardian">
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -830,12 +859,16 @@
                         </div>
                         <div class="col">
                             <span>
-                                <input type="radio" class="form-check-input" name="sc_st" value="option1" checked>
+                                <input type="radio" class="form-check-input" name="edit_sc_st" value="Sc" [(ngModel)]="editDraft.stdPersonalDetail.scOrSt" checked>
                                 <label class="form-check-label radio-button">SC</label>
                             </span>
                             <span class="p-3">
-                                <input type="radio" class="form-check-input" name="sc_st" value="option1" checked>
+                                <input type="radio" class="form-check-input" name="edit_sc_st" value="St" [(ngModel)]="editDraft.stdPersonalDetail.scOrSt" checked>
                                 <label class="form-check-label radio-button">ST</label>
+                            </span>
+                            <span class="p-3">
+                                <input type="radio" class="form-check-input" name="edit_sc_st" value="General" [(ngModel)]="editDraft.stdPersonalDetail.scOrSt" checked>
+                                <label class="form-check-label radio-button">General</label>
                             </span>
                         </div>
                         <div class="col"></div>
@@ -862,7 +895,7 @@
                             Permanent Address
                         </div>
                         <div class="col-3">
-                            <textarea class="form-control" rows="5"></textarea>
+                            <textarea class="form-control" rows="5" name="edit_paddress" [(ngModel)]="editDraft.stdContactDetail.caddress"></textarea>
                         </div>                        
                         <div class="col-6">
                             <div class="row mt-0">
@@ -870,7 +903,7 @@
                                     District
                                 </div>
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="" name="district">
+                                    <input type="text" class="form-control" placeholder="" name="edit_pdistrict" [(ngModel)]="editDraft.stdContactDetail.cdistrict">
                                 </div>
                             </div>
                             <div class="row mt-3">
@@ -878,7 +911,7 @@
                                     State
                                 </div>
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="" name="state">
+                                    <input type="text" class="form-control" placeholder="" name="edit_pstate" [(ngModel)]="editDraft.stdContactDetail.cstate">
                                 </div>
                             </div>
                         </div>
@@ -889,7 +922,7 @@
                             Pin Code
                         </div>
                         <div class="col-3">
-                            <input type="text" class="form-control" placeholder="" name="pincode">
+                            <input type="text" class="form-control" placeholder="" name="edit_ppincode" [(ngModel)]="editDraft.stdContactDetail.cpinCode">
                         </div>                                               
                     </div> 
                     <div class="row mt-3">
@@ -912,7 +945,7 @@
                             Corresponding Address
                         </div>
                         <div class="col-3">
-                            <textarea class="form-control" rows="5"></textarea>
+                            <textarea class="form-control" rows="5" name="edit_caddress" [(ngModel)]="editDraft.stdContactDetail.paddress"></textarea>
                         </div>                        
                         <div class="col-6">
                             <div class="row mt-0">
@@ -920,7 +953,7 @@
                                     District
                                 </div>
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="" name="district">
+                                    <input type="text" class="form-control" placeholder="" name="edit_cdistrict" [(ngModel)]="editDraft.stdContactDetail.pdistrict">
                                 </div>
                             </div>
                             <div class="row mt-3">
@@ -928,7 +961,7 @@
                                     State
                                 </div>
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="" name="state">
+                                    <input type="text" class="form-control" placeholder="" name="edit_cstate" [(ngModel)]="editDraft.stdContactDetail.pstate">
                                 </div>
                             </div>
                         </div>                        
@@ -938,7 +971,7 @@
                             Pin Code
                         </div>
                         <div class="col-3">
-                            <input type="text" class="form-control" placeholder="" name="pincode">
+                            <input type="text" class="form-control" placeholder="" name="edit_cpincode" [(ngModel)]="editDraft.stdContactDetail.ppinCode">
                         </div>                
                     </div>
                     <div class="row mt-3 line-break">
@@ -949,11 +982,11 @@
                             Mobile Phone
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="" name="mobile_phone">
+                            <input type="text" class="form-control" placeholder="" name="edit_mobile_phone" [(ngModel)]="editDraft.stdContactDetail.mobileNumber">
                         </div>
                         <div class="col">Alternate Mobile No</div>
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="" name="alternate_mobile_no">
+                            <input type="text" class="form-control" placeholder="" name="edit_alternate_mobile_no" [(ngModel)]="editDraft.stdContactDetail.alternateMobileNumber">
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -961,11 +994,11 @@
                             Landline
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="" name="landline">
+                            <input type="text" class="form-control" placeholder="" name="edit_landline" [(ngModel)]="editDraft.stdContactDetail.landlineNumber">
                         </div>
                         <div class="col">Email</div>
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="" name="email">
+                            <input type="text" class="form-control" placeholder="" name="edit_email" [(ngModel)]="editDraft.stdContactDetail.emailId">
                         </div>
                     </div>                                  
                 </div>                
@@ -997,61 +1030,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>01.</td>
-                                <td>xxxxxxxxxx</td>
-                                <td>xxxxxxxxxx</td>
-                                <td>Completed</td>
-                                <td>87</td>
-                                <td>2018</td>
-                                <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
-                            </tr>
-                            <tr>
-                                <td>02.</td>
-                                <td>xxxxxxxxxx</td>
-                                <td>xxxxxxxxxx</td>
-                                <td>Completed</td>
-                                <td>87</td>
-                                <td>2018</td>
-                                <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
-                            </tr>
-                            <tr>
-                                <td>03.</td>
-                                <td>xxxxxxxxxx</td>
-                                <td>xxxxxxxxxx</td>
-                                <td>Completed</td>
-                                <td>87</td>
-                                <td>2018</td>
-                                <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
-                            </tr>  
-                            <tr>
-                                <td>03.</td>
-                                <td>xxxxxxxxxx</td>
-                                <td>xxxxxxxxxx</td>
-                                <td>Completed</td>
-                                <td>87</td>
-                                <td>2018</td>
-                                <td><i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
-                            </tr>                        
-                        </tbody>
-                        <tbody>
-                            <tr>
-                                <td>04.</td>
-                                <td><input type="text" class="form-control" placeholder="" name="course_name"></td>
-                                <td><input type="text" class="form-control" placeholder="" name="institution"></td>
+                            <tr *ngFor="let education of editDraft.stdEducationList; let i = index;">
+                                <td>{{i+1}}.</td>
+                                <td><input type="text" class="form-control" name="courseName[i]" [(ngModel)]="education.courseName" value="{{education.courseName"></td>
+                                <td><input type="text" class="form-control" name="institution[i]" [(ngModel)]="education.institution" value="{{ education.institution }}"></td>
                                 <td>
-                                    <select class="form-select" name="course_status">
+                                    <select class="form-select" name="educationStatus[i]" [(ngModel)]="education.educationStatus">
                                         <option>Completed</option>
                                         <option>Pending</option>                                
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" placeholder="" name="percentage">
+                                    <input type="text" class="form-control" placeholder="" name="percentage[i]" [(ngModel)]="education.percentage">
                                 </td>
-                                <td><input type="text" class="form-control" placeholder="" name="year"></td>
+                                <td><input type="text" class="form-control" placeholder="" name="year[i]" [(ngModel)]="education.yearofCompletion"></td>
                                 <td><i class="bi bi-trash3"></i></td>
-                            </tr>
-                        </tbody>
+                            </tr>                                                                            
+                        </tbody>                        
                     </table> 
                     <div class="row mt-0">
                         <div class="col-2">
@@ -1075,15 +1070,15 @@
                         </div>
                         <div class="col-5">
                             <span>
-                                <input type="radio" class="form-check-input" name="professional_status" value="option1" checked>
+                                <input type="radio" class="form-check-input" name="edit_professional_status" value="EMPLOYEE" (click)="professionalDetailsShow=false">
                                 <label class="form-check-label radio-button">Employment</label>
-                            </span>
+                            </span>  
                             <span class="p-3">
-                                <input type="radio" class="form-check-input" name="professional_status" value="option1" checked>
+                                <input type="radio" class="form-check-input" name="edit_professional_status" value="STUDENT" (click)="professionalDetailsShow=true">
                                 <label class="form-check-label radio-button">Student</label>
                             </span>  
                             <span class="p-3">
-                                <input type="radio" class="form-check-input" name="professional_status" value="option1" checked>
+                                <input type="radio" class="form-check-input" name="edit_professional_status" value="OTHERS" (click)="professionalDetailsShow=true">
                                 <label class="form-check-label radio-button">Other</label>
                             </span>
                         </div>
@@ -1093,13 +1088,13 @@
                             Organization
                         </div>
                         <div class="col-5">
-                            <span>Created by User</span>
+                            <input type="text" class="form-control" placeholder="" name="edit_organization" [disabled]="professionalDetailsShow" [(ngModel)]="editDraft.stdProfession.organization">
                         </div>
                         <div class="col-2">
                             Designation
                         </div>
                         <div class="col-2">
-                            <span>Created by User</span>
+                            <input type="text" class="form-control" placeholder="" name="edit_desigation" [disabled]="professionalDetailsShow" [(ngModel)]="editDraft.stdProfession.designation">
                         </div>                                               
                     </div>
                     <div class="row mt-3">
@@ -1107,7 +1102,7 @@
                             Place of Duty
                         </div>
                         <div class="col-5">
-                            <span>Created by User</span>
+                            <input type="text" class="form-control" placeholder="" name="edit_placeOfDuty" [disabled]="professionalDetailsShow" [(ngModel)]="editDraft.stdProfession.placeOfDuty">
                         </div>                                                                       
                     </div>                                                       
                 </div>                
@@ -1142,10 +1137,10 @@
                                     <option>Pending</option>  
                                 </select>
                             </td>
-                            <td>Attachment On<i class="bi bi-pencil-square"></i><i class="bi bi-trash3"></i></td>
+                            <td>Attachment On<i class="bi bi-trash3"></i></td>
                         </tr>                 
                     </tbody>
-                    <tbody>                                
+                    <!-- <tbody>                                
                         <tr>
                             <td>04.</td>
                             <td>
@@ -1162,7 +1157,7 @@
                             </td>
                             <td><button type="button" class="btn btn-secondary btn-sm">Upload</button></td>
                         </tr>
-                    </tbody>
+                    </tbody> -->
                 </table> 
                 <div class="row mt-0">
                     <div class="col-2">
@@ -1173,10 +1168,17 @@
         </div>     
     </div>
 </div>
-<div class="inner-page d-flex flex-row mt-0" *ngIf="applicationStatus==='3' && !saveAsDraft">
+<div class="inner-page d-flex flex-row mt-0" *ngIf="applicationStatus==='6'">
     <div class="container-fluid">
         <div class="row mb-4">
             No Save Draft Found
+        </div>
+    </div>
+</div>
+<div class="inner-page d-flex flex-row mt-0" *ngIf="applicationStatus==='7'">
+    <div class="container-fluid">
+        <div class="row mb-4">
+            Draft saved successfully
         </div>
     </div>
 </div>

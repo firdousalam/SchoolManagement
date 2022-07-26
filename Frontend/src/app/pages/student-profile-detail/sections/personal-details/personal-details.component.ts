@@ -26,9 +26,9 @@ export class PersonalDetailsComponent implements OnInit, OnChanges, OnDestroy {
         paddress: ['', Validators.required],
         signature: ['', Validators.required],
         caddress: ['', Validators.required],
-        mobileNumber: ['', [Validators.required]],
-        landlineNumber: ['', [Validators.required]],
-        alternateMobileNumber: ['', [Validators.required]],
+        mobileNumber: ['', [Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+        landlineNumber: ['', [Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+        alternateMobileNumber: ['', [Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
         emailId: ['', [Validators.required, Validators.email]],
 
       }
