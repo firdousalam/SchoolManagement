@@ -26,10 +26,10 @@ export const type = <IType>{
 };
 
 export interface ITypeSearch {
-  referenceType: string;
-  status: number | null;
-  pageNumber: number;
-  pageSize: number;
+  referenceType?: string;
+  status?: number | null;
+  pageNumber?: number;
+  pageSize?: number;
 }
 
 export const typeSearch = <ITypeSearch>{
