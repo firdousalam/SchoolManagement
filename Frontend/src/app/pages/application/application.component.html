@@ -7,25 +7,27 @@
                 (click)="applicationDraft(studentApplication)">Save As Draft</button>
         </div>
         <div class="p-2"><button type="button" class="btn kl-btn-primary btn-sm button-width"
-                (click)="applicationSubmit(studentApplication)">Submit</button></div>
+                (click)="applicationSubmit(studentApplication)">Submit</button></div>        
     </ng-container>
     <ng-container *ngIf="pageTraverseStatus === 'DRAFT'">
         <div class="p-2"><button type="button" class="btn kl-btn-primary btn-sm button-width"
-                (click)="applicationSubmittedPostDraft(editDraft)">Submit</button></div>
+                (click)="applicationSubmittedPostDraft(editDraft)">Submit</button></div>    
     </ng-container>
+    <div class="p-2"><button type="button" class="btn kl-btn-primary btn-sm button-width"
+        (click)="showPopUp()">Payment</button>
+    </div>
 </div>
 <div class="d-flex flex-row bd-highlight mb-0">
     <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;"
-        (click)="applicationStatusChange('applicationForm')"> Application Form </div>
+        (click)="applicationStatusChange('applicationForm','FORMTAB')"> Application Form </div>
     <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;"
-        (click)="applicationView()"> View Application </div>
+        (click)="applicationView('VIEWTAB')"> View Application </div>
     <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;"
-        (click)="applicationStatusChange('saveAsDraft')"> Save as Draft </div>
+        (click)="applicationStatusChange('saveAsDraft','DRAFTVIEWTAB')"> Save as Draft </div>
 </div>
 <div class="inner-page d-flex flex-row mt-0" *ngIf="applicationStatus=='1'">
     <div class="container-fluid">
-        <form>
-            ADD
+        <form>            
             <div class="row mb-4">
                 <div class="col">
                     Reference ID:
@@ -118,19 +120,19 @@
                             </div>
                             <div class="col">
                                 <span>
-                                    <input type="radio" class="form-check-input" name="father_guardian" value="father"
+                                    <input type="radio" class="form-check-input" id= "father" name="father_guardian" value="father"
                                         [(ngModel)]="studentApplication.personalDetails.fatherOrGuardian">
                                     <label class="form-check-label radio-button">Father</label>
                                 </span>
                                 <span class="p-3">
-                                    <input type="radio" class="form-check-input" name="father_guardian" value="guardian"
+                                    <input type="radio" class="form-check-input" id= "guardian" name="father_guardian" value="guardian"
                                         checked [(ngModel)]="studentApplication.personalDetails.fatherOrGuardian">
                                     <label class="form-check-label radio-button">Guardian</label>
                                 </span>
                             </div>
                             <div class="col">Name(Father/Guardian)</div>
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="" name="father_guardian_name"
+                                <input type="text" class="form-control" placeholder="" id= "father_guardian_name" name="father_guardian_name"
                                     id="father_guardian_name" required #father_guardian_name="ngModel"
                                     [(ngModel)]="studentApplication.personalDetails.nameOfFatherOrGuardian">
                                 <div *ngIf="father_guardian_name.invalid && (father_guardian_name.dirty || father_guardian_name.touched)"
@@ -147,17 +149,17 @@
                             </div>
                             <div class="col">
                                 <span>
-                                    <input type="radio" class="form-check-input" name="sc_st" value="sc" checked
+                                    <input type="radio" class="form-check-input" id="sc" name="sc_st" value="sc" checked
                                         [(ngModel)]="studentApplication.personalDetails.scOrSt">
                                     <label class="form-check-label radio-button">SC</label>
                                 </span>
                                 <span class="p-3">
-                                    <input type="radio" class="form-check-input" name="sc_st" value="st" checked
+                                    <input type="radio" class="form-check-input" id="st" name="sc_st" value="st" checked
                                         [(ngModel)]="studentApplication.personalDetails.scOrSt">
                                     <label class="form-check-label radio-button">ST</label>
                                 </span>
                                 <span class="p-1">
-                                    <input type="radio" class="form-check-input" name="sc_st" value="general" checked
+                                    <input type="radio" class="form-check-input" id="general" name="sc_st" value="general" checked
                                         [(ngModel)]="studentApplication.personalDetails.scOrSt">
                                     <label class="form-check-label radio-button">General</label>
                                 </span>
@@ -220,7 +222,7 @@
                                     <div class="col">
                                         <input type="text" class="form-control" placeholder="" name="cstate" id="cstate"
                                             value="studentApplication.stdContactDetail.cstate" required
-                                            #cstate="ngModel" [(ngModel)]="studentApplication.stdContactDetail.cstate">
+                                            #cstate="ngModel" [(ngModel)]="studentApplication.stdContactDetail.cstate" >
                                         <div *ngIf="cstate.invalid && (cstate.dirty || cstate.touched)" class="alert">
                                             <div *ngIf="cstate.errors?.['required']">
                                                 Please Enter State
@@ -256,13 +258,13 @@
                             </div>
                             <div class="col-3">
                                 <span>
-                                    <input type="radio" class="form-check-input" name="same_permanent_address"
+                                    <input type="radio" class="form-check-input" name="same_permanent_address" id="same_permanent_address_yes"
                                         (click)="sameCorrespondingAddress('YES')" value="Yes"
                                         [(ngModel)]="studentApplication.stdContactDetail.isPASameAsCA">
                                     <label class="form-check-label radio-button">Yes</label>
                                 </span>
                                 <span class="p-3">
-                                    <input type="radio" class="form-check-input" name="same_permanent_address"
+                                    <input type="radio" class="form-check-input" name="same_permanent_address" id="same_permanent_address_no"
                                         (click)="sameCorrespondingAddress('NO')" value="No"
                                         [(ngModel)]="studentApplication.stdContactDetail.isPASameAsCA">
                                     <label class="form-check-label radio-button">No</label>
@@ -379,12 +381,12 @@
                                 Landline
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="" name="landline"
+                                <input type="text" class="form-control" placeholder="" name="landline" id="landline"
                                     [(ngModel)]="studentApplication.stdContactDetail.landlineNumber">
                             </div>
                             <div class="col">Email</div>
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="" name="email"
+                                <input type="text" class="form-control" placeholder="" name="email" id="email"
                                     [(ngModel)]="studentApplication.stdContactDetail.emailId">
                             </div>
                         </div>
@@ -499,17 +501,17 @@
                             <div class="col-5">
                                 <span>
                                     <input type="radio" class="form-check-input" name="professional_status"
-                                        value="EMPLOYEE" (click)="professionalDetailsShow=false">
+                                        value="EMPLOYEE" (click)="professionStatus('EMPLOYEE');">
                                     <label class="form-check-label radio-button">Employment</label>
                                 </span>
                                 <span class="p-3">
                                     <input type="radio" class="form-check-input" name="professional_status"
-                                        value="STUDENT" (click)="professionalDetailsShow=true">
+                                        value="STUDENT" (click)="professionStatus('STUDENT');">
                                     <label class="form-check-label radio-button">Student</label>
                                 </span>
                                 <span class="p-3">
                                     <input type="radio" class="form-check-input" name="professional_status"
-                                        value="OTHERS" (click)="professionalDetailsShow=true">
+                                        value="OTHERS" (click)="professionStatus('OTHERS');">
                                     <label class="form-check-label radio-button">Other</label>
                                 </span>
                             </div>
@@ -576,7 +578,7 @@
                                 </td>
                                 <td>
                                     <!-- <button type="button" class="btn btn-secondary btn-sm button-width" >Upload</button> -->
-                                    <input type="file" class="file-input" [(ngModel)]="studentApplication.docList.file"
+                                    <input type="file" class="file-input" name="file" [(ngModel)]="studentApplication.docList.file"
                                         (change)="documntUpload($event)" #fileUpload>
                                 </td>
                             </tr>
@@ -593,7 +595,7 @@
     </div>
 </div>
 <div class="inner-page d-flex flex-row mt-0" *ngIf="applicationStatus==='2'">
-    <div class="container-fluid">
+    <div class="container-fluid">        
         <div class="row mb-4">
             <div class="col">
                 Reference ID:
@@ -1376,17 +1378,17 @@
                         <div class="col-5">
                             <span>
                                 <input type="radio" class="form-check-input" name="edit_professional_status"
-                                    value="EMPLOYEE" (click)="professionalDetailsShow=false">
+                                    value="EMPLOYEE" (click)="professionStatus('EMPLOYEE');">
                                 <label class="form-check-label radio-button">Employment</label>
                             </span>
                             <span class="p-3">
                                 <input type="radio" class="form-check-input" name="edit_professional_status"
-                                    value="STUDENT" (click)="professionalDetailsShow=true">
+                                    value="STUDENT" (click)="professionStatus('STUDENT');">
                                 <label class="form-check-label radio-button">Student</label>
                             </span>
                             <span class="p-3">
                                 <input type="radio" class="form-check-input" name="edit_professional_status"
-                                    value="OTHERS" (click)="professionalDetailsShow=true">
+                                    value="OTHERS" (click)="professionStatus('OTHERS');">
                                 <label class="form-check-label radio-button">Other</label>
                             </span>
                         </div>
