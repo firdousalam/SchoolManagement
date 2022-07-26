@@ -39,6 +39,6 @@ export class DashboardComponent implements OnInit {
     throw new Error('Not Implemented!');
   }
   openApplication():void{
-    this.router.navigate(['/application',this.studentProfileId]);
+    this.router.navigate(['/application']);
   }
 }

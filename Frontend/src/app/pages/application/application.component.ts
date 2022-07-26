@@ -8,6 +8,8 @@ import { setSession, getSession } from 'src/app/shared/common/storage';
 import { isEmpty, toNumber } from 'lodash';
 import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { PaymentModalComponent } from '../payment-modal/payment-modal.component';
 
 
 
@@ -45,7 +47,7 @@ export class ApplicationComponent implements OnInit {
   docList:any;
   
   
-  constructor(private profileService: StudentProfileServiceService, private router: Router, private route: ActivatedRoute, private date:DatePipe ) { }
+  constructor(private modal:NzModalService,private profileService: StudentProfileServiceService, private router: Router, private route: ActivatedRoute, private date:DatePipe ) { }
 
   ngOnInit(): void {            
     this.applicationStatus = this.userCheck('1', '4');         
@@ -178,4 +180,16 @@ export class ApplicationComponent implements OnInit {
       return page1;
     }
   }
+
+  showPopUp(){
+    this.modal.create({
+      nzTitle: '',
+      nzContent:  PaymentModalComponent,
+      nzFooter: null,
+      nzClosable: false,
+      nzMaskClosable: false,
+  })
+  }
 }
+
+

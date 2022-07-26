@@ -23,7 +23,7 @@ import { HttpRequestInterceptor } from './core/interceptors/http-request.interce
 import { TableViewComponent } from './shared/components/table-view/table-view.component';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzModalModule  } from 'ng-zorro-antd/modal';
+import { NzModalModule, NzModalRef  } from 'ng-zorro-antd/modal';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -46,12 +46,16 @@ import { PersonalDetailsComponent } from './pages/student-profile-detail/section
 import { PersonalHeaderDetailsComponent } from './pages/student-profile-detail/sections/personal-header-details/personal-header-details.component';
 import { StudentProfileDetailComponent } from './pages/student-profile-detail/student-profile-detail.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { RouteGuard } from './core/guards/route.guard';
 import { SafePipePipe } from './shared/safe-pipe.pipe';
 import { DatePipe } from '@angular/common';
 import { ApplicationComponent } from './pages/application/application.component';
+import { PaymentModalComponent } from './pages/payment-modal/payment-modal.component';
+import { ManualPaymentModalComponent } from './pages/manual-payment-modal/manual-payment-modal.component';
 export function initializeApp(configurationService: ConfigurationService) {
   return (): Promise<any> => {
     return configurationService.load();
@@ -92,7 +96,9 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
     PersonalHeaderDetailsComponent,
     PageNotFoundComponent,
     SafePipePipe,
-    ApplicationComponent
+    ApplicationComponent,
+    PaymentModalComponent,
+    ManualPaymentModalComponent
   ],
   imports: [
     BrowserModule,
@@ -104,6 +110,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
     NzTableModule,
     NzMenuModule,
     NzToolTipModule,
+    NzDatePickerModule ,
     NzLayoutModule,
     NzIconModule,
     NzModalModule,
@@ -112,7 +119,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
     NzSelectModule,
     NzFormModule,
     NzTabsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NzUploadModule
   ],
   providers: [
     RouteGuard,DatePipe,
@@ -135,7 +143,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
       multi: true,
     },
     { provide: NZ_I18N, useValue: en_US },
-    { provide: NZ_ICONS, useValue: icons },
+    { provide: NZ_ICONS, useValue: icons }
   ],
   bootstrap: [AppComponent],
 })
