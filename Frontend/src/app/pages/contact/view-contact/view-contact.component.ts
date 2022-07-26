@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { ContactQueryServiceService } from 'src/app/shared/services/api/contact-query-service.service';
 import { IContactSearch,IContactPage } from 'src/app/shared/models/contact';
 import { CommonService } from 'src/app/shared/services/api/common.service';
+import * as moment from 'moment';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-view-contact',
   templateUrl: './view-contact.component.html',
@@ -16,7 +18,7 @@ export class ViewContactComponent implements OnInit,AfterViewInit {
   subscriptionArray:any[]=[];
   contactData:any;
   studentProfileId:any;
-  constructor(private commonService:CommonService,private router:Router,private route:ActivatedRoute,private contactService:ContactQueryServiceService) { }
+  constructor(private commonService:CommonService,private router:Router,private route:ActivatedRoute,private contactService:ContactQueryServiceService,private datePipe:DatePipe) { }
 
   ngOnInit(): void {
   }
@@ -41,6 +43,10 @@ export class ViewContactComponent implements OnInit,AfterViewInit {
       this.contactData = data;
     })
     this.subscriptionArray.push(this.getContactSubscription)
+  }
+
+  getDate(){
+    return moment(this.contactData?.dateofEntry, 'MM/DD/YYYY').format('MM/DD/YYYY') === this.contactData?.dateofEntry ? (this.datePipe.transform(this.contactData?.dateofEntry)): this.contactData?.dateofEntry;
   }
   ngOnDestroy(): void {
     this.subscriptionArray.forEach((x: any) => x.unsubscribe());
