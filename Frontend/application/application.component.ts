@@ -1,4 +1,4 @@
-import { Component, OnInit, SimpleChanges, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { applicationObjectCreation } from 'src/app/shared/adaptor/adaptor';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -8,8 +8,8 @@ import { setSession, getSession } from 'src/app/shared/common/storage';
 import { isEmpty, toNumber } from 'lodash';
 import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
-//import validator and FormBuilder
-import { FormGroup, AbstractControl, Validators, FormBuilder } from '@angular/forms';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { PaymentModalComponent } from '../payment-modal/payment-modal.component';
 
 
 
@@ -20,9 +20,7 @@ import { FormGroup, AbstractControl, Validators, FormBuilder } from '@angular/fo
 })
 export class ApplicationComponent implements OnInit {
   profileSubscription!:Subscription;
-  formSubscription!: Subscription;
   applicationStatus: string = '';
-  @Output() isFormValid = new EventEmitter<any>();
   secondary: boolean = false;
   heading: string = 'Dashboard';
   applicationSubmitted: boolean = false;
@@ -48,29 +46,9 @@ export class ApplicationComponent implements OnInit {
   admission:any;
   docList:any;
   
-  //Create FormGroup
-  subscriptionArray: any[] = [];
-  form !: FormGroup;
-  constructor(private profileService: StudentProfileServiceService, private router: Router, private route: ActivatedRoute, private date:DatePipe ,private formBuilder: FormBuilder) {
-   
-    //this.myGroup = new FormGroup({ firstName: new FormControl() }); 
-    this.form = this.formBuilder.group(
-      {
-        application_name: ['', Validators.required]
-/*,
-        signature: ['', Validators.required],
-        caddress: ['', Validators.required],
-        mobileNumber: ['', [Validators.required]],
-        landlineNumber: ['', [Validators.required]],
-        alternateMobileNumber: ['', [Validators.required]],
-        emailId: ['', [Validators.required, Validators.email]],
-        */
-      }
-    );
-   }
-   get f(): { [key: string]: AbstractControl } {
-    return this.form.controls;
-  }
+  
+  constructor(private modal:NzModalService,private profileService: StudentProfileServiceService, private router: Router, private route: ActivatedRoute, private date:DatePipe ) { }
+
   ngOnInit(): void {            
     this.applicationStatus = this.userCheck('1', '4');         
     this.educationRecord = {  
@@ -84,13 +62,6 @@ export class ApplicationComponent implements OnInit {
     this.studentApplication.stdEducationList.push(this.educationRecord);             
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-
-    this.formSubscription = this.form.valueChanges.subscribe(() => {
-      this.isFormValid.emit(this.form.valid); 
-    });
-    this.subscriptionArray.push(this.formSubscription);
-  }
   addRow() {        
     this.educationRecord = {  
                               courseName: "",
@@ -131,7 +102,7 @@ export class ApplicationComponent implements OnInit {
   }
   applicationSubmit(requestData: any){ 
     this.userId = this.route.snapshot.paramMap.get('id')?.toString();
-    this.profileSubscription = this.profileService.create(applicationObjectCreation(requestData, this.userId)).subscribe((data:any)=>{      
+    this.profileSubscription = this.profileService.create(applicationObjectCreation(requestData, this.userId, 'SUBMITTED')).subscribe((data:any)=>{      
       setSession('profileId',data.messageCode);  
       setSession('userId',this.userId)          
       this.applicationStatus = '4';
@@ -166,8 +137,17 @@ export class ApplicationComponent implements OnInit {
     }    
   }
 
-  saveDraft(){
-    this.saveAsDraft = true;
+  applicationDraft(requestData: any){    
+    this.userId = this.route.snapshot.paramMap.get('id')?.toString();
+    console.log("create::",applicationObjectCreation(requestData, this.userId, 'DRAFTED'));
+    this.profileSubscription = this.profileService.create(applicationObjectCreation(requestData, this.userId, 'DRAFTED')).subscribe((data:any)=>{      
+      setSession('profileId',data.messageCode);  
+      setSession('userId',this.userId)          
+      this.applicationStatus = '3';
+      this.saveAsDraft = true;
+    },(error:Error)=>{
+      console.log(error);      
+    })    
   }
 
   sameCorrespondingAddress(check: string){         
@@ -200,5 +180,16 @@ export class ApplicationComponent implements OnInit {
       return page1;
     }
   }
- 
+
+  showPopUp(){
+    this.modal.create({
+      nzTitle: '',
+      nzContent:  PaymentModalComponent,
+      nzFooter: null,
+      nzClosable: false,
+      nzMaskClosable: false,
+  })
+  }
 }
+
+
