@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
   studentProfileId:any;
   notificationSubscription!: Subscription;
   constructor(private commonService:CommonService,private router:Router,private route:ActivatedRoute,private api: NotificationService) {
-    const profileObj:any={studentProfileId:1};
+    const profileObj:any={studentProfileId:1,userId:1};
     localStorage.setItem('studentProfileId',JSON.stringify(profileObj));
   }
 
