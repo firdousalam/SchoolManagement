@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
     */
     //const userId = this.route.snapshot.paramMap.get('id')?.toString(); 
     const profileObjLS: any = localStorage.getItem('studentProfileId');
-    console.log(profileObjLS,"pfffff")
+
     if (isEmpty(profileObjLS)) {
       const profileObj: any = { studentProfileId: 4, userId: 4 };
       localStorage.setItem('studentProfileId', JSON.stringify(profileObj));
@@ -38,38 +38,44 @@ export class DashboardComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<any> {
-    // this.routeParamSubscription = this.route.paramMap.subscribe((params:ParamMap)=>{
-    // console.log(params);
-
+  
     let profileObjLS: any = JSON.parse(localStorage.getItem('studentProfileId')!);
-    console.log(typeof profileObjLS);
+   
     let userId = profileObjLS?.userId;
-    console.log(profileObjLS["userId"],"46");
-    //const userId = '1'; 
+
     const params: IProfileSearch = { userId: parseInt(userId) };
     try {
+      //getStdProfileListByUserId
       let studentProfile:any = await this.profileService.getProfileByUserID(params).toPromise();
-      console.log(studentProfile);
-      const profileObj: any = { studentProfileId: studentProfile.messageCode, userId: userId };
+
+      const profileObj: any = { studentProfileId: studentProfile.id, userId: userId };
       localStorage.setItem('studentProfileId', JSON.stringify(profileObj));
       this.studentProfileId = studentProfile.studentProfileId;
       this.commonService.profileSubject.next({ profileId: this.studentProfileId });
-      localStorage.setItem('profileExist', "yes");
-      this.profileExist= "yes";
+      console.log(studentProfile);
+      if(studentProfile.application.approvalStatus === 'Approved'){
+        localStorage.setItem('profileExist', "yes");
+        this.profileExist= "yes";
+      }
+      else
+      {
+        localStorage.setItem('profileExist', "no");
+        this.profileExist= "no";
+      }
+      
       this.Init();
 
     } catch (error) {
-     
+ 
       localStorage.setItem('profileExist', "no");
       this.profileExist= "no";
-      // status set to show only application menu
+   
     };
     
   }
 
   Init() {
     this.notificationSubscription = this.api.getAll().subscribe((data: INotification[]) => {
-      console.log(data);
 
     });
   }

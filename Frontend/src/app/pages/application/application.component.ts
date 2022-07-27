@@ -132,7 +132,7 @@ export class ApplicationComponent implements OnInit {
       file: ""
     };
     this.studentApplicationDocDetail = [...this.studentApplicationDocDetail, this.documentRecord];
-    console.log("studentApplication::", this.studentApplication);
+  
   }
   deleteRow(index: number) {
     this.studentApplication.stdEducationList.splice(index, 1);
@@ -165,7 +165,6 @@ export class ApplicationComponent implements OnInit {
       } else if (status === "saveAsDraft") {
         if (!isEmpty(studentProfile)) {
           this.pageTraverseStatus = this.pageCheck(studentProfile, tab);
-          console.log("studentProfile", studentProfile);
           if (studentProfile.application.applicationState === 'Draft') {
             this.applicationStatus = "3";
             this.saveAsDraft = true;
@@ -189,16 +188,13 @@ export class ApplicationComponent implements OnInit {
     try {
       this.profileSubscription = this.profileService.create(applicationObjectCreation(requestData, this.userId, 'Awaiting Approval')).subscribe((data: any) => {
         this.noti.showSuccessToast('Student Profile Successfully Created')
-
-        console.log(data,"App Data");
-
         const profileObj: any = { studentProfileId: data.messageCode, userId: this.userId };
         localStorage.setItem('studentProfileId', JSON.stringify(profileObj));
         localStorage.setItem('profileExist', "yes");
         //Modal need to be added here Amir
         this.showPopUp();
-        setSession('profileId', data.messageCode);
-        setSession('userId', this.userId)
+        //setSession('profileId', data.messageCode);
+        //setSession('userId', this.userId)
         this.applicationStatus = '4';
       }, (error: Error) => {
         console.log(error);
@@ -310,7 +306,7 @@ export class ApplicationComponent implements OnInit {
 
   documntUpload(event: any, document: any): any {
     const formData = new FormData();
-    console.log("event.target.files", event.target.files[0]);
+  
     formData.append("file", event.target.files[0]);
     formData.append("id", document.id);
     formData.append("description", document.description);

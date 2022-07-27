@@ -32,7 +32,6 @@ export class FeePaymentComponent implements OnInit,OnChanges {
   }
   updateCheckedSet(id: any, checked: boolean): void {
     if (checked) {
-      console.log('amir');
       this.getTotalAmount();
       this.setOfCheckedId.add(id);
     } else {
@@ -47,7 +46,7 @@ export class FeePaymentComponent implements OnInit,OnChanges {
     this.getTotalAmount(filterArr);
   }
   onItemChecked(id: any, checked: boolean): void {
-    console.log(id,checked);
+
     this.updateCheckedSet(id, checked);
     this.refreshCheckedStatus();
   }
@@ -72,8 +71,7 @@ export class FeePaymentComponent implements OnInit,OnChanges {
       return false;
     }
   }
-  getTotalAmount(newArr?:any){
-    console.log('new',newArr);    
+  getTotalAmount(newArr?:any){ 
     const updatedArrTotal:any = newArr?.length ? newArr : this.rowData;
     this.makePaymentData.emit(updatedArrTotal);
     this.totalAmount = updatedArrTotal?.length ?  (updatedArrTotal

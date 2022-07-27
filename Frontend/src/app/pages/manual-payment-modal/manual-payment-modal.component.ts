@@ -56,7 +56,7 @@ export class ManualPaymentModalComponent implements OnInit, OnDestroy {
     });
 
     this.fileUploadSubscription = this.paymentApi.fileUpload(formData).subscribe((x: any) => {
-      console.log(x);
+
       if (x.status === 201) {
         this.noti.showSuccessToast('File uploaded successfully')
       }
@@ -71,13 +71,11 @@ export class ManualPaymentModalComponent implements OnInit, OnDestroy {
 
 
   onSubmit(): void {
-    console.log('kkkk', this.paymentform.invalid);
 
     this.submitted = true;
     if (this.paymentform.invalid) {
       return;
     }
-    console.log(JSON.stringify(this.paymentform.value, null, 2));
     const requestData = {
       modeOfPayment: this.paymentform?.value?.paymentType,
       number: this.paymentform?.value?.number.toString(),

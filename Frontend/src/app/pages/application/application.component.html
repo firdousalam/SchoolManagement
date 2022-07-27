@@ -501,17 +501,17 @@
                             <div class="col-5">
                                 <span>
                                     <input type="radio" class="form-check-input" name="professional_status"
-                                        value="EMPLOYEE" (click)="professionStatus('EMPLOYEE');">
+                                        value="EMPLOYEE" (click)="professionStatus('EMPLOYEE');"  [(ngModel)]="studentApplication.personalDetails.employmentStatus">
                                     <label class="form-check-label radio-button">Employment</label>
                                 </span>
                                 <span class="p-3">
                                     <input type="radio" class="form-check-input" name="professional_status"
-                                        value="STUDENT" (click)="professionStatus('STUDENT');">
+                                        value="STUDENT" (click)="professionStatus('STUDENT');"  [(ngModel)]="studentApplication.personalDetails.employmentStatus">
                                     <label class="form-check-label radio-button">Student</label>
                                 </span>
                                 <span class="p-3">
                                     <input type="radio" class="form-check-input" name="professional_status"
-                                        value="OTHERS" (click)="professionStatus('OTHERS');">
+                                        value="OTHERS" (click)="professionStatus('OTHERS');"  [(ngModel)]="studentApplication.personalDetails.employmentStatus">
                                     <label class="form-check-label radio-button">Other</label>
                                 </span>
                             </div>

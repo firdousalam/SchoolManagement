@@ -48,7 +48,6 @@ export class AddContactComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    console.log(JSON.stringify(this.form.value, null, 2));
     const requestData: IContact = this.form.value;
     this.contactSubscription = this.contactService.create(requestData).subscribe((data: any) => {
       this.notificationService.showSuccessToast('Contact created successfully');

@@ -15,11 +15,7 @@ export class MainHeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.routeParamSubscription = this.route.paramMap.subscribe((params:ParamMap)=>{
-      console.log(params);
-      
-     // this.studentProfileId = params.get('id');
      this.studentProfileId = 1;
-     // this.Init();
     })
   }
 

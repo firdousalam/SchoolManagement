@@ -8,8 +8,7 @@
         <i nz-icon nzType="dashboard"></i>
         <span >Dashboard</span>
       </li>
-      <li nz-submenu [nzOpen]="isOpen()" nzTitle="User" nzIcon="user" >
-        <ul>
+      
           <li nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/student/profile']" *ngIf="profileExist == 'yes'">
             <i nz-icon nzType="profile"></i>
             <span>Student Profile</span>           
@@ -30,7 +29,5 @@
             <i nz-icon nzType="contacts"></i>
             <span>Contact/Query</span>           
           </li>
-        </ul>
-      </li>
     </ul>
   </nz-sider>

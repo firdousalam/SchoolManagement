@@ -50,20 +50,18 @@ export class AdmissionComponent implements OnInit, OnDestroy {
     this.paymentSubscription = this.paymentApi.getByID({profileId:this.studentProfileId}).subscribe((data:any)=>{
       this.paidPayments = data?.filter((x: { paymentStatus: string; })=>x.paymentStatus==='Paid');
       this.unpaidPayments =data?.filter((x: { paymentStatus: string; })=>x.paymentStatus!=='Paid');
-      console.log(this.paidPayments,this.unpaidPayments);
+    
       this.submittedRequestData = this.unpaidPayments;
     })
     this.subscriptionArr.push(this.paymentSubscription);
   }
   getMakePaymentData(data:any){
-    console.log('Hi I am data',data);
     this.submittedRequestData = data;
   }
   onTabSelect(tabName: any) {
     this.selectedTab = tabName;
   }
   makePayment(){
-    console.log(this.submittedRequestData);
     
     this.makePaymentSubscription = this.paymentApi.createWithQueryParam({profileId:this.studentProfileId},this.submittedRequestData).subscribe((x:any)=>{
       this.noti.showSuccessToast('Payment has been made successfully');
