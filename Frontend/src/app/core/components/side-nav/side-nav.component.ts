@@ -14,15 +14,15 @@ export class SideNavComponent implements OnDestroy {
   toggleMenuSubscription!:Subscription;
   subArray:any=[];
   studentProfileId:any;
+  profileExist:any;
   constructor(private router:Router,private route:ActivatedRoute,private commonService:CommonService) {}
   isCollapsed: boolean = false; 
 
  
   ngOnInit(): void {
     
-
+    this.profileExist = localStorage.getItem('profileExist');
     this.profileSubscription = this.commonService.profileSubject.subscribe((x:any)=>{
-      console.log(x);
       this.studentProfileId = x.profileId;
       
     })

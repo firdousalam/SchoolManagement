@@ -35,7 +35,7 @@ export class ContactComponent implements OnInit {
   }
 
   onTableRowClick(id: any) {
-    console.log(id);
+  
     this.router.navigate([`/contact/view`], { queryParams: { id } });
   }
   ngOnInit(): void {
@@ -47,14 +47,13 @@ export class ContactComponent implements OnInit {
     //})
   }
   onQueryParamsChange(params: NzTableQueryParams): void {
-    console.log(params);
     const { pageSize, pageIndex, sort, filter } = params;
     const currentSort = sort.find((item: any) => item.value !== null);
     const sortOrder = (currentSort && currentSort.value) || null;
     this.init(pageIndex, pageSize, sortOrder);
   }
   getRowValue(field: ITableViewConfig, value: any): IContact {
-    if (field.field === 'dateofEntry' && value[field.field] && moment(value[field.field], 'MM/DD/YYYY').format('MM/DD/YYYY') === value[field.field]) {
+    if (field.field === 'dateOfEntry' && value[field.field] && moment(value[field.field], 'DD/MM/YYYY').format('DD/MM/YYYY') === value[field.field]) {
 
       value.dateofEntry = moment(value[field.field]).format('DD/MM/YYYY');
     }
@@ -64,7 +63,7 @@ export class ContactComponent implements OnInit {
     this.loading = true;
     pageIndex = pageIndex - 1;
     this.contactSubscription = this.api.getBySearchCriteria({ pageNumber: pageIndex, pageSize: pageSize, sortDirection: this.sortOrder }).subscribe((data: IContactPage) => {
-      console.log(data);
+   
       this.loading = false;
       this.total = data.totalElements;
       this.pageIndex = data.pageNumber + 1;
@@ -75,7 +74,7 @@ export class ContactComponent implements OnInit {
     this.subscriptionArray.push(this.contactSubscription);
   }
   search(value: any): void {
-    console.log(typeof (value), value);
+  
     this.rowData = this.filterData!.filter((val: any) =>
       val?.type?.toLowerCase().includes(value.trim().toLowerCase()) ||
       val.dateofEntry.toLowerCase().includes(value.trim().toLowerCase()) ||

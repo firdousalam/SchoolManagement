@@ -51,8 +51,6 @@ export class EmploymentDetailsComponent implements OnInit, OnChanges {
     })
 
 
-    console.log('profr', this.studentEmploymentData);
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {

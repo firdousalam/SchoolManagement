@@ -16,7 +16,7 @@
                     Courses
                   </button>
                 </div> -->
-                <div class="inner-page-card">
+                <div class="inner-page-card" *ngIf="profileExist == 'yes'">
                   <button
                     type="button"
                     class="btn btn-light btn-lg"
@@ -35,7 +35,7 @@
                   </button>
                 </div>
                 
-                <div class="inner-page-card">
+                <div class="inner-page-card"  *ngIf="profileExist == 'yes'">
                   <button
                     type="button"
                     class="btn btn-light btn-lg"
@@ -44,7 +44,7 @@
                     Admission
                   </button>
                 </div>
-                <div class="inner-page-card">
+                <div class="inner-page-card"  *ngIf="profileExist == 'yes'">
                   <button
                     type="button"
                     class="btn btn-light btn-lg"
@@ -53,7 +53,7 @@
                     Courses
                   </button>
                 </div>
-                <div class="inner-page-card">
+                <div class="inner-page-card"  *ngIf="profileExist == 'yes'">
                   <button
                     type="button"
                     class="btn btn-light btn-lg"

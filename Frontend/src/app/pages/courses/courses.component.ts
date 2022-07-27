@@ -21,7 +21,7 @@ export class CoursesComponent implements OnInit {
   courseSubscription!: Subscription;
   routeParamSubscription!: Subscription;
   docSubscription!: Subscription;
-  subscriptionArray:any[]=[];
+  subscriptionArray: any[] = [];
   searchTerm: any = '';
   showPdfUrl: any;
   filename: any;
@@ -31,7 +31,7 @@ export class CoursesComponent implements OnInit {
   sortOrder = 'DESC';
   pageSize = 10;
   pageIndex = 1;
-  constructor(private commonService:CommonService,private route:ActivatedRoute,private api: StudyMaterialServiceService,private date:DatePipe) {
+  constructor(private commonService: CommonService, private route: ActivatedRoute, private api: StudyMaterialServiceService, private date: DatePipe) {
     this.adminTableConfig = courseColumnDefs;
 
   }
@@ -39,18 +39,17 @@ export class CoursesComponent implements OnInit {
     return value[field.field];
   }
   getRowValue(field: ITableViewConfig, value: any): ICourse {
-    return (field.field ==='fromDate' ? value[field.field] ? this.date.transform(value[field.field],'dd/MM/YYYY') : '------------': value[field.field] ? value[field.field] : '------------');
+    return (field.field === 'fromDate' ? value[field.field] ? this.date.transform(value[field.field], 'dd/MM/YYYY') : '------------' : value[field.field] ? value[field.field] : '------------');
   }
   ngOnInit(): void {
-   // this.routeParamSubscription = this.route.paramMap.subscribe((params:ParamMap)=>{
+    // this.routeParamSubscription = this.route.paramMap.subscribe((params:ParamMap)=>{
     const studentProfileObj = JSON.parse(localStorage.getItem('studentProfileId')!);
     this.studentProfileId = studentProfileObj.studentProfileId;
-      this.commonService.profileSubject.next({profileId:this.studentProfileId});
-      this.init(this.pageIndex, this.pageSize, 'DESC');
-   // })
+    this.commonService.profileSubject.next({ profileId: this.studentProfileId });
+    this.init(this.pageIndex, this.pageSize, 'DESC');
+    // })
   }
   onQueryParamsChange(params: NzTableQueryParams): void {
-    console.log(params);
     const { pageSize, pageIndex, sort, filter } = params;
     const currentSort = sort.find((item: any) => item.value !== null);
     const sortOrder = (currentSort && currentSort.value) || null;
@@ -62,7 +61,7 @@ export class CoursesComponent implements OnInit {
     this.courseSubscription = this.api.getBySearchCriteria({ pageNumber: pageIndex, pageSize: pageSize, sortDirection: this.sortOrder }).subscribe((data: ICoursePage) => {
       this.loading = false;
       this.total = data.totalElements;
-      this.pageIndex = data.pageNumber + 1; 
+      this.pageIndex = data.pageNumber + 1;
       this.rowData = data.content;
       this.filterData = this.rowData;
     })
@@ -94,7 +93,6 @@ export class CoursesComponent implements OnInit {
   downloadFile(url: string) {
     let downloadLink = document.createElement('a');
     downloadLink.href = url;
-    console.log('ff', downloadLink.href);
     if (this.filename)
       downloadLink.setAttribute('download', this.filename);
     document.body.appendChild(downloadLink);
@@ -104,8 +102,7 @@ export class CoursesComponent implements OnInit {
   }
 
   search(value: any): void {
-    // console.log(typeof (value), value);
-    this.rowData = this.filterData!.filter((val: any) => 
+    this.rowData = this.filterData!.filter((val: any) =>
       val?.subject?.toLowerCase()?.includes(value.trim().toLowerCase()) ||
       val?.heading?.toLowerCase()?.includes(value.trim().toLowerCase()) ||
       val?.description?.toLowerCase()?.includes(value.trim().toLowerCase()) ||

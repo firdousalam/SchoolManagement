@@ -41,14 +41,9 @@ export class StudentProfileDetailComponent implements OnInit, OnDestroy {
   studentProfessionData!: stdProfession;
   subscriptionArray: any = [];
   constructor(private headerpersonalApi:ProfileHeaderService,private personalApi: StudentPersonalServiceService, private notificationService: NotificationService, private api: StudentProfileServiceService, private router: Router, private route: ActivatedRoute) {
-    // this.tabs = studentProfileTabs;
-    // this.selectedTab = studentProfileTabNames.PERSONAL
-   // this.routeParamSubscription = this.route.paramMap.subscribe((params: ParamMap) => {
     const studentProfileObj = JSON.parse(localStorage.getItem('studentProfileId')!);
     this.studentProfileId = studentProfileObj.studentProfileId;
       this.title = `Student Profile - #${this.studentProfileId}`;
-   // })
-    //this.subscriptionArray.push(this.routeParamSubscription);
   }
   onEdit() {
     this.editMode = true;
@@ -63,7 +58,6 @@ export class StudentProfileDetailComponent implements OnInit, OnDestroy {
 
   submitAllData() {
     this.eventsSubject.next();
-    console.log('Amirrrrrrrrrrrrr', this.studentEducationData);
     const request: IProfile = {
       "stdAdmission": { ...this.studentProfileData.stdAdmission, ...this.studentAdmissionData },
       "stdEducationList": [...this.studentProfileData.stdEducationList, ...this.studentEducationData],
@@ -71,7 +65,6 @@ export class StudentProfileDetailComponent implements OnInit, OnDestroy {
       "stdProfession": { ...this.studentProfileData.stdProfession, ...this.studentProfessionData },
       "stdContactDetail": { ...this.studentProfileData.stdContactDetail, ...this.studentContactData }
     };
-    console.log('Submit Data:', request);
     this.studentProfileData = {
       ...this.studentProfileData,...request
     }
@@ -92,7 +85,7 @@ export class StudentProfileDetailComponent implements OnInit, OnDestroy {
   }
   savePersonal() {
     this.saveSubject.next();
-    console.log('SSSS',this.employmentStatus);
+
     
     this.studentContactData = { ...this.studentContactData, 'profileId': parseInt(this.studentProfileId) };
 
@@ -120,15 +113,9 @@ export class StudentProfileDetailComponent implements OnInit, OnDestroy {
   getStatus(status:any){
     this.employmentStatus = status;
   }
-  // onTabSelect(tabName: any) {
-  //   this.selectedTab = tabName;
-  // }
-
- 
   init() {
     const request = { profileId: this.studentProfileId }
     this.profileSubscription = this.api.getByIDWithDetail(request).subscribe((data: IProfile) => {
-      console.log(data);
       this.studentProfileData = data;
       this.employmentStatus = this.studentProfileData.stdPersonalDetail.employmentStatus;
       this.studentEducationData = this.studentProfileData.stdEducationList;

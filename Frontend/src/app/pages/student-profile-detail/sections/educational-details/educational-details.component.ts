@@ -35,10 +35,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy, OnChanges
     this.columnDefs = educationDetailsColumnDefs;
   }
   startEdit(id: number): void {
-    console.log('ll', id);
-
     this.editCache[id].edit = true;
-    console.log('ll3', this.editCache);
   }
 
   cancelEdit(id: number): void {
@@ -50,12 +47,10 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy, OnChanges
   }
 
   saveEdit(id: number): void {
-    console.log('dfgd', id);
 
     const index = this.listOfData.findIndex(item => item.id === id);
     Object.assign(this.listOfData[index], this.editCache[id].data);
     this.editCache[id].edit = false;
-    console.log(this.listOfData);
 
   }
 
@@ -69,12 +64,10 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy, OnChanges
   }
 
   isEmptyObject(o: stdEducationList | { [s: string]: unknown; } | ArrayLike<unknown>) {
-    console.log(Object.values(o).every(x => x !== null && x !== ''))
     return Object.values(o).every(x => x !== null && x !== '');
   }
 
   createEduDataAfterActions() {
-    console.log('fromsubmit', this.listOfData, this.educationForm);
     if (this.educationForm.invalid) {
       let lastItem: any = this.listOfData.length && this.listOfData[this.listOfData.length - 1].id;
       this.listOfData = this.listOfData.filter(d => d.id !== lastItem);
@@ -82,14 +75,12 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy, OnChanges
       this.saveEdit(lastItemNew)
       this.updateEditCache();
       const filterData = this.listOfData.filter(x => this.isEmptyObject(x))
-      console.log('fromsubmitAfterFilweeewe', filterData);
       this.updatedEducationData = filterData;
     } else {
       const lastItem: any = this.listOfData.length && this.listOfData[this.listOfData.length - 1].id;
       this.saveEdit(lastItem)
       this.updateEditCache();
       const filterData = this.listOfData.filter(x => this.isEmptyObject(x))
-      console.log('fromsubmitAfterFil', filterData);
       this.updatedEducationData = filterData;
     }
     return this.updatedEducationData;
@@ -103,8 +94,6 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy, OnChanges
   updateEduData() {
     //put api
     const requestData: any[] = this.createEduDataAfterActions();
-
-    console.log('saveeeeee', requestData)
     this.saveEducationSubscription = this.api.updateBySearchCriteriaWithArrayObject({ profileId: this.studentProfileId }, requestData).subscribe((data: any) => {
       this.notificationService.showSuccessToast(data.message);
       this.editMode = false;
@@ -133,15 +122,8 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy, OnChanges
         yearofCompletion: '',
       },
     ];
-
-    // setTimeout(() => {
     this.listOfData = this.studentEducation;
-    // this.i = this.listOfData.length + 1;
     this.updateEditCache();
-    // }, 200);
-
-
-
   }
   onEdit() {
     this.editMode = true;
@@ -156,8 +138,6 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy, OnChanges
     if (educationForm.valid) {
       const lastItem: any = this.listOfData.length && this.listOfData[this.listOfData.length - 1].id;
       this.i = parseInt(lastItem) + 1;
-      console.log('New I vale', this.i);
-
       this.saveEdit(this.i - 1)
       this.listOfData = [
         ...this.listOfData,
@@ -179,10 +159,6 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy, OnChanges
       }
       return;
     }
-    console.log(this.listOfData.length, this.i);
-    console.log('dsdsd', educationForm.value);
-
-    console.log(this.listOfData, this.i);
   }
 
   deleteRow(id: number, educationForm: NgForm): void {

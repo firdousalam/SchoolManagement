@@ -14,10 +14,7 @@ export class PersonalHeaderDetailsComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('Edit',this.editMode);
-    
     this.employmentStatus = this.studentPersonalData?.employmentStatus;
-    console.log(this.employmentStatus);
 
   }
 

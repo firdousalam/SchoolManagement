@@ -29,7 +29,6 @@ export const applicationObjectCreation = (applicationObject: any, userId: any, a
          stdPersonalDetail:{
              ...applicationObject.personalDetails,
              dateofEntry:"",
-             employmentStatus:"Employed",
              approvalStatus: applicationState
          },
          stdEducationList:[
