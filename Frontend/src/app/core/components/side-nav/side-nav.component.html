@@ -8,9 +8,9 @@
         <i nz-icon nzType="dashboard"></i>
         <span >Dashboard</span>
       </li>
-      <li nz-submenu [nzOpen]="isOpen()" nzTitle="User" nzIcon="user">
+      <li nz-submenu [nzOpen]="isOpen()" nzTitle="User" nzIcon="user" >
         <ul>
-          <li nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/student/profile']">
+          <li nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/student/profile']" *ngIf="profileExist == 'yes'">
             <i nz-icon nzType="profile"></i>
             <span>Student Profile</span>           
           </li>
@@ -18,15 +18,15 @@
             <i nz-icon nzType="setting"></i>
             <span>Application</span>           
           </li>
-          <li nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/admission']">
+          <li nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/admission']"  *ngIf="profileExist == 'yes'" >
             <i nz-icon nzType="profile"></i>
             <span>Admission</span>           
           </li>
-          <li nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/courses']">
+          <li nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/courses']"  *ngIf="profileExist == 'yes'">
             <i nz-icon nzType="book"></i>
             <span>Courses</span>           
           </li>
-          <li nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/contact']">
+          <li nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/contact']"  *ngIf="profileExist == 'yes'">
             <i nz-icon nzType="contacts"></i>
             <span>Contact/Query</span>           
           </li>

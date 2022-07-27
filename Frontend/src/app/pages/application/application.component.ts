@@ -189,8 +189,12 @@ export class ApplicationComponent implements OnInit {
     try {
       this.profileSubscription = this.profileService.create(applicationObjectCreation(requestData, this.userId, 'Awaiting Approval')).subscribe((data: any) => {
         this.noti.showSuccessToast('Student Profile Successfully Created')
+
+        console.log(data,"App Data");
+
         const profileObj: any = { studentProfileId: data.messageCode, userId: this.userId };
         localStorage.setItem('studentProfileId', JSON.stringify(profileObj));
+        localStorage.setItem('profileExist', "yes");
         //Modal need to be added here Amir
         this.showPopUp();
         setSession('profileId', data.messageCode);
