@@ -41,7 +41,7 @@ export class ApplicationComponent implements OnInit {
     docList: [],
     docTempList: []
   }
-  studentApplicationDocDetail:any= [];
+  studentApplicationDocDetail: any = [];
   educationRecord: any = {};
   //applicationViewDetails: IProfile = Profile;
   applicationViewDetails: any;
@@ -57,7 +57,7 @@ export class ApplicationComponent implements OnInit {
   pageTraverseStatus: string = 'APPLICATION_STARTED'
   documentTypeList: any;
   paymentApi: any;
-  documentRecord:any;
+  documentRecord: any;
   constructor(private profileService: StudentProfileServiceService,
     private router: Router,
     private route: ActivatedRoute,
@@ -73,7 +73,7 @@ export class ApplicationComponent implements OnInit {
     this.userId = studentProfileObj.userId;
     //const userId = '1'; 
     const params: IProfileSearch = { userId: toNumber(this.userId) };
-    try{
+    try {
       let studentProfile = await this.profileService.getProfileByUserID(params).toPromise();
       this.pageTraverseStatus = this.pageCheck(studentProfile, 'FORMTAB');
       this.applicationStatus = (this.pageTraverseStatus === 'APPLICATION_STARTED') ? '1' : '4';
@@ -84,11 +84,11 @@ export class ApplicationComponent implements OnInit {
         yearofCompletion: "",
         educationStatus: "",
         sequence: 0
-      };      
+      };
       this.studentApplication.stdEducationList.push(this.educationRecord);
       this.loadDocumentTypeList();
-    }catch(error){
-      let studentProfile = "";      
+    } catch (error) {
+      let studentProfile = "";
       this.pageTraverseStatus = this.pageCheck(studentProfile, 'FORMTAB');
       this.applicationStatus = (this.pageTraverseStatus === 'APPLICATION_STARTED') ? '1' : '4';
       this.educationRecord = {
@@ -119,27 +119,27 @@ export class ApplicationComponent implements OnInit {
       educationStatus: "",
       sequence: 0
     };
-   
-   // this.studentApplication.stdEducationList.push(this.educationRecord);
+
+    // this.studentApplication.stdEducationList.push(this.educationRecord);
     this.studentApplication.stdEducationList = [...this.studentApplication.stdEducationList, this.educationRecord]
     return true;
   }
   //Add more in document section
-  addDocumentRow(){
+  addDocumentRow() {
     this.documentRecord = {
       id: "",
       description: "",
       file: ""
     };
     this.studentApplicationDocDetail = [...this.studentApplicationDocDetail, this.documentRecord];
-    console.log("studentApplication::",this.studentApplication);
+    console.log("studentApplication::", this.studentApplication);
   }
-  deleteRow(index : number){  
+  deleteRow(index: number) {
     this.studentApplication.stdEducationList.splice(index, 1);
   }
-  deleteRowEdit(index : number){    
-     this.editDraft.stdEducationList.splice(index, 1);
-   }
+  deleteRowEdit(index: number) {
+    this.editDraft.stdEducationList.splice(index, 1);
+  }
   async applicationStatusChange(status: string, tab: string): Promise<any> {
     //const userId = this.route.snapshot.paramMap.get('id')?.toString();
     const userId = this.userId;
@@ -179,7 +179,7 @@ export class ApplicationComponent implements OnInit {
           this.applicationStatus = "6";
         }
       }
-    }catch (error) {
+    } catch (error) {
       console.log(error);
     }
   }
@@ -199,9 +199,9 @@ export class ApplicationComponent implements OnInit {
       }, (error: Error) => {
         console.log(error);
         this.noti.showErrorToast('Student Profile Not Created, Contact Admin!')
-        
+
       })
-    }catch (error) {
+    } catch (error) {
       this.noti.showErrorToast('Student Profile Not Created, Contact Admin!')
     }
   }
@@ -210,18 +210,18 @@ export class ApplicationComponent implements OnInit {
     //this.userId = this.route.snapshot.paramMap.get('id')?.toString();
 
     try {
-        this.profileSubscription = this.profileService.update(applicationObjectCreation(requestData, this.userId, 'Awaiting Approval')).subscribe((data: any) => {
-          //Modal need to be added here Amir
-          this.showPopUp();
-          setSession('profileId', data.messageCode);
-          setSession('userId', this.userId)
-          this.applicationStatus = '4';
-        }, (error: Error) => {
-          console.log(error);
-        })
-      }catch (error) {
-        this.noti.showErrorToast('Student Profile Not Created, Contact Admin!')
-      }
+      this.profileSubscription = this.profileService.update(applicationObjectCreation(requestData, this.userId, 'Awaiting Approval')).subscribe((data: any) => {
+        //Modal need to be added here Amir
+        this.showPopUp();
+        setSession('profileId', data.messageCode);
+        setSession('userId', this.userId)
+        this.applicationStatus = '4';
+      }, (error: Error) => {
+        console.log(error);
+      })
+    } catch (error) {
+      this.noti.showErrorToast('Student Profile Not Created, Contact Admin!')
+    }
   }
   async applicationView(tab: string): Promise<any> {
     let userId = this.userId;
@@ -259,18 +259,18 @@ export class ApplicationComponent implements OnInit {
   applicationDraft(requestData: any) {
     //this.userId = this.route.snapshot.paramMap.get('id')?.toString();    
     //this.userId = '1';   
-    try{
-        this.profileSubscription = this.profileService.create(applicationObjectCreation(requestData, this.userId, 'Saved')).subscribe((data: any) => {
-          setSession('profileId', data.messageCode);
-          setSession('userId', this.userId)
-          this.applicationStatus = '3';
-          this.saveAsDraft = true;
-        }, (error: Error) => {
-          console.log(error);
-        })
-      }catch (error) {
-          this.noti.showErrorToast('Student Profile Not Created, Contact Admin!')
-        }
+    try {
+      this.profileSubscription = this.profileService.create(applicationObjectCreation(requestData, this.userId, 'Saved')).subscribe((data: any) => {
+        setSession('profileId', data.messageCode);
+        setSession('userId', this.userId)
+        this.applicationStatus = '3';
+        this.saveAsDraft = true;
+      }, (error: Error) => {
+        console.log(error);
+      })
+    } catch (error) {
+      this.noti.showErrorToast('Student Profile Not Created, Contact Admin!')
+    }
   }
 
   sameCorrespondingAddress(check: string) {
@@ -304,22 +304,22 @@ export class ApplicationComponent implements OnInit {
     }
   }
 
-  documntUpload(event: any, document:any): any {    
+  documntUpload(event: any, document: any): any {
     const formData = new FormData();
-    console.log("event.target.files",event.target.files[0]);
+    console.log("event.target.files", event.target.files[0]);
     formData.append("file", event.target.files[0]);
-    formData.append("id",document.id);
+    formData.append("id", document.id);
     formData.append("description", document.description);
-    formData.append("documentType", 'Application Documents');    
-    this.studentDocument.fileUpload(formData).subscribe((x: any) => {     
+    formData.append("documentType", 'Application Documents');
+    this.studentDocument.fileUpload(formData).subscribe((x: any) => {
       if (x.status === 201) {
         this.studentApplication.docList.push(x.body);
         this.studentApplication.docTempList.push(x.body);
         this.noti.showSuccessToast('File uploaded successfully')
       }
-    }); 
-     
-    
+    });
+
+
     //this.file = event.target.files[0];
 
     //this.file = event.target.files[0];
