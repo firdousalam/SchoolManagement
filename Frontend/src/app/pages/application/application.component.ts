@@ -106,10 +106,19 @@ export class ApplicationComponent implements OnInit {
       educationStatus: "",
       sequence: 0
     };
+   
+   // this.studentApplication.stdEducationList.push(this.educationRecord);
     this.studentApplication.stdEducationList = [...this.studentApplication.stdEducationList, this.educationRecord]
     return true;
   }
-
+  deleteRow(index : number){
+   // alert(index);
+    this.studentApplication.stdEducationList.splice(index, 1);
+  }
+  deleteRowEdit(index : number){
+    // alert(index);
+     this.editDraft.stdEducationList.splice(index, 1);
+   }
   async applicationStatusChange(status: string, tab: string): Promise<any> {
     //const userId = this.route.snapshot.paramMap.get('id')?.toString();
     const userId = this.userId;
