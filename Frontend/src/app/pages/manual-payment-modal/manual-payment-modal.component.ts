@@ -13,15 +13,16 @@ import { FeePaymentService } from 'src/app/shared/services/api/fee-payment.servi
   templateUrl: './manual-payment-modal.component.html',
   styleUrls: ['./manual-payment-modal.component.scss']
 })
-export class ManualPaymentModalComponent implements OnInit,OnDestroy {
+export class ManualPaymentModalComponent implements OnInit, OnDestroy {
   fileList: NzUploadFile[] = [];
   paymentform!: FormGroup;
   submitted = false;
-  makePaymentSubscription!:Subscription;
-  subscriptionArr:any[]=[];
-  studentProfileId:any;
-  constructor(private date:DatePipe,private paymentApi:FeePaymentService,private noti:NotificationService,private modalRef: NzModalRef, private formBuilder: FormBuilder,) {
- 
+  makePaymentSubscription!: Subscription;
+  fileUploadSubscription!: Subscription;
+  subscriptionArr: any[] = [];
+  studentProfileId: any;
+  constructor(private date: DatePipe, private paymentApi: FeePaymentService, private noti: NotificationService, private modalRef: NzModalRef, private formBuilder: FormBuilder,) {
+
   }
 
   ngOnInit(): void {
@@ -39,27 +40,39 @@ export class ManualPaymentModalComponent implements OnInit,OnDestroy {
   }
   closeModal() {
     this.modalRef.close();
-  } 
-  
+  }
+
   beforeUpload = (file: NzUploadFile): boolean => {
     this.fileList = this.fileList.concat(file);
+    this.handleUpload();
+    return false;
+  };
+
+  handleUpload() {
     const formData = new FormData();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.fileList.forEach((file: any) => {
-      
-
-      formData.append('files[]', file);
+      formData.append('file', file);
     });
-    console.log(this.fileList);
-    return false;
-  };
+
+    this.fileUploadSubscription = this.paymentApi.fileUpload(formData).subscribe((x: any) => {
+      console.log(x);
+      if (x.status === 201) {
+        this.noti.showSuccessToast('File uploaded successfully')
+      }
+    });
+    this.subscriptionArr.push(this.fileUploadSubscription);
+  }
+
 
   get f(): { [key: string]: AbstractControl } {
     return this.paymentform.controls;
   }
+
+
   onSubmit(): void {
-    console.log('kkkk',this.paymentform.invalid);
-    
+    console.log('kkkk', this.paymentform.invalid);
+
     this.submitted = true;
     if (this.paymentform.invalid) {
       return;
@@ -78,7 +91,7 @@ export class ManualPaymentModalComponent implements OnInit,OnDestroy {
       paymentStatus: "Paid",
       profileId: this.studentProfileId
     }
-    this.makePaymentSubscription = this.paymentApi.createWithQueryParam({profileId:this.studentProfileId},[requestData]).subscribe((x:any)=>{
+    this.makePaymentSubscription = this.paymentApi.createWithQueryParam({ profileId: this.studentProfileId }, [requestData]).subscribe((x: any) => {
       this.noti.showSuccessToast('Payment has been made successfully');
       this.closeModal();
     })
@@ -86,6 +99,6 @@ export class ManualPaymentModalComponent implements OnInit,OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptionArr.forEach((x:any)=>x.unsubscribe());
+    this.subscriptionArr.forEach((x: any) => x.unsubscribe());
   }
 }

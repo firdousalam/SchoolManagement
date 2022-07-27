@@ -154,7 +154,8 @@ export const apiRoutes = {
   },
   paymentApi:{
     getById:'/api/v1/payment/getPaymentsByProfileId',
-    createById: '/api/v1/payment/makePayment'
+    createById: '/api/v1/payment/makePayment',
+    upload: '/api/v1/studentDocument/upload'
 
   },
   batchDetailsApi:{

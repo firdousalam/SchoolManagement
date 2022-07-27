@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { UrlBuilderService } from 'src/app/shared/services/url-builder.service';
 
 @Injectable({
@@ -50,7 +50,7 @@ export abstract class CrudService<IDetail, IDetailPage, ISearch> {
     );
   }
 
-  update(detail: IDetail) {
+  update(detail: IDetail) { 
     return this.httpClient.put(
       this.urlBuilderService.getUrl(this.api.update),
       detail
@@ -89,6 +89,18 @@ export abstract class CrudService<IDetail, IDetailPage, ISearch> {
       ),
       detail
     );
+  }
+
+   
+  fileUpload(detail: IDetail) {
+    const req = new HttpRequest('POST', this.urlBuilderService.getUrl(
+      this.api.upload,
+    ), detail, {
+      // reportProgress: true
+      responseType:'json',
+      
+    });
+    return this.httpClient.request<any>(req);
   }
   getProfileByUserID(searchObject: ISearch) {
     return this.httpClient.get<IDetailPage>(
