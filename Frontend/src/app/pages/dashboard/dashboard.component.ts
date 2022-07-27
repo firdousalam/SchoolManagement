@@ -20,15 +20,6 @@ export class DashboardComponent implements OnInit {
   profileExist = "";
   constructor(private commonService: CommonService, private router: Router, private route: ActivatedRoute, private api: NotificationService,
     private profileService: StudentProfileServiceService) {
-
-    /*
-    const profileObjLS:any = localStorage.getItem('studentProfileId');
-    if(isEmpty(profileObjLS)){
-      const  profileObj:any={studentProfileId:4,userId:4};
-      localStorage.setItem('studentProfileId',JSON.stringify(profileObj));
-    }
-    */
-    //const userId = this.route.snapshot.paramMap.get('id')?.toString(); 
     const profileObjLS: any = localStorage.getItem('studentProfileId');
 
     if (isEmpty(profileObjLS)) {

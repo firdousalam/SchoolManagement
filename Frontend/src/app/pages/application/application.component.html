@@ -90,7 +90,7 @@
                             <div class="col">
                                 <select class="form-select" name="sex" id="sex" required #sex="ngModel"
                                     [(ngModel)]="studentApplication.personalDetails.gender">
-                                    <option>Male</option>
+                                    <option >Male</option>
                                     <option>Female</option>
                                     <option>Other</option>
                                 </select>
@@ -149,18 +149,18 @@
                             </div>
                             <div class="col">
                                 <span>
-                                    <input type="radio" class="form-check-input" id="sc" name="sc_st" value="sc" checked
+                                    <input type="radio" class="form-check-input" id="sc" name="sc_st" value="sc" 
                                         [(ngModel)]="studentApplication.personalDetails.scOrSt">
                                     <label class="form-check-label radio-button">SC</label>
                                 </span>
                                 <span class="p-3">
-                                    <input type="radio" class="form-check-input" id="st" name="sc_st" value="st" checked
+                                    <input type="radio" class="form-check-input" id="st" name="sc_st" value="st" 
                                         [(ngModel)]="studentApplication.personalDetails.scOrSt">
                                     <label class="form-check-label radio-button">ST</label>
                                 </span>
                                 <span class="p-1">
                                     <input type="radio" class="form-check-input" id="general" name="sc_st" value="general" checked
-                                        [(ngModel)]="studentApplication.personalDetails.scOrSt">
+                                        [(ngModel)]="studentApplication.personalDetails.scOrSt" >
                                     <label class="form-check-label radio-button">General</label>
                                 </span>
                             </div>
