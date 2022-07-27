@@ -65,19 +65,36 @@ export class ApplicationComponent implements OnInit {
     this.userId = studentProfileObj.userId;
     //const userId = '1'; 
     const params: IProfileSearch = { userId: toNumber(this.userId) };
-    let studentProfile = await this.profileService.getProfileByUserID(params).toPromise();
-    this.pageTraverseStatus = this.pageCheck(studentProfile, 'FORMTAB');
-    this.applicationStatus = (this.pageTraverseStatus === 'APPLICATION_STARTED') ? '1' : '4';
-    this.educationRecord = {
-      courseName: "",
-      institution: "",
-      percentage: "",
-      yearofCompletion: "",
-      educationStatus: "",
-      sequence: 0
-    };
-    this.studentApplication.stdEducationList.push(this.educationRecord);
-    this.loadDocumentTypeList();
+    try{
+      let studentProfile = await this.profileService.getProfileByUserID(params).toPromise();
+      this.pageTraverseStatus = this.pageCheck(studentProfile, 'FORMTAB');
+      this.applicationStatus = (this.pageTraverseStatus === 'APPLICATION_STARTED') ? '1' : '4';
+      this.educationRecord = {
+        courseName: "",
+        institution: "",
+        percentage: "",
+        yearofCompletion: "",
+        educationStatus: "",
+        sequence: 0
+      };
+      this.studentApplication.stdEducationList.push(this.educationRecord);
+      this.loadDocumentTypeList();
+    }catch(error){
+      let studentProfile = "";
+      console.log(studentProfile,"userId");
+      this.pageTraverseStatus = this.pageCheck(studentProfile, 'FORMTAB');
+      this.applicationStatus = (this.pageTraverseStatus === 'APPLICATION_STARTED') ? '1' : '4';
+      this.educationRecord = {
+        courseName: "",
+        institution: "",
+        percentage: "",
+        yearofCompletion: "",
+        educationStatus: "",
+        sequence: 0
+      };
+      this.studentApplication.stdEducationList.push(this.educationRecord);
+      this.loadDocumentTypeList();
+    }
   }
 
   addRow() {
