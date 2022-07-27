@@ -144,68 +144,84 @@ export class ApplicationComponent implements OnInit {
     //const userId = this.route.snapshot.paramMap.get('id')?.toString();
     const userId = this.userId;
     const params: IProfileSearch = { userId: toNumber(userId) };
-    let studentProfile: any = await this.profileService.getProfileByUserID(params).toPromise();
-    if (status === "applicationForm") {
-      try {
+    try {
+      let studentProfile: any = await this.profileService.getProfileByUserID(params).toPromise();
+      if (status === "applicationForm") {
+        try {
+          if (!isEmpty(studentProfile)) {
+            this.pageTraverseStatus = this.pageCheck(studentProfile, tab);
+            if (this.pageTraverseStatus === 'AWAITING_APPROVAL') {
+              this.applicationStatus = '4';
+            } else if (this.pageTraverseStatus === 'DRAFT') {
+              this.applicationStatus = '7';
+            }
+          } else {
+            this.applicationStatus = '1';
+          }
+        }
+        catch (error) {
+          console.log(error);
+        }
+      } else if (status === "saveAsDraft") {
         if (!isEmpty(studentProfile)) {
           this.pageTraverseStatus = this.pageCheck(studentProfile, tab);
-          if (this.pageTraverseStatus === 'AWAITING_APPROVAL') {
-            this.applicationStatus = '4';
-          } else if (this.pageTraverseStatus === 'DRAFT') {
-            this.applicationStatus = '7';
+          console.log("studentProfile", studentProfile);
+          if (studentProfile.application.applicationState === 'Draft') {
+            this.applicationStatus = "3";
+            this.saveAsDraft = true;
+            this.editDraft = studentProfile;
+          } else {
+            this.pageTraverseStatus = 'DRAFTSUBMITTED'
+            this.applicationStatus = "7";
           }
         } else {
-          this.applicationStatus = '1';
+          this.pageTraverseStatus = 'NODRAFT'
+          this.applicationStatus = "6";
         }
       }
-      catch (error) {
-        console.log(error);
-      }
-    } else if (status === "saveAsDraft") {
-      if (!isEmpty(studentProfile)) {
-        this.pageTraverseStatus = this.pageCheck(studentProfile, tab);
-        console.log("studentProfile", studentProfile);
-        if (studentProfile.application.applicationState === 'Draft') {
-          this.applicationStatus = "3";
-          this.saveAsDraft = true;
-          this.editDraft = studentProfile;
-        } else {
-          this.pageTraverseStatus = 'DRAFTSUBMITTED'
-          this.applicationStatus = "7";
-        }
-      } else {
-        this.pageTraverseStatus = 'NODRAFT'
-        this.applicationStatus = "6";
-      }
+    }catch (error) {
+      console.log(error);
     }
   }
   //APPLICATION SUBMITTED
   applicationSubmit(requestData: any) {
     //this.userId = this.route.snapshot.paramMap.get('id')?.toString();
-    this.profileSubscription = this.profileService.create(applicationObjectCreation(requestData, this.userId, 'Awaiting Approval')).subscribe((data: any) => {
-      const profileObj: any = { studentProfileId: data.messageCode, userId: this.userId };
-      localStorage.setItem('studentProfileId', JSON.stringify(profileObj));
-      //Modal need to be added here Amir
-      this.showPopUp();
-      setSession('profileId', data.messageCode);
-      setSession('userId', this.userId)
-      this.applicationStatus = '4';
-    }, (error: Error) => {
-      console.log(error);
-    })
+    try {
+      this.profileSubscription = this.profileService.create(applicationObjectCreation(requestData, this.userId, 'Awaiting Approval')).subscribe((data: any) => {
+        this.noti.showSuccessToast('Student Profile Successfully Created')
+        const profileObj: any = { studentProfileId: data.messageCode, userId: this.userId };
+        localStorage.setItem('studentProfileId', JSON.stringify(profileObj));
+        //Modal need to be added here Amir
+        this.showPopUp();
+        setSession('profileId', data.messageCode);
+        setSession('userId', this.userId)
+        this.applicationStatus = '4';
+      }, (error: Error) => {
+        console.log(error);
+        this.noti.showErrorToast('Student Profile Not Created, Contact Admin!')
+        
+      })
+    }catch (error) {
+      this.noti.showErrorToast('Student Profile Not Created, Contact Admin!')
+    }
   }
   //APPLICATION SUBMITTED POST DRAFT
   applicationSubmittedPostDraft(requestData: any) {
     //this.userId = this.route.snapshot.paramMap.get('id')?.toString();
-    this.profileSubscription = this.profileService.update(applicationObjectCreation(requestData, this.userId, 'Awaiting Approval')).subscribe((data: any) => {
-      //Modal need to be added here Amir
-      this.showPopUp();
-      setSession('profileId', data.messageCode);
-      setSession('userId', this.userId)
-      this.applicationStatus = '4';
-    }, (error: Error) => {
-      console.log(error);
-    })
+
+    try {
+        this.profileSubscription = this.profileService.update(applicationObjectCreation(requestData, this.userId, 'Awaiting Approval')).subscribe((data: any) => {
+          //Modal need to be added here Amir
+          this.showPopUp();
+          setSession('profileId', data.messageCode);
+          setSession('userId', this.userId)
+          this.applicationStatus = '4';
+        }, (error: Error) => {
+          console.log(error);
+        })
+      }catch (error) {
+        this.noti.showErrorToast('Student Profile Not Created, Contact Admin!')
+      }
   }
   async applicationView(tab: string): Promise<any> {
     let userId = this.userId;
@@ -243,14 +259,18 @@ export class ApplicationComponent implements OnInit {
   applicationDraft(requestData: any) {
     //this.userId = this.route.snapshot.paramMap.get('id')?.toString();    
     //this.userId = '1';   
-    this.profileSubscription = this.profileService.create(applicationObjectCreation(requestData, this.userId, 'Saved')).subscribe((data: any) => {
-      setSession('profileId', data.messageCode);
-      setSession('userId', this.userId)
-      this.applicationStatus = '3';
-      this.saveAsDraft = true;
-    }, (error: Error) => {
-      console.log(error);
-    })
+    try{
+        this.profileSubscription = this.profileService.create(applicationObjectCreation(requestData, this.userId, 'Saved')).subscribe((data: any) => {
+          setSession('profileId', data.messageCode);
+          setSession('userId', this.userId)
+          this.applicationStatus = '3';
+          this.saveAsDraft = true;
+        }, (error: Error) => {
+          console.log(error);
+        })
+      }catch (error) {
+          this.noti.showErrorToast('Student Profile Not Created, Contact Admin!')
+        }
   }
 
   sameCorrespondingAddress(check: string) {
@@ -330,7 +350,7 @@ export class ApplicationComponent implements OnInit {
   }
 
   professionStatus(param: string): void {
-    this.professionalDetailsShow = (param === 'EMPLOYEE') ? true : false;
+    this.professionalDetailsShow = (param === 'EMPLOYEE') ? false : true;
   }
   //Modal to be open for Payment
   showPopUp() {
