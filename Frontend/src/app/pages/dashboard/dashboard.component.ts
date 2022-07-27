@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { NotificationService } from 'src/app/shared/services/api/notification.service';
 import {INotification,INotificationPage} from 'src/app/shared/models/notification'
 import { CommonService } from 'src/app/shared/services/api/common.service';
+import { isEmpty } from 'lodash';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -15,8 +16,11 @@ export class DashboardComponent implements OnInit {
   studentProfileId:any;
   notificationSubscription!: Subscription;
   constructor(private commonService:CommonService,private router:Router,private route:ActivatedRoute,private api: NotificationService) {
-    const profileObj:any={studentProfileId:1,userId:1};
-    localStorage.setItem('studentProfileId',JSON.stringify(profileObj));
+    const profileObjLS:any = localStorage.getItem('studentProfileId');
+    if(isEmpty(profileObjLS)){
+      const  profileObj:any={studentProfileId:4,userId:4};
+      localStorage.setItem('studentProfileId',JSON.stringify(profileObj));
+    }
   }
 
   ngOnInit(): void {

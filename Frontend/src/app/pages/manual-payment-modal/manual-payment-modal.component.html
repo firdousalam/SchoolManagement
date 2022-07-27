@@ -74,13 +74,13 @@
             <div class="col-md-4">
                 <label for="modeOfPayment">Attachments</label>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-5 d-flex">
                 <nz-upload [(nzFileList)]="fileList" nzAccept=".pdf" [nzBeforeUpload]="beforeUpload">
                     <button class="btn kl-btn kl-btn-dark-6 btn-sm">
                         <i nz-icon nzType="upload"></i>
-                        Upload File
+                        Choose File
                     </button>
-                </nz-upload>
+                </nz-upload> 
 
             </div>
         </div>
