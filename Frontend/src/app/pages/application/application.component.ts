@@ -3,6 +3,7 @@ import { applicationObjectCreation } from 'src/app/shared/adaptor/adaptor';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { StudentProfileServiceService } from 'src/app/shared/services/api/student-profile-service.service';
+import { StudentDocumentService } from 'src/app/shared/services/api/student-document.service';
 import { DataService } from 'src/app/shared/services/api/data.service';
 import { ITypeSearch } from 'src/app/shared/models/type';
 import { IProfileSearch, Profile } from 'src/app/shared/models/profile';
@@ -13,6 +14,7 @@ import { DatePipe } from '@angular/common';
 import { Content } from '@angular/compiler/src/render3/r3_ast';
 import { PaymentModalComponent } from '../payment-modal/payment-modal.component';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 
 
@@ -36,8 +38,10 @@ export class ApplicationComponent implements OnInit {
     stdProfessionList: [],
     stdEducationList: [],
     stdContactDetail: {},
-    docList: []
+    docList: [],
+    docTempList: []
   }
+  studentApplicationDocDetail:any= [];
   educationRecord: any = {};
   //applicationViewDetails: IProfile = Profile;
   applicationViewDetails: any;
@@ -52,12 +56,16 @@ export class ApplicationComponent implements OnInit {
   editDraft: any;
   pageTraverseStatus: string = 'APPLICATION_STARTED'
   documentTypeList: any;
+  paymentApi: any;
+  documentRecord:any;
   constructor(private profileService: StudentProfileServiceService,
     private router: Router,
     private route: ActivatedRoute,
     private date: DatePipe,
     private dataService: DataService,
-    private modal: NzModalService) { }
+    private modal: NzModalService,
+    private studentDocument: StudentDocumentService,
+    private noti: NotificationService) { }
 
   async ngOnInit(): Promise<any> {
     //const userId = this.route.snapshot.paramMap.get('id')?.toString(); 
@@ -76,12 +84,11 @@ export class ApplicationComponent implements OnInit {
         yearofCompletion: "",
         educationStatus: "",
         sequence: 0
-      };
+      };      
       this.studentApplication.stdEducationList.push(this.educationRecord);
       this.loadDocumentTypeList();
     }catch(error){
-      let studentProfile = "";
-      console.log(studentProfile,"userId");
+      let studentProfile = "";      
       this.pageTraverseStatus = this.pageCheck(studentProfile, 'FORMTAB');
       this.applicationStatus = (this.pageTraverseStatus === 'APPLICATION_STARTED') ? '1' : '4';
       this.educationRecord = {
@@ -95,8 +102,14 @@ export class ApplicationComponent implements OnInit {
       this.studentApplication.stdEducationList.push(this.educationRecord);
       this.loadDocumentTypeList();
     }
+    this.documentRecord = {
+      id: "",
+      description: "",
+      file: ""
+    };
+    this.studentApplicationDocDetail.push(this.documentRecord);
   }
-
+  //Add more in education section
   addRow() {
     this.educationRecord = {
       courseName: "",
@@ -111,12 +124,20 @@ export class ApplicationComponent implements OnInit {
     this.studentApplication.stdEducationList = [...this.studentApplication.stdEducationList, this.educationRecord]
     return true;
   }
-  deleteRow(index : number){
-   // alert(index);
+  //Add more in document section
+  addDocumentRow(){
+    this.documentRecord = {
+      id: "",
+      description: "",
+      file: ""
+    };
+    this.studentApplicationDocDetail = [...this.studentApplicationDocDetail, this.documentRecord];
+    console.log("studentApplication::",this.studentApplication);
+  }
+  deleteRow(index : number){  
     this.studentApplication.stdEducationList.splice(index, 1);
   }
-  deleteRowEdit(index : number){
-    // alert(index);
+  deleteRowEdit(index : number){    
      this.editDraft.stdEducationList.splice(index, 1);
    }
   async applicationStatusChange(status: string, tab: string): Promise<any> {
@@ -263,10 +284,24 @@ export class ApplicationComponent implements OnInit {
     }
   }
 
-  documntUpload(event: any): any {
-    console.log(event.target.files[0]);
+  documntUpload(event: any, document:any): any {    
     const formData = new FormData();
+    console.log("event.target.files",event.target.files[0]);
     formData.append("file", event.target.files[0]);
+    formData.append("id",document.id);
+    formData.append("description", document.description);
+    formData.append("documentType", 'Application Documents');    
+    this.studentDocument.fileUpload(formData).subscribe((x: any) => {     
+      if (x.status === 201) {
+        this.studentApplication.docList.push(x.body);
+        this.studentApplication.docTempList.push(x.body);
+        this.noti.showSuccessToast('File uploaded successfully')
+      }
+    }); 
+     
+    
+    //this.file = event.target.files[0];
+
     //this.file = event.target.files[0];
 
   }

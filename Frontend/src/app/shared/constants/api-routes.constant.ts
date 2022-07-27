@@ -163,6 +163,9 @@ export const apiRoutes = {
   },
   studentPersonalApi:{
     update:'/api/v1/studentpersonalDetails/updateStudentPersonalDetail'
+  },
+  studentDocumentApi:{
+    upload:'/api/v1/studentDocument/upload'
   }
 
 };

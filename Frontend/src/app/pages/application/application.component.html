@@ -421,23 +421,23 @@
                             <tbody>
                                 <tr *ngFor="let education of studentApplication.stdEducationList; let i = index;">
                                     <td>{{i+1}}.</td>
-                                    <td><input type="text" class="form-control" name="courseName[i]"
+                                    <td><input type="text" class="form-control" name="courseName{{i}}"
                                             [(ngModel)]="education.courseName" value="{{education.courseName"></td>
-                                    <td><input type="text" class="form-control" name="institution[i]"
+                                    <td><input type="text" class="form-control" name="institution{{i}}"
                                             [(ngModel)]="education.institution" value="{{ education.institution }}">
                                     </td>
                                     <td>
-                                        <select class="form-select" name="educationStatus[i]"
+                                        <select class="form-select" name="educationStatus{{i}}"
                                             [(ngModel)]="education.educationStatus">
                                             <option>Completed</option>
                                             <option>Pending</option>
                                         </select>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" placeholder="" name="percentage[i]"
+                                        <input type="text" class="form-control" placeholder="" name="percentage{{i}}"
                                             [(ngModel)]="education.percentage">
                                     </td>
-                                    <td><input type="text" class="form-control" placeholder="" name="year[i]"
+                                    <td><input type="text" class="form-control" placeholder="" name="year{{i}}"
                                             [(ngModel)]="education.yearofCompletion"></td>
                                     <td  (click)="deleteRow(i)"><i class="bi bi-trash3"></i></td>
                                 </tr>
@@ -562,33 +562,33 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>01.</td>
+                            <tr *ngFor="let doc of studentApplicationDocDetail; let i = index;">                              
+                                <td>{{i+1}}.</td>
                                 <td>
-                                    <select class="form-select" name="document_type"
-                                        [(ngModel)]="studentApplication.docList.id">
+                                    <select class="form-select" name="document_type{{i}}"
+                                        [(ngModel)]="doc.id">
                                         <option *ngFor="let document of documentTypeList" value={{document.id}}>
                                             {{document.name}}
                                         </option>
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" placeholder="" name="descritpion"
-                                        [(ngModel)]="studentApplication.docList.description">
+                                    <input type="text" class="form-control" placeholder="" name="descritpion{{i}}"
+                                        [(ngModel)]="doc.description">
                                 </td>
                                 <td>
                                     <!-- <button type="button" class="btn btn-secondary btn-sm button-width" >Upload</button> -->
-                                    <input type="file" class="file-input" name="file" [(ngModel)]="studentApplication.docList.file"
-                                        (change)="documntUpload($event)" #fileUpload>
+                                    <input type="file" class="file-input" name="file{{i}}" [(ngModel)]="doc.file"
+                                        (change)="documntUpload($event,doc)" #fileUpload>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <!-- <div class="row mt-0">
+                    <div class="row mt-0">
                         <div class="col-2">
-                            <button type="button" class="btn btn-secondary btn-sm">Add New Row</button>
+                            <button type="button" class="btn btn-secondary btn-sm" (click)="addDocumentRow()">Add New Row</button>
                         </div>
-                    </div>                      -->
+                    </div>                     
                 </div>
             </div>
         </form>
