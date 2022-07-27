@@ -93,6 +93,7 @@ export abstract class CrudService<IDetail, IDetailPage, ISearch> {
 
    
   fileUpload(detail: IDetail) {
+    console.log("detail",detail);
     const req = new HttpRequest('POST', this.urlBuilderService.getUrl(
       this.api.upload,
     ), detail, {
