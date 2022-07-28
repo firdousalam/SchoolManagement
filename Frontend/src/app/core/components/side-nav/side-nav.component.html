@@ -1,33 +1,41 @@
 <nz-layout>
   <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
-    <ul nz-menu   style="height:100%" nzMode="inline">
-      
-      <li nz-menu-item nz-tooltip
-      nzTooltipPlacement="right"
-      [nzTooltipTitle]="isCollapsed ? 'Dashboard' : ''" nzMatchRouter routerLinkActive="active"  [routerLink]="['/dashboard']">
+    <ul nz-menu style="height:100%" nzMode="inline">
+
+      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Dashboard' : ''"
+        nzMatchRouter routerLinkActive="active" [routerLink]="['/dashboard']">
         <i nz-icon nzType="dashboard"></i>
-        <span >Dashboard</span>
+        <span>Dashboard</span>
       </li>
-      
-          <li [ngStyle]="{'pointer-events': profileExist == 'no' ? 'none' : null}" nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/student/profile']"[nzDisabled]="profileExist == 'no'">
-            <i nz-icon nzType="profile"></i>
-            <span>Student Profile</span>           
-          </li>
-          <li nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/application']">
-            <i nz-icon nzType="setting"></i>
-            <span>Application</span>           
-          </li>
-          <li [ngStyle]="{'pointer-events': profileExist == 'no' ? 'none' : null}" nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/admission']" [nzDisabled]="profileExist == 'no'" >
-            <i nz-icon nzType="profile"></i>
-            <span>Admission</span>           
-          </li>
-          <li [ngStyle]="{'pointer-events': profileExist == 'no' ? 'none' : null}" nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/courses']" [nzDisabled]="profileExist == 'no'">
-            <i nz-icon nzType="book"></i>
-            <span>Courses</span>           
-          </li>
-          <li [ngStyle]="{'pointer-events': profileExist == 'no' ? 'none' : null}" nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/contact']" [nzDisabled]="profileExist == 'no'">
-            <i nz-icon nzType="contacts"></i>
-            <span>Contact/Query</span>           
-          </li>
+
+      <li nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Student Profile' : ''"
+        [ngStyle]="{'pointer-events': profileExist == 'no' ? 'none' : null}" nz-menu-item nzMatchRouter
+        routerLinkActive="active" [routerLink]="['/student/profile']" [nzDisabled]="profileExist == 'no'">
+        <i nz-icon nzType="profile"></i>
+        <span>Student Profile</span>
+      </li>
+      <li nz-tooltip nzTooltipPlacement="right" nz-menu-item [nzTooltipTitle]="isCollapsed ? 'Application' : ''" nzMatchRouter routerLinkActive="active"
+        [routerLink]="['/application']">
+        <i nz-icon nzType="setting"></i>
+        <span>Application</span>
+      </li>
+      <li nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Admission' : ''"
+        [ngStyle]="{'pointer-events': profileExist == 'no' ? 'none' : null}" nz-menu-item nzMatchRouter
+        routerLinkActive="active" [routerLink]="['/admission']" [nzDisabled]="profileExist == 'no'">
+        <i nz-icon nzType="profile"></i>
+        <span>Admission</span>
+      </li>
+      <li nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Courses' : ''"
+        [ngStyle]="{'pointer-events': profileExist == 'no' ? 'none' : null}" nz-menu-item nzMatchRouter
+        routerLinkActive="active" [routerLink]="['/courses']" [nzDisabled]="profileExist == 'no'">
+        <i nz-icon nzType="book"></i>
+        <span>Courses</span>
+      </li>
+      <li nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Contact/Query' : ''"
+        [ngStyle]="{'pointer-events': profileExist == 'no' ? 'none' : null}" nz-menu-item nzMatchRouter
+        routerLinkActive="active" [routerLink]="['/contact']" [nzDisabled]="profileExist == 'no'">
+        <i nz-icon nzType="contacts"></i>
+        <span>Contact/Query</span>
+      </li>
     </ul>
   </nz-sider>
