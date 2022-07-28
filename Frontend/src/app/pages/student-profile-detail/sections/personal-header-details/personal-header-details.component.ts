@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
-import { Subscription } from 'rxjs';
+import { Observable, Observer, Subscription } from 'rxjs';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { stdPersonalDetail } from 'src/app/shared/models/profile';
 import { ProfileHeaderService } from 'src/app/shared/services/api/profile-header.service';
@@ -28,12 +28,21 @@ export class PersonalHeaderDetailsComponent implements OnInit, OnChanges,OnDestr
     this.editMode ? '':(this.previewUrl='');
   }
 
-  beforeUpload = (file: NzUploadFile): boolean => {
+  beforeUpload = ((file: NzUploadFile, _fileList: NzUploadFile[]):any =>{
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      this.noti.showErrorToast('You can only upload image file!'); 
+      return;
+    }
+   
     this.fileList = this.fileList.concat(file);
     this.preview();
-    this.handleChange();
-    return false;
-  };
+    this.handleChange(); 
+    return;
+  });
+  
+
+  
   handleChange(){
     const formData = new FormData();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -69,7 +78,8 @@ export class PersonalHeaderDetailsComponent implements OnInit, OnChanges,OnDestr
     this.employmentStatusChange.emit(this.employmentStatus);
   }
   ngOnInit(): void { }
+
   ngOnDestroy(): void {
-    this.fileUploadSubscription.unsubscribe();
+    this.fileUploadSubscription?.unsubscribe();
   }
 }

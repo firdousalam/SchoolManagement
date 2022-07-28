@@ -10,6 +10,7 @@ export interface IContact extends IAudit {
   queryOrClarification: string,
   queryStatus: string,
   response: string, 
+  profileId:number|null;
   type: string
 }
 

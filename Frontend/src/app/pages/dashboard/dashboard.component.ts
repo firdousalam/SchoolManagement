@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit,OnDestroy {
 
       const profileObj: any = { studentProfileId: studentProfile.id, userId: userId };
       localStorage.setItem('studentProfileId', JSON.stringify(profileObj));
-      this.studentProfileId = studentProfile.studentProfileId;
+      this.studentProfileId = studentProfile.id;
       this.commonService.profileSubject.next({ profileId: this.studentProfileId });
       
       if(studentProfile.application.approvalStatus === 'Approved'){

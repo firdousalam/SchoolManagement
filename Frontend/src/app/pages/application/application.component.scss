@@ -70,7 +70,11 @@
   }
   
 .highlighthover:hover{
-    color: #1890ff; /* make this whatever you want */
+    color: $c-primary; /* make this whatever you want */
     font-weight: 500;
     }
- 
+    .active {
+        border-bottom: $space-2 solid $c-primary;
+        height: 50px!important;
+        color: $c-primary;
+      }
