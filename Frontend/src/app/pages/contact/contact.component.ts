@@ -9,6 +9,7 @@ import { ITableViewConfig } from 'src/app/shared/models/table-view';
 import { CommonService } from 'src/app/shared/services/api/common.service';
 import * as moment from 'moment';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-contact',
@@ -29,7 +30,7 @@ export class ContactComponent implements OnInit {
   contactSubscription!: Subscription;
   routeParamSubscription!: Subscription;
   studentProfileId: any;
-  constructor(private route: ActivatedRoute, private commonService: CommonService, private errorServices: GlobalErrorService, private router: Router, private api: ContactQueryServiceService) {
+  constructor(private datePipe:DatePipe,private route: ActivatedRoute, private commonService: CommonService, private errorServices: GlobalErrorService, private router: Router, private api: ContactQueryServiceService) {
     this.adminTableConfig = queryColumnDefs;
 
   }
@@ -52,17 +53,25 @@ export class ContactComponent implements OnInit {
     const sortOrder = (currentSort && currentSort.value) || null;
     this.init(pageIndex, pageSize, sortOrder);
   }
-  getRowValue(field: ITableViewConfig, value: any): IContact {
-    if (field.field === 'dateOfEntry' && value[field.field] && moment(value[field.field], 'DD/MM/YYYY').format('DD/MM/YYYY') === value[field.field]) {
+  getRowValue(field: ITableViewConfig, value: any): any {
 
-      value.dateofEntry = moment(value[field.field]).format('DD/MM/YYYY');
+    console.log(field,value);
+    if (field.field === 'dateOfEntry' && value[field.field]) {
+      if(moment(value[field.field], 'DD/MM/YYYY',true).isValid()){
+        value.dateOfEntry = value[field.field]
+      }else{
+      value.dateOfEntry = this.datePipe.transform(value[field.field],'dd/MM/yyyy')
     }
-    return value[field.field] ? value[field.field] : '------------';
+   
+    
   }
+  return value[field.field];
+  }
+
   init(pageIndex: any, pageSize: any, sortOrder: any) {
     this.loading = true;
     pageIndex = pageIndex - 1;
-    this.contactSubscription = this.api.getBySearchCriteria({ pageNumber: pageIndex, pageSize: pageSize, sortDirection: this.sortOrder }).subscribe((data: IContactPage) => {
+    this.contactSubscription = this.api.getBySearchCriteria({ pageNumber: pageIndex, pageSize: pageSize, sortDirection: this.sortOrder,profileId: this.studentProfileId }).subscribe((data: IContactPage) => {
    
       this.loading = false;
       this.total = data.totalElements;

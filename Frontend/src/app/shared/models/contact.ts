@@ -6,7 +6,7 @@ export interface IContact extends IAudit {
   id:number|null;
   referenceType: string;
   status: number | null;
-  dateofEntry: string, 
+  dateOfEntry: string, 
   queryOrClarification: string,
   queryStatus: string,
   response: string, 
@@ -22,7 +22,7 @@ export const contact = <IContact>{
   createdBy: '',
   referenceType: '',
   status:  null,
-  dateofEntry: '', 
+  dateOfEntry: '', 
   queryOrClarification: '',
   queryStatus: '',
   response: '', 
@@ -39,6 +39,7 @@ export interface IContactSearch {
   sortDirection?:string,
   pageSize?: number,
   id?:number|null,
+  profileId?:number|null;
 }
 
 export const contactSearch = <IContactSearch>{
