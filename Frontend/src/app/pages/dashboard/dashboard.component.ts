@@ -7,6 +7,8 @@ import { CommonService } from 'src/app/shared/services/api/common.service';
 import { isEmpty } from 'lodash';
 import { IProfileSearch } from 'src/app/shared/models/profile';
 import { StudentProfileServiceService } from 'src/app/shared/services/api/student-profile-service.service';
+import * as moment from 'moment';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -18,7 +20,8 @@ export class DashboardComponent implements OnInit {
   studentProfileId: any;
   notificationSubscription!: Subscription;
   profileExist = "";
-  constructor(private commonService: CommonService, private router: Router, private route: ActivatedRoute, private api: NotificationService,
+  notificationList:INotification[]=[];
+  constructor(private datePipe:DatePipe,private commonService: CommonService, private router: Router, private route: ActivatedRoute, private api: NotificationService,
     private profileService: StudentProfileServiceService) {
     const profileObjLS: any = localStorage.getItem('studentProfileId');
 
@@ -43,6 +46,7 @@ export class DashboardComponent implements OnInit {
       localStorage.setItem('studentProfileId', JSON.stringify(profileObj));
       this.studentProfileId = studentProfile.studentProfileId;
       this.commonService.profileSubject.next({ profileId: this.studentProfileId });
+      
       console.log(studentProfile);
       if(studentProfile.application.approvalStatus === 'Approved'){
         localStorage.setItem('profileExist', "yes");
@@ -54,7 +58,7 @@ export class DashboardComponent implements OnInit {
         this.profileExist= "no";
       }
       
-      this.Init();
+      
 
     } catch (error) {
  
@@ -62,12 +66,13 @@ export class DashboardComponent implements OnInit {
       this.profileExist= "no";
    
     };
-    
+    this.commonService.menushowhideSubject.next(this.profileExist);
+    this.Init();
   }
 
   Init() {
     this.notificationSubscription = this.api.getAll().subscribe((data: INotification[]) => {
-
+      this.notificationList = data;
     });
   }
   notImplemented() {
@@ -75,5 +80,9 @@ export class DashboardComponent implements OnInit {
   }
   openApplication(): void {
     this.router.navigate(['/application']);
+  }
+
+  getNotiDate(date?:string):any{
+  return (date && moment(date,'DD/MM/YYYY', true).isValid() ? date : this.datePipe.transform(date,'dd/MM/yyyy'))
   }
 }

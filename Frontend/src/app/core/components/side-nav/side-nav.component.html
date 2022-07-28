@@ -9,7 +9,7 @@
         <span >Dashboard</span>
       </li>
       
-          <li nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/student/profile']" *ngIf="profileExist == 'yes'">
+          <li [ngStyle]="{'pointer-events': profileExist == 'no' ? 'none' : null}" nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/student/profile']"[nzDisabled]="profileExist == 'no'">
             <i nz-icon nzType="profile"></i>
             <span>Student Profile</span>           
           </li>
@@ -17,15 +17,15 @@
             <i nz-icon nzType="setting"></i>
             <span>Application</span>           
           </li>
-          <li nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/admission']"  *ngIf="profileExist == 'yes'" >
+          <li [ngStyle]="{'pointer-events': profileExist == 'no' ? 'none' : null}" nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/admission']" [nzDisabled]="profileExist == 'no'" >
             <i nz-icon nzType="profile"></i>
             <span>Admission</span>           
           </li>
-          <li nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/courses']"  *ngIf="profileExist == 'yes'">
+          <li [ngStyle]="{'pointer-events': profileExist == 'no' ? 'none' : null}" nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/courses']" [nzDisabled]="profileExist == 'no'">
             <i nz-icon nzType="book"></i>
             <span>Courses</span>           
           </li>
-          <li nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/contact']"  *ngIf="profileExist == 'yes'">
+          <li [ngStyle]="{'pointer-events': profileExist == 'no' ? 'none' : null}" nz-menu-item nzMatchRouter routerLinkActive="active" [routerLink]="['/contact']" [nzDisabled]="profileExist == 'no'">
             <i nz-icon nzType="contacts"></i>
             <span>Contact/Query</span>           
           </li>

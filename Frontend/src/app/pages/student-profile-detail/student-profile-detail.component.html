@@ -98,7 +98,7 @@
 
       </nz-tab>
 
-      <nz-tab *ngIf="employmentStatus ==='Employed'" nzTitle="{{studentProfileTabNames.EMPLOYMENT}}">
+      <nz-tab *ngIf="employmentStatus ==='Employed' && studentProfessionData" nzTitle="{{studentProfileTabNames.EMPLOYMENT}}">
         <div class="card">
           <div class="card-body">
             <div class="container">
@@ -108,11 +108,11 @@
         </div>
 
       </nz-tab>
-      <nz-tab nzTitle="{{studentProfileTabNames.ADMISSION_DETAILS}}">
+      <nz-tab nzTitle="{{studentProfileTabNames.ADMISSION_DETAILS}}" *ngIf="studentAdmissionData">
         <div class="card">
           <div class="card-body">
             <div class="container">
-              <app-admission-details *ngIf="studentAdmissionData" [studentAdmissionData]="studentAdmissionData"> </app-admission-details>
+              <app-admission-details  [studentAdmissionData]="studentAdmissionData"> </app-admission-details>
             </div>
           </div>
         </div>

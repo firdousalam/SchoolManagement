@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CommonService } from 'src/app/shared/services/api/common.service';
@@ -8,7 +8,7 @@ import { CommonService } from 'src/app/shared/services/api/common.service';
   templateUrl: './main-header.component.html',
   styleUrls: ['./main-header.component.scss'],
 })
-export class MainHeaderComponent implements OnInit {
+export class MainHeaderComponent implements OnInit,OnDestroy {
   routeParamSubscription!:Subscription;
   studentProfileId:any;
   constructor(private commonService:CommonService,private router:Router,private route:ActivatedRoute) {}
@@ -22,4 +22,9 @@ export class MainHeaderComponent implements OnInit {
   toggleMenu(){
     this.commonService.menuToggleSubject.next();
   }
+
+  ngOnDestroy(): void {
+    this.routeParamSubscription.unsubscribe();
+  }
+
 }
