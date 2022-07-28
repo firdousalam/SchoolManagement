@@ -6,7 +6,7 @@ export interface INotification extends IAudit {
     attachmentIds: number[] | null;
     batchId: number | null;
     content: string;
-    dateofEntry: string;
+    dateOfEntry: string;
     docIds: number[] | null;
     id: number | null;
     notificationType: string;
@@ -23,7 +23,7 @@ export const Notification = <INotification>{
     attachmentIds: null,
     batchId: null,
     content: '',
-    dateofEntry: '',
+    dateOfEntry: '',
     docIds: null,
     id: null,
     notificationType: '',

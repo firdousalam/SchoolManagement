@@ -48,3 +48,7 @@ body {
   align-items: center;
   background-color: #ffffff70;
 }
+
+.btn-light.disabled, .btn-light:disabled{
+  background-color: $c-gray-3;
+}

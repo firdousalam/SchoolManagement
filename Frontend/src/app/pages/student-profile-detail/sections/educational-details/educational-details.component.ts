@@ -98,6 +98,11 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy, OnChanges
       this.notificationService.showSuccessToast(data.message);
       this.editMode = false;
       this.sendBackData();
+     
+    },
+    (error)=>{
+      this.notificationService.showSuccessToast(error);
+      this.editMode = false;
       this.ngOnInit();
     })
     this.subscriptionArray.push(this.saveEducationSubscription);

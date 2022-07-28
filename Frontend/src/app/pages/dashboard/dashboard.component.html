@@ -7,20 +7,12 @@
         <div class="col-7">
           <div class="card mb-1 action-btn">
             <div class="card-body d-flex  flex-wrap flex-lg-wrap flex-xl-wrap">
-                <!--<div class="inner-page-card">
-                  <button
-                    type="button"
-                    class="btn btn-light btn-lg"
-                    (click)="notImplemented()"
-                  >
-                    Courses
-                  </button>
-                </div> -->
-                <div class="inner-page-card" *ngIf="profileExist == 'yes'">
+                <div class="inner-page-card">
                   <button
                     type="button"
                     class="btn btn-light btn-lg"
                     [routerLink]="['/student/profile']"
+                    [disabled]="profileExist != 'yes'"
                   >
                     Student Profile
                   </button>
@@ -35,29 +27,32 @@
                   </button>
                 </div>
                 
-                <div class="inner-page-card"  *ngIf="profileExist == 'yes'">
+                <div class="inner-page-card">
                   <button
                     type="button"
                     class="btn btn-light btn-lg"
                     [routerLink]="['/admission']"
+                    [disabled]="profileExist != 'yes'"
                   >
                     Admission
                   </button>
                 </div>
-                <div class="inner-page-card"  *ngIf="profileExist == 'yes'">
+                <div class="inner-page-card">
                   <button
                     type="button"
                     class="btn btn-light btn-lg"
                     [routerLink]="['/courses']"
+                    [disabled]="profileExist != 'yes'"
                   >
                     Courses
                   </button>
                 </div>
-                <div class="inner-page-card"  *ngIf="profileExist == 'yes'">
+                <div class="inner-page-card">
                   <button
                     type="button"
                     class="btn btn-light btn-lg"
                     [routerLink]="['/contact']"
+                    [disabled]="profileExist != 'yes'"
                   >
                     Contact/Query
                   </button>
@@ -70,303 +65,306 @@
           <div class="card  mb-1 notification-container">
             <div class="card-body">
               <div class="notification-ui_dd-content">
-                <a class="notification-list">
+                <a class="notification-list" *ngFor="let noti of notificationList;let i=index">
                   <div class="notification-list_img">
-                     <h3>N1</h3>
+                     <h3>N{{i+1}}</h3>
                   </div>
                   <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    <p><b>{{noti.sendTo}}</b> <br><br><span class="text-muted">{{noti.content}}</span></p>
                   </div>
-                  <p><small>dd/mm/yyyy</small></p>
+                  <p><small>{{getNotiDate(noti.dateOfEntry)}}</small></p>
                 </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
-                <a class="notification-list">
-                  <div class="notification-list_img">
-                     <h3>N1</h3>
-                  </div>
-                  <div class="notification-list_detail">
-                    <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
-                  </div>
-                  <p><small>dd/mm/yyyy</small></p>
-                </a>
+                <div *ngIf="!notificationList.length">
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                  <a class="notification-list">
+                    <div class="notification-list_img">
+                       <h3>N1</h3>
+                    </div>
+                    <div class="notification-list_detail">
+                      <p><b>John Doe</b> <br><br><span class="text-muted">reacted to your post</span></p>
+                    </div>
+                    <p><small>dd/mm/yyyy</small></p>
+                  </a>
+                </div>
+              
               </div>
             </div>
           </div>
