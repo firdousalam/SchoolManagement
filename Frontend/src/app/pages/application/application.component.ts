@@ -165,7 +165,7 @@ export class ApplicationComponent implements OnInit {
       } else if (status === "saveAsDraft") {
         if (!isEmpty(studentProfile)) {
           this.pageTraverseStatus = this.pageCheck(studentProfile, tab);
-          if (studentProfile.application.applicationState === 'Draft') {
+          if (studentProfile.application.approvalStatus === 'Saved') {
             this.applicationStatus = "3";
             this.saveAsDraft = true;
             this.editDraft = studentProfile;
