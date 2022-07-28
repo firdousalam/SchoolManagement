@@ -162,6 +162,7 @@ export const apiRoutes = {
     getById: '/api/v1/studentProfile/getStdProfileListById',
   },
   studentPersonalApi:{
+    upload:'/api/v1/studentDocument/upload',
     update:'/api/v1/studentpersonalDetails/updateStudentPersonalDetail'
   },
   studentDocumentApi:{

@@ -34,6 +34,7 @@ export interface stdPersonalDetail {
     scOrSt: string;
     employmentStatus: string;
     profileId?: number | null;
+    docTempList?: [number];
 }
 export interface stdEducationList {
     id: number;
@@ -142,6 +143,7 @@ export interface IProfileSearch {
     pageNumber?: number;
     pageSize?: number;
     profileId?: number | null;
+    docCategory?:string;
 }
 
 export const ProfileSearch = <IProfileSearch>{

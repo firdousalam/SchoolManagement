@@ -190,7 +190,7 @@ export class ApplicationComponent implements OnInit {
         this.noti.showSuccessToast('Student Profile Successfully Created')
         const profileObj: any = { studentProfileId: data.messageCode, userId: this.userId };
         localStorage.setItem('studentProfileId', JSON.stringify(profileObj));
-        localStorage.setItem('profileExist', "yes");
+        localStorage.setItem('profileExist', "no");
         //Modal need to be added here Amir
         this.showPopUp();
         //setSession('profileId', data.messageCode);

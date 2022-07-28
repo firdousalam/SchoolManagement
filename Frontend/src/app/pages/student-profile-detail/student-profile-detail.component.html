@@ -79,7 +79,7 @@
               </button>
             </ng-container>
           </div>
-          <app-personal-header-details (employmentStatusChange)="getStatus($event)" [studentPersonalData]="studentPersonalData" [editMode]="editMode"></app-personal-header-details>
+          <app-personal-header-details (profileImageChange)="profileImageChange($event)" (employmentStatusChange)="getStatus($event)" [studentPersonalData]="studentPersonalData" [editMode]="editMode"></app-personal-header-details>
           <div class="mb-4">
             <app-heading [heading]="'Personal Details'" [secondary]="true">
             </app-heading>

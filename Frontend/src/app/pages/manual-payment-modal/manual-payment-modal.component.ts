@@ -54,7 +54,8 @@ export class ManualPaymentModalComponent implements OnInit, OnDestroy {
     this.fileList.forEach((file: any) => {
       formData.append('file', file);
     });
-
+    console.log('pay',formData);
+    
     this.fileUploadSubscription = this.paymentApi.fileUpload(formData).subscribe((x: any) => {
 
       if (x.status === 201) {
