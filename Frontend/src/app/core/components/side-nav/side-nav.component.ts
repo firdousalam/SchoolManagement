@@ -23,8 +23,6 @@ export class SideNavComponent implements OnDestroy {
   ngOnInit(): void {
 
     this.profileExist = localStorage.getItem('profileExist');
-    console.log(this.profileExist);
-
     this.profileSubscription = this.commonService.profileSubject.subscribe((x: any) => {
       this.studentProfileId = x.profileId;
 

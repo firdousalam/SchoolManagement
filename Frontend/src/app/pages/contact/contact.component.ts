@@ -54,8 +54,6 @@ export class ContactComponent implements OnInit {
     this.init(pageIndex, pageSize, sortOrder);
   }
   getRowValue(field: ITableViewConfig, value: any): any {
-
-    console.log(field,value);
     if (field.field === 'dateOfEntry' && value[field.field]) {
       if(moment(value[field.field], 'DD/MM/YYYY',true).isValid()){
         value.dateOfEntry = value[field.field]

@@ -53,9 +53,7 @@ export class ManualPaymentModalComponent implements OnInit, OnDestroy {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.fileList.forEach((file: any) => {
       formData.append('file', file);
-    });
-    console.log('pay',formData);
-    
+    });    
     this.fileUploadSubscription = this.paymentApi.fileUpload(formData).subscribe((x: any) => {
 
       if (x.status === 201) {

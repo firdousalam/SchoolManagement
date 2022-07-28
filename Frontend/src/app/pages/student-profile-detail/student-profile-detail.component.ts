@@ -59,7 +59,6 @@ export class StudentProfileDetailComponent implements OnInit, OnDestroy {
   }
 
   profileImageChange(formData:any){
-    console.log(formData);
     this.savePersonalheaderDataSubcription = this.headerpersonalApi.updateBySearchCriteria({profileId:this.studentProfileId},{...this.studentPersonalData,...{'docTempList':[formData],'profileId': parseInt(this.studentProfileId)}}).subscribe((data:any)=>{
     })
    

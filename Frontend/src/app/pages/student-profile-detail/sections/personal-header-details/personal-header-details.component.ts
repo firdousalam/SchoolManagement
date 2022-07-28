@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { Subscription } from 'rxjs';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -10,7 +10,7 @@ import { ProfileHeaderService } from 'src/app/shared/services/api/profile-header
   templateUrl: './personal-header-details.component.html',
   styleUrls: ['./personal-header-details.component.scss'],
 })
-export class PersonalHeaderDetailsComponent implements OnInit, OnChanges {
+export class PersonalHeaderDetailsComponent implements OnInit, OnChanges,OnDestroy {
   @Input() editMode: boolean = false;
   @Input() studentPersonalData!: stdPersonalDetail;
   @Output() employmentStatusChange = new EventEmitter<any>();
@@ -21,7 +21,7 @@ export class PersonalHeaderDetailsComponent implements OnInit, OnChanges {
   fileUploadProgress!: string;
   fileUploadSubscription!:Subscription;
   uploadedFilePath!: string;
-  constructor(private noti:NotificationService,private headerpersonalApi: ProfileHeaderService,) { }
+  constructor(private noti:NotificationService,private headerpersonalApi: ProfileHeaderService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.employmentStatus = this.studentPersonalData?.employmentStatus;
@@ -41,9 +41,7 @@ export class PersonalHeaderDetailsComponent implements OnInit, OnChanges {
       formData.append('file', file);
     });
      
-    this.fileUploadSubscription = this.headerpersonalApi.fileUpload(formData).subscribe((x: any) => {
-      console.log('Profile',x);
-      
+    this.fileUploadSubscription = this.headerpersonalApi.fileUpload(formData).subscribe((x: any) => {      
       if (x.status === 201) {
         this.profileImageChange.emit(x.body);
         this.noti.showSuccessToast('Image uploaded successfully')
@@ -71,4 +69,7 @@ export class PersonalHeaderDetailsComponent implements OnInit, OnChanges {
     this.employmentStatusChange.emit(this.employmentStatus);
   }
   ngOnInit(): void { }
+  ngOnDestroy(): void {
+    this.fileUploadSubscription.unsubscribe();
+  }
 }
