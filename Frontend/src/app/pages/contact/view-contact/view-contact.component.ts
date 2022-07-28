@@ -46,7 +46,7 @@ export class ViewContactComponent implements OnInit,AfterViewInit {
   }
 
   getDate(){
-    return moment(this.contactData?.dateofEntry, 'MM/DD/YYYY').format('MM/DD/YYYY') === this.contactData?.dateofEntry ? (this.datePipe.transform(this.contactData?.dateofEntry)): this.contactData?.dateofEntry;
+    return moment(this.contactData?.dateOfEntry, 'MM/DD/YYYY').format('MM/DD/YYYY') === this.contactData?.dateOfEntry ? (this.datePipe.transform(this.contactData?.dateOfEntry)): this.contactData?.dateOfEntry;
   }
   ngOnDestroy(): void {
     this.subscriptionArray.forEach((x: any) => x.unsubscribe());
