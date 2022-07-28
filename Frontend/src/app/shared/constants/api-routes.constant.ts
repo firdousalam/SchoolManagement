@@ -145,7 +145,7 @@ export const apiRoutes = {
   },
 
   notificationApi: {
-    search: '/api/v1/notifications/getNotificationsBySearchCriteria',
+    search: '/api/v1/notifications/getNotificationsForStudent',
     getAll: '/api/v1/notifications/getAllNotifications',
   },
   admissionApi: {

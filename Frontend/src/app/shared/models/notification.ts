@@ -37,6 +37,8 @@ export interface INotificationSearch {
   status?: number | null;
   pageNumber?: number;
   pageSize?: number;
+  sortDirection?:string;
+  sendToStudentId?:number | null;
 }
 
 export const NotificationSearch = <INotificationSearch>{

@@ -71,9 +71,14 @@ export class DashboardComponent implements OnInit {
   }
 
   Init() {
-    this.notificationSubscription = this.api.getAll().subscribe((data: INotification[]) => {
-      this.notificationList = data;
-    });
+    if(!!this.studentProfileId){
+      this.notificationSubscription = this.api.getBySearchCriteria({ pageNumber: 0, pageSize: 100, sortDirection:'DESC',sendToStudentId: this.studentProfileId }).subscribe((data: INotificationPage) => {
+        this.notificationList = data.content;
+      });
+    }else{
+      this.notificationList=[];
+    }
+    
   }
   notImplemented() {
     throw new Error('Not Implemented!');
