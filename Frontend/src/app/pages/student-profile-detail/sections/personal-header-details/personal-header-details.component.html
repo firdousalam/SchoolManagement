@@ -9,12 +9,12 @@
     </nz-upload> 
     </div>
     
-    <div class="profile-pic d-flex flex-column" *ngIf="!studentPersonalData?.pictureLink &&(!previewUrl || !editMode)">
+    <div class="profile-pic d-flex flex-column" *ngIf="!studentPersonalData?.pictureLink && !previewUrl">
       <i class="bi bi-person-fill icon"></i>
     </div>
 
-    <img *ngIf="!studentPersonalData?.pictureLink && previewUrl && editMode" [src]="previewUrl" width="150"/>
-    <img *ngIf="studentPersonalData?.pictureLink" [src]="studentPersonalData?.pictureLink" width="150"/>
+    <img *ngIf="previewUrl" [src]="previewUrl" width="150"/>
+    <img *ngIf="studentPersonalData?.pictureLink && !previewUrl" [src]="studentPersonalData?.pictureLink" width="150"/>
   </div>
   <div class="col-10">
     <div class="row g-3 mb-2">

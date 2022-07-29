@@ -73,6 +73,10 @@ export class ManualPaymentModalComponent implements OnInit, OnDestroy {
 
     this.submitted = true;
     if (this.paymentform.invalid) {
+      
+      return;
+    }else if(this.paymentform.valid && !this.fileList.length){
+      this.noti.showErrorToast('Please select Application fee attachment');
       return;
     }
     const requestData = {

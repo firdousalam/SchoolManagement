@@ -30,6 +30,7 @@ export class ApplicationComponent implements OnInit {
   applicationSubmitted: boolean = false;
   saveAsDraft: boolean = false;
   model: any;
+  tab:any="FORMTAB";
   userId: any;
   referenceDate: any = moment().format('DD/MM/YYYY');
   studentApplication: any = {
@@ -168,6 +169,7 @@ export class ApplicationComponent implements OnInit {
     this.editDraft.stdEducationList.splice(index, 1);
   }
   async applicationStatusChange(status: string, tab: string): Promise<any> {
+    this.tab = tab;
     //const userId = this.route.snapshot.paramMap.get('id')?.toString();
     const userId = this.userId;
     const params: IProfileSearch = { userId: toNumber(userId) };
@@ -253,6 +255,7 @@ export class ApplicationComponent implements OnInit {
 
   //This method is used to view the application details
   async applicationView(tab: string): Promise<any> {
+    this.tab =tab;
     let userId = this.userId;
     if (this.userId) {
       const params: IProfileSearch = { userId: toNumber(userId) };
