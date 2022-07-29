@@ -159,7 +159,7 @@
                                     <label class="form-check-label radio-button">ST</label>
                                 </span>
                                 <span class="p-1">
-                                    <input type="radio" class="form-check-input" id="general" name="sc_st" value="general" checked
+                                    <input type="radio" class="form-check-input" id="general" name="sc_st" value="General" checked
                                         [(ngModel)]="studentApplication.personalDetails.scOrSt" >
                                     <label class="form-check-label radio-button">General</label>
                                 </span>
@@ -422,7 +422,7 @@
                                 <tr *ngFor="let education of studentApplication.stdEducationList; let i = index;">
                                     <td>{{i+1}}.</td>
                                     <td><input type="text" class="form-control" name="courseName{{i}}"
-                                            [(ngModel)]="education.courseName" value="{{education.courseName"></td>
+                                            [(ngModel)]="education.courseName" value="{{education.courseName}}"></td>
                                     <td><input type="text" class="form-control" name="institution{{i}}"
                                             [(ngModel)]="education.institution" value="{{ education.institution }}">
                                     </td>
@@ -886,20 +886,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let doc of docList">
-                            <td>01.</td>
+                        <tr *ngFor="let doc of documentViewList;let i=index">
+                            <td>{{i+1}}.</td>
                             <td>
-                                <select class="form-select" name="document_type" disabled>
-                                    <option>Completed</option>
-                                    <option>Pending</option>
-                                </select>
+                                <span>{{doc.docCategory}}</span>
                             </td>
                             <td>
-                                <span>Desription:lorep ipsum</span>
+                                <span>{{doc.description}}</span>
                             </td>
-                            <td>Attachment Id: text.jpg</td>
+                            <td>Attachment Id: {{doc.id}} <span style="cursor: pointer;font-weight: bold;" (click)="documentDownload()">{{doc.docName}}</span></td>
                         </tr>
-                        <tr *ngIf="!application?.docList.length">
+                        <tr *ngIf="!documentViewList.length">
                             <td colspan="4" class="text-center">No document found</td>
                         </tr>
                     </tbody>
@@ -934,6 +931,7 @@
     <div class="container-fluid">
         <div class="row mb-4">
             <div class="col">
+                update
                 Reference ID:
             </div>
             <div class="col">
@@ -1122,8 +1120,6 @@
                                     State
                                 </div>
                                 <div class="col">
-
-
                                     <input type="text" class="form-control" placeholder="" name="edit_pstate"
                                         id="edit_pstate" value="editDraft.stdContactDetail.cstate" required
                                         #edit_pstate="ngModel" [(ngModel)]="editDraft.stdContactDetail.cstate">
@@ -1181,7 +1177,6 @@
                             Corresponding Address
                         </div>
                         <div class="col-3">
-
                             <textarea class="form-control" rows="5" name="edit_caddress" id="edit_caddress" required
                                 #edit_caddress="ngModel" [(ngModel)]="editDraft.stdContactDetail.paddress"></textarea>
                             <div *ngIf="edit_caddress.invalid && (edit_caddress.dirty || edit_caddress.touched)"
@@ -1215,7 +1210,6 @@
                                     State
                                 </div>
                                 <div class="col">
-
                                     <input type="text" class="form-control" placeholder="" name="edit_cstate"
                                         id="edit_cstate" required #edit_cstate="ngModel"
                                         [(ngModel)]="editDraft.stdContactDetail.pstate">
@@ -1236,7 +1230,7 @@
                         <div class="col-3">
 
                                 <input type="number" class="form-control" placeholder="" name="edit_cpincode" id="edit_cpincode"
-                                required minlength="6" maxlength="6" #edit_cpincode="ngModel"[(ngModel)]="editDraft.stdContactDetail.ppinCode">
+                                required minlength="6" maxlength="6" #edit_cpincode="ngModel" [(ngModel)]="editDraft.stdContactDetail.ppinCode">
                                 <div *ngIf="edit_cpincode.invalid && (edit_cpincode.dirty || edit_cpincode.touched)"
                                 class="alert">
                                     <div *ngIf="edit_cpincode.errors?.['required']">
@@ -1255,8 +1249,7 @@
                         <div class="col">
                             Mobile Phone
                         </div>
-                        <div class="col">
-                            
+                        <div class="col">                            
                                 <input type="number" id="edit_mobile_phone" name="edit_mobile_phone" class="form-control" required
                                     minlength="10" placeholder="" #edit_mobile_phone="ngModel"
                                     [(ngModel)]="editDraft.stdContactDetail.mobileNumber">
@@ -1271,8 +1264,7 @@
                                 </div>
                         </div>
                         <div class="col">Alternate Mobile No</div>
-                        <div class="col">
-                            
+                        <div class="col">                            
                                 <input type="number" id="edit_alternate_mobile_no" name="edit_alternate_mobile_no"
                                 class="form-control" placeholder="" required minlength="10"
                                 #edit_alternate_mobile_no="ngModel"
@@ -1330,34 +1322,34 @@
                                 <th>Year of Passing</th>
                                 <th></th>
                             </tr>
-                        </thead>
+                        </thead>                        
                         <tbody>
                             <tr *ngFor="let education of editDraft.stdEducationList; let i = index;">
                                 <td>{{i+1}}.</td>
-                                <td><input type="text" class="form-control" name="courseName[i]"
-                                        [(ngModel)]="education.courseName" value="{{education.courseName"></td>
-                                <td><input type="text" class="form-control" name="institution[i]"
-                                        [(ngModel)]="education.institution" value="{{ education.institution }}"></td>
+                                <td><input type="text" class="form-control" name="courseName{{i}}" id="courseName{{i}}"
+                                        [(ngModel)]="education.courseName" [value]= "education.courseName"></td>
+                                <td><input type="text" class="form-control" name="institution{{i}}" id="institution{{i}}"
+                                        [(ngModel)]="education.institution"></td>
                                 <td>
-                                    <select class="form-select" name="educationStatus[i]"
+                                    <select class="form-select" name="educationStatus{{i}}" id="educationStatus{{i}}"
                                         [(ngModel)]="education.educationStatus">
                                         <option>Completed</option>
                                         <option>Pending</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" placeholder="" name="percentage[i]"
-                                        [(ngModel)]="education.percentage">
+                                    <input type="text" class="form-control" placeholder="" name="percentage{{i}}"
+                                        [(ngModel)]="education.percentage" id="education.percentage">
                                 </td>
-                                <td><input type="text" class="form-control" placeholder="" name="year[i]"
+                                <td><input type="text" class="form-control" placeholder="" name="year{{i}}" id="year{{i}}"
                                         [(ngModel)]="education.yearofCompletion"></td>
-                                <td  (click)="deleteRowEdit(i)"><i class="bi bi-trash3"></i></td>
+                                <td (click)="deleteRowEdit(i)"><i class="bi bi-trash3"></i></td>
                             </tr>
                         </tbody>
                     </table>
                     <div class="row mt-0">
                         <div class="col-2">
-                            <button type="button" class="btn btn-secondary btn-sm">Add New Row</button>
+                            <button type="button" class="btn btn-secondary btn-sm" (click)="addDocumentEditRow()">Add New Row</button>
                         </div>
                     </div>
                 </div>
@@ -1378,12 +1370,12 @@
                         <div class="col-5">
                             <span>
                                 <input type="radio" class="form-check-input" name="edit_professional_status"
-                                    value="EMPLOYEE" (click)="professionStatus('EMPLOYEE');">
+                                    value="EMPLOYEE" (click)="professionStatus('EMPLOYEE');" >
                                 <label class="form-check-label radio-button">Employment</label>
                             </span>
                             <span class="p-3">
                                 <input type="radio" class="form-check-input" name="edit_professional_status"
-                                    value="STUDENT" (click)="professionStatus('STUDENT');">
+                                    value="STUDENT" (click)="professionStatus('STUDENT');" >
                                 <label class="form-check-label radio-button">Student</label>
                             </span>
                             <span class="p-3">
@@ -1394,6 +1386,31 @@
                         </div>
                     </div>
                     <div class="row mt-3">
+                        <div class="col-3">
+                            Organization
+                        </div>
+                        <div class="col-5">
+                            <input type="text" class="form-control" placeholder="" name="edit_organization"
+                                [disabled]="professionalDetailsShow">
+                        </div>
+                        <div class="col-2">
+                            Designation
+                        </div>
+                        <div class="col-2">
+                            <input type="text" class="form-control" placeholder="" name="edit_desigation"
+                                [disabled]="professionalDetailsShow" >
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            Place of Duty
+                        </div>
+                        <div class="col-5">
+                            <input type="text" class="form-control" placeholder="" name="edit_placeOfDuty"
+                                [disabled]="professionalDetailsShow" >
+                        </div>
+                    </div>
+                    <!-- <div class="row mt-3">
                         <div class="col-3">
                             Organization
                         </div>
@@ -1417,7 +1434,7 @@
                             <input type="text" class="form-control" placeholder="" name="edit_placeOfDuty"
                                 [disabled]="professionalDetailsShow" [(ngModel)]="editDraft.stdProfession.placeOfDuty">
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -1436,45 +1453,40 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>01.</td>
+                        <tr *ngFor="let doc of documentViewList;let i=index">
+                            <td>{{i+1}}.</td>
                             <td>
-                                <select class="form-select" name="document_type">
-                                    <option>Completed</option>
-                                    <option>Pending</option>
+                                <span>{{doc.docCategory}}</span>
+                            </td>
+                            <td>
+                                <span>{{doc.description}}</span>
+                            </td>
+                            <td>Attachment Id: {{doc.id}} <span style="cursor: pointer;font-weight: bold;" (click)= "documentDownload()">{{doc.docName}}</span> </td>
+                        </tr>                        
+                        <tr *ngFor="let doc of editStudentApplicationDocDetail; let i = index;">                              
+                            <td>{{i+1}}.</td>
+                            <td>
+                                <select class="form-select" name="edit_document_type{{i}}"
+                                    [(ngModel)]="doc.idEdit">
+                                    <option *ngFor="let document of documentTypeList" value={{document.id}}>
+                                        {{document.name}}
+                                    </option>
                                 </select>
                             </td>
                             <td>
-                                <select class="form-select" name="document_description">
-                                    <option>Completed</option>
-                                    <option>Pending</option>
-                                </select>
-                            </td>
-                            <td>Attachment On<i class="bi bi-trash3"></i></td>
-                        </tr>
-                    </tbody>
-                    <!-- <tbody>                                
-                        <tr>
-                            <td>04.</td>
-                            <td>
-                                <select class="form-select" name="document_type">
-                                    <option>Completed</option>
-                                    <option>Pending</option>  
-                                </select>
+                                <input type="text" class="form-control" placeholder="" name="edit_descritpion{{i}}"
+                                    [(ngModel)]="doc.descriptionEdit">
                             </td>
                             <td>
-                                <select class="form-select" name="document_description">
-                                    <option>Completed</option>
-                                    <option>Pending</option>  
-                                </select>
+                                <!-- <button type="button" class="btn btn-secondary btn-sm button-width" >Upload</button> -->
+                                <input type="file" class="file-input" name="edit_file{{i}}" [(ngModel)]="doc.fileEdit"
+                                    (change)="documntUploadEdit($event,doc)" #fileUpload>
                             </td>
-                            <td><button type="button" class="btn btn-secondary btn-sm">Upload</button></td>
-                        </tr>
-                    </tbody> -->
+                    </tbody>                   
                 </table>
                 <div class="row mt-0">
                     <div class="col-2">
-                        <button type="button" class="btn btn-secondary btn-sm">Add New Row</button>
+                        <button type="button" class="btn btn-secondary btn-sm" (click)="addDocumentRowEditSection()">Add New Row</button>
                     </div>
                 </div>
             </div>

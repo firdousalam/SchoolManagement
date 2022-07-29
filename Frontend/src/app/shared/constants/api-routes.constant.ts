@@ -166,7 +166,9 @@ export const apiRoutes = {
     update:'/api/v1/studentpersonalDetails/updateStudentPersonalDetail'
   },
   studentDocumentApi:{
-    upload:'/api/v1/studentDocument/upload'
+    upload:'/api/v1/studentDocument/upload',
+    getDoc:'/api/v1/studentDocument/documentData',
+    getById: '/api/v1/studentDocument/getDocuments'
   }
 
 };

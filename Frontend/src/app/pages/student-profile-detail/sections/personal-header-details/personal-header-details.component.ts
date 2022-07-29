@@ -70,6 +70,6 @@ export class PersonalHeaderDetailsComponent implements OnInit, OnChanges,OnDestr
   }
   ngOnInit(): void { }
   ngOnDestroy(): void {
-    this.fileUploadSubscription.unsubscribe();
+  //  this.fileUploadSubscription.unsubscribe();
   }
 }
