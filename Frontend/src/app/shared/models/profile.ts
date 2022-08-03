@@ -8,7 +8,7 @@ export interface stdContactDetail {
     cdistrict: string;
     cpinCode: string;
     cstate: string;
-    dateofEntry: string;
+    dateofEntry ?: string;
     emailId: string;
     isPASameAsCA: string;
     landlineNumber: string;
@@ -23,7 +23,7 @@ export interface stdContactDetail {
 }
 export interface stdPersonalDetail {
     id: number | null;
-    dateofEntry: string;
+    dateofEntry ?: string | null;
     applicantName: string;
     dob: string;
     gender: string;
@@ -38,7 +38,7 @@ export interface stdPersonalDetail {
 }
 export interface stdEducationList {
     id: number;
-    dateofEntry?: string;
+    dateofEntry ?: string;
     sequence?: number | null;
     courseName: string;
     institution: string;
@@ -49,7 +49,7 @@ export interface stdEducationList {
 }
 export interface stdProfession {
     id: number | null;
-    dateofEntry: string;
+    dateofEntry ?: string;
     organization: string;
     designation: string;
     placeOfDuty: string;
@@ -61,7 +61,7 @@ export interface stdAdmission {
     batchNo: string;
     certificateLink: string;
     courseCenter: string;
-    dateofEntry: string;
+    dateofEntry ?: string;
     enrollmentNumber: string;
     id:  number | null;
     idCardNo: string;

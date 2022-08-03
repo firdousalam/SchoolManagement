@@ -19,10 +19,10 @@
 </div>
 <div class="d-flex flex-row bd-highlight mb-0">
     <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;"
-        (click)="applicationStatusChange('applicationForm','FORMTAB')"> Application Form </div>
-    <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;"
+        (click)="applicationStatusChange('applicationForm','FORMTAB')" [ngClass]="{ active: tab === 'FORMTAB' }"> Application Form </div>
+    <div [ngClass]="{ active: tab === 'VIEWTAB' }" class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;"
         (click)="applicationView('VIEWTAB')"> View Application </div>
-    <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;"
+    <div class="p-2 pb-0 bd-highlight ant-tabs-tab-btn highlighthover" style="font-size: 16px;" [ngClass]="{ active: tab === 'DRAFTVIEWTAB' }"
         (click)="applicationStatusChange('saveAsDraft','DRAFTVIEWTAB')"> Save as Draft </div>
 </div>
 <div class="inner-page d-flex flex-row mt-0" *ngIf="applicationStatus=='1'">
@@ -90,7 +90,9 @@
                             <div class="col">
                                 <select class="form-select" name="sex" id="sex" required #sex="ngModel"
                                     [(ngModel)]="studentApplication.personalDetails.gender">
-                                    <option *ngFor = "let gender of genderOptions" [ngValue]="gender.name">{{gender.name}}</option>                                    
+                                    <option >Male</option>
+                                    <option>Female</option>
+                                    <option>Other</option>
                                 </select>
                                 <div *ngIf="sex.invalid && (sex.dirty || sex.touched)" class="alert">
                                     <div *ngIf="sex.errors?.['required']">
@@ -101,8 +103,8 @@
                             <div class="col">Nationality</div>
                             <div class="col">
                                 <select class="form-select" name="nationality" id="nationality" required
-                                    #nationality="ngModel" [(ngModel)]="studentApplication.personalDetails.nationality">                                    
-                                    <option *ngFor = "let nation of nationalityOption" [ngValue]="nation.name">{{nation.name}}</option>
+                                    #nationality="ngModel" [(ngModel)]="studentApplication.personalDetails.nationality">
+                                    <option>Indian</option>
                                 </select>
                                 <div *ngIf="nationality.invalid && (nationality.dirty || nationality.touched)"
                                     class="alert">
@@ -124,7 +126,7 @@
                                 </span>
                                 <span class="p-3">
                                     <input type="radio" class="form-check-input" id= "guardian" name="father_guardian" value="guardian"
-                                        [(ngModel)]="studentApplication.personalDetails.fatherOrGuardian">
+                                        checked [(ngModel)]="studentApplication.personalDetails.fatherOrGuardian">
                                     <label class="form-check-label radio-button">Guardian</label>
                                 </span>
                             </div>
@@ -147,7 +149,7 @@
                             </div>
                             <div class="col">
                                 <span>
-                                    <input type="radio" class="form-check-input" id="sc" name="sc_st" value="sc"
+                                    <input type="radio" class="form-check-input" id="sc" name="sc_st" value="sc" 
                                         [(ngModel)]="studentApplication.personalDetails.scOrSt">
                                     <label class="form-check-label radio-button">SC</label>
                                 </span>
@@ -157,7 +159,7 @@
                                     <label class="form-check-label radio-button">ST</label>
                                 </span>
                                 <span class="p-1">
-                                    <input type="radio" class="form-check-input" id="general" name="sc_st" value="general"
+                                    <input type="radio" class="form-check-input" id="general" name="sc_st" value="General" checked
                                         [(ngModel)]="studentApplication.personalDetails.scOrSt" >
                                     <label class="form-check-label radio-button">General</label>
                                 </span>
@@ -436,7 +438,7 @@
                                             [(ngModel)]="education.percentage">
                                     </td>
                                     <td><input type="text" class="form-control" placeholder="" name="year{{i}}"
-                                            [(ngModel)]="education.yearOfCompletion"></td>
+                                            [(ngModel)]="education.yearofCompletion"></td>
                                     <td  (click)="deleteRow(i)"><i class="bi bi-trash3"></i></td>
                                 </tr>
                                 <!-- <tr>
@@ -452,7 +454,7 @@
                                     <td>
                                         <input type="text" class="form-control" placeholder="" name="percentage" [(ngModel)]="educationRecord.percentage">
                                     </td>
-                                    <td><input type="text" class="form-control" placeholder="" name="year" [(ngModel)]="educationRecord.yearOfCompletion"></td>
+                                    <td><input type="text" class="form-control" placeholder="" name="year" [(ngModel)]="educationRecord.yearofCompletion"></td>
                                     <td><i class="bi bi-trash3"></i></td>
                                 </tr>                      -->
                             </tbody>
@@ -821,7 +823,7 @@
                                 <td>{{education?.institution}}</td>
                                 <td>{{education?.educationStatus}}</td>
                                 <td>{{education?.percentage}}</td>
-                                <td>{{education?.yearOfCompletion}}</td>
+                                <td>{{education?.yearofCompletion}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -901,6 +903,11 @@
                 </table>
             </div>
         </div>
+
+
+
+
+
     </div>
 </div>
 
@@ -923,7 +930,8 @@
 <div class="inner-page d-flex flex-row mt-0" *ngIf="applicationStatus==='3' && saveAsDraft">
     <div class="container-fluid">
         <div class="row mb-4">
-            <div class="col">               
+            <div class="col">
+                update
                 Reference ID:
             </div>
             <div class="col">
@@ -1093,6 +1101,9 @@
                                     District
                                 </div>
                                 <div class="col">
+                                    <input type="text" class="form-control" placeholder="" name="edit_pdistrict"
+                                        [(ngModel)]="editDraft.stdContactDetail.cdistrict">
+
                                     <input type="text" class="form-control" placeholder="" name="edit_pdistrict"
                                         id="edit_pdistrict" value="editDraft.stdContactDetail.cdistrict" required
                                         #edit_pdistrict="ngModel" [(ngModel)]="editDraft.stdContactDetail.cdistrict">
@@ -1331,7 +1342,7 @@
                                         [(ngModel)]="education.percentage" id="education.percentage">
                                 </td>
                                 <td><input type="text" class="form-control" placeholder="" name="year{{i}}" id="year{{i}}"
-                                        [(ngModel)]="education.yearOfCompletion"></td>
+                                        [(ngModel)]="education.yearofCompletion"></td>
                                 <td (click)="deleteRowEdit(i)"><i class="bi bi-trash3"></i></td>
                             </tr>
                         </tbody>
