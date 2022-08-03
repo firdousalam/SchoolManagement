@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, EventEmitter, Output, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
-import { Observable, Observer, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { stdPersonalDetail } from 'src/app/shared/models/profile';
 import { ProfileHeaderService } from 'src/app/shared/services/api/profile-header.service';
@@ -10,7 +10,7 @@ import { ProfileHeaderService } from 'src/app/shared/services/api/profile-header
   templateUrl: './personal-header-details.component.html',
   styleUrls: ['./personal-header-details.component.scss'],
 })
-export class PersonalHeaderDetailsComponent implements OnInit, OnChanges,OnDestroy {
+export class PersonalHeaderDetailsComponent implements OnInit, OnChanges {
   @Input() editMode: boolean = false;
   @Input() studentPersonalData!: stdPersonalDetail;
   @Output() employmentStatusChange = new EventEmitter<any>();
@@ -21,28 +21,24 @@ export class PersonalHeaderDetailsComponent implements OnInit, OnChanges,OnDestr
   fileUploadProgress!: string;
   fileUploadSubscription!:Subscription;
   uploadedFilePath!: string;
-  constructor(private noti:NotificationService,private headerpersonalApi: ProfileHeaderService) { }
+  constructor(private noti:NotificationService,private headerpersonalApi: ProfileHeaderService,) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.employmentStatus = this.studentPersonalData?.employmentStatus;
     this.editMode ? '':(this.previewUrl='');
   }
 
-  beforeUpload = ((file: NzUploadFile, _fileList: NzUploadFile[]):any =>{
+  beforeUpload = (file: NzUploadFile): boolean => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isJpgOrPng) {
       this.noti.showErrorToast('You can only upload image file!'); 
-      return;
+      return false;
     }
-   
     this.fileList = this.fileList.concat(file);
     this.preview();
-    this.handleChange(); 
-    return;
-  });
-  
-
-  
+    this.handleChange();
+    return false;
+  };
   handleChange(){
     const formData = new FormData();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -50,7 +46,9 @@ export class PersonalHeaderDetailsComponent implements OnInit, OnChanges,OnDestr
       formData.append('file', file);
     });
      
-    this.fileUploadSubscription = this.headerpersonalApi.fileUpload(formData).subscribe((x: any) => {      
+    this.fileUploadSubscription = this.headerpersonalApi.fileUpload(formData).subscribe((x: any) => {
+      console.log('Profile',x);
+      
       if (x.status === 201) {
         this.profileImageChange.emit(x.body);
         this.noti.showSuccessToast('Image uploaded successfully')
@@ -78,8 +76,4 @@ export class PersonalHeaderDetailsComponent implements OnInit, OnChanges,OnDestr
     this.employmentStatusChange.emit(this.employmentStatus);
   }
   ngOnInit(): void { }
-
-  ngOnDestroy(): void {
-  //  this.fileUploadSubscription.unsubscribe();
-  }
 }
