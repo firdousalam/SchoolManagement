@@ -9,43 +9,41 @@ import { CommonService } from 'src/app/shared/services/api/common.service';
   styleUrls: ['./side-nav.component.scss'],
 })
 export class SideNavComponent implements OnDestroy {
-  routeParamSubscription!:Subscription;
-  profileSubscription!:Subscription;
-  toggleMenuSubscription!:Subscription;
-  menuShowhidSub!:Subscription;
-  subArray:any=[];
-  studentProfileId:any;
-  profileExist:any;
-  constructor(private router:Router,private route:ActivatedRoute,private commonService:CommonService) {}
-  isCollapsed: boolean = false; 
+  routeParamSubscription!: Subscription;
+  profileSubscription!: Subscription;
+  toggleMenuSubscription!: Subscription;
+  menuShowhidSub!: Subscription;
+  subArray: any = [];
+  studentProfileId: any;
+  profileExist: any;
+  constructor(private router: Router, private route: ActivatedRoute, private commonService: CommonService) { }
+  isCollapsed: boolean = false;
 
- 
+
   ngOnInit(): void {
-    
+
     this.profileExist = localStorage.getItem('profileExist');
-    console.log(this.profileExist);
-    
-    this.profileSubscription = this.commonService.profileSubject.subscribe((x:any)=>{
+    this.profileSubscription = this.commonService.profileSubject.subscribe((x: any) => {
       this.studentProfileId = x.profileId;
-      
+
     })
     this.subArray.push(this.profileSubscription);
 
-    this.toggleMenuSubscription = this.commonService.menuToggleSubject?.subscribe((x:any)=>{
+    this.toggleMenuSubscription = this.commonService.menuToggleSubject?.subscribe((x: any) => {
       this.toggleCollapsed();
     })
     this.subArray.push(this.toggleMenuSubscription);
-    this.menuShowhidSub = this.commonService.menushowhideSubject.subscribe((x:any)=>{
+    this.menuShowhidSub = this.commonService.menushowhideSubject.subscribe((x: any) => {
       this.profileExist = x;
     });
     this.subArray.push(this.menuShowhidSub);
   }
 
-  isOpen(){
-    return this.router.url === '/dashboard' ? false:true;
+  isOpen() {
+    return this.router.url === '/dashboard' ? false : true;
   }
   ngOnDestroy(): void {
-    this.subArray.array.forEach((element:any) => element.unsubscribe());
+    this.subArray.array.forEach((element: any) => element.unsubscribe());
   }
   toggleCollapsed(): void {
     this.isCollapsed = !this.isCollapsed;

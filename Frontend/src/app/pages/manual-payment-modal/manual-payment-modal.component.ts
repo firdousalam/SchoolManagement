@@ -53,8 +53,7 @@ export class ManualPaymentModalComponent implements OnInit, OnDestroy {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.fileList.forEach((file: any) => {
       formData.append('file', file);
-    });
-
+    });    
     this.fileUploadSubscription = this.paymentApi.fileUpload(formData).subscribe((x: any) => {
 
       if (x.status === 201) {
@@ -74,6 +73,10 @@ export class ManualPaymentModalComponent implements OnInit, OnDestroy {
 
     this.submitted = true;
     if (this.paymentform.invalid) {
+      
+      return;
+    }else if(this.paymentform.valid && !this.fileList.length){
+      this.noti.showErrorToast('Please select Application fee attachment');
       return;
     }
     const requestData = {

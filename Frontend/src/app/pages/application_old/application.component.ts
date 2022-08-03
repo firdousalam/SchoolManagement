@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { applicationObjectCreation, applicationObjectUpdate } from 'src/app/shared/adaptor/adaptor';
+import { applicationObjectCreation } from 'src/app/shared/adaptor/adaptor';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { StudentProfileServiceService } from 'src/app/shared/services/api/student-profile-service.service';
@@ -30,6 +30,7 @@ export class ApplicationComponent implements OnInit {
   applicationSubmitted: boolean = false;
   saveAsDraft: boolean = false;
   model: any;
+  tab:any="FORMTAB";
   userId: any;
   referenceDate: any = moment().format('DD/MM/YYYY');
   studentApplication: any = {
@@ -39,7 +40,7 @@ export class ApplicationComponent implements OnInit {
     stdContactDetail: {},
     docList: [],
     docTempList: []
-  }  
+  }
   studentApplicationDocDetail: any = [];
   editStudentApplicationDocDetail: any = [];
   educationRecord: any = {};
@@ -62,8 +63,6 @@ export class ApplicationComponent implements OnInit {
   documentViewList:any = [];  
   docTempList:any= [];
   docEditTempList:any=[];
-  genderOptions: any = [];
-  nationalityOption:any = [];
 
   constructor(private profileService: StudentProfileServiceService,
     private router: Router,
@@ -75,7 +74,7 @@ export class ApplicationComponent implements OnInit {
     private noti: NotificationService) { }
 
   async ngOnInit(): Promise<any> {
-    this.applicationControlsCheck();   
+    //const userId = this.route.snapshot.paramMap.get('id')?.toString(); 
     const studentProfileObj = JSON.parse(localStorage.getItem('studentProfileId')!);
     this.userId = studentProfileObj.userId;
     //const userId = '1'; 
@@ -116,22 +115,13 @@ export class ApplicationComponent implements OnInit {
     };
     this.studentApplicationDocDetail.push(this.documentRecord);    
   }
-
-  applicationControlsCheck = ()=>{
-    this.genderOptions = [{name:'Male',id:1},{name:'Female',id:2},{name:'Other',id:3}];
-    this.nationalityOption = [{name:'Indian',id:1},{name:'Irish',id:2},{name:'Italian',id:3}];
-    this.studentApplication.personalDetails.fatherOrGuardian = 'father';
-    this.studentApplication.personalDetails.scOrSt = 'sc';
-    this.studentApplication.personalDetails.gender = 'Male';
-    this.studentApplication.personalDetails.nationality = 'Indian';
-  }
   //Add more in education section
   addRow() {
     this.educationRecord = {
       courseName: "",
       institution: "",
       percentage: "",
-      yearOfCompletion: "",
+      yearofCompletion: "",
       educationStatus: "",
       sequence: 0
     };
@@ -155,7 +145,7 @@ export class ApplicationComponent implements OnInit {
       courseName: "",
       institution: "",
       percentage: "",
-      yearOfCompletion: "",
+      yearofCompletion: "",
       educationStatus: "",
       sequence: 0
     };    
@@ -179,6 +169,7 @@ export class ApplicationComponent implements OnInit {
     this.editDraft.stdEducationList.splice(index, 1);
   }
   async applicationStatusChange(status: string, tab: string): Promise<any> {
+    this.tab = tab;
     //const userId = this.route.snapshot.paramMap.get('id')?.toString();
     const userId = this.userId;
     const params: IProfileSearch = { userId: toNumber(userId) };
@@ -246,11 +237,13 @@ export class ApplicationComponent implements OnInit {
   //APPLICATION SUBMITTED POST DRAFT
   applicationSubmittedPostDraft(requestData: any) {  
     try{
-      this.profileService.update(applicationObjectUpdate(requestData, this.userId, 'Awaiting Approval', this.docEditTempList)).subscribe((data: any) => {
+      this.profileService.update(applicationObjectCreation(requestData, this.userId, 'Awaiting Approval', this.docEditTempList)).subscribe((data: any) => {
         //Modal need to be added here Amir
         this.showPopUp();
-        const profileObj: any = { studentProfileId: data.messageCode, userId: this.userId };
-        localStorage.setItem('studentProfileId', JSON.stringify(profileObj));
+      //  setSession('profileId', data.messageCode);
+       // setSession('userId', this.userId)
+         const profileObj: any = { studentProfileId: data.messageCode, userId: this.userId };
+         localStorage.setItem('studentProfileId', JSON.stringify(profileObj));
         this.applicationStatus = '4';
       }, (error: Error) => {
         console.log(error);
@@ -264,6 +257,7 @@ export class ApplicationComponent implements OnInit {
 
   //This method is used to view the application details
   async applicationView(tab: string): Promise<any> {
+    this.tab =tab;
     let userId = this.userId;
     if (this.userId) {
       const params: IProfileSearch = { userId: toNumber(userId) };
@@ -295,10 +289,8 @@ export class ApplicationComponent implements OnInit {
   //APPLICATION SUBMITTED AS A SAVE AS DRAFT
   async applicationDraft(requestData: any): Promise<any> {
     try {
-      const studentProfileObj = JSON.parse(localStorage.getItem('studentProfileId')!);
-      const profileId = studentProfileObj.profileId;
       this.profileService.create(applicationObjectCreation(requestData, this.userId, 'Saved', this.docTempList)).subscribe(async (data: any) => {
-        this.editDraft = await this.profileService.getByID({profileId:profileId}).toPromise();        
+        this.editDraft = await this.profileService.getProfileByUserID({userId:this.userId}).toPromise();        
         this.getDocumentList();  
         this.editDocumentRecord = {
           idEdit: "",
@@ -306,6 +298,8 @@ export class ApplicationComponent implements OnInit {
           fileEdit: ""
         };
         this.editStudentApplicationDocDetail.push(this.editDocumentRecord);                      
+       // setSession('profileId', data.messageCode);
+        //setSession('userId', this.userId)
         const profileObj: any = { studentProfileId: data.messageCode, userId: this.userId };
         localStorage.setItem('studentProfileId', JSON.stringify(profileObj));
         this.applicationStatus = '3';

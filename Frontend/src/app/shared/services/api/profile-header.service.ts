@@ -8,7 +8,7 @@ import { UrlBuilderService } from '../url-builder.service';
 @Injectable({
   providedIn: 'root'
 })
-export class ProfileHeaderService extends CrudService<stdPersonalDetail, IProfilePage, IProfileSearch>{
+export class ProfileHeaderService extends CrudService<any, any, any>{
 
   constructor(
     protected httpClient: HttpClient,

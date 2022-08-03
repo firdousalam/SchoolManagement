@@ -10,6 +10,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { StudentPersonalServiceService } from 'src/app/shared/services/api/student-personal-service.service';
 import { ProfileHeaderService } from 'src/app/shared/services/api/profile-header.service';
+import { FeePaymentService } from 'src/app/shared/services/api/fee-payment.service';
 @Component({
   selector: 'app-student-profile-detail',
   templateUrl: './student-profile-detail.component.html',
@@ -31,6 +32,7 @@ export class StudentProfileDetailComponent implements OnInit, OnDestroy {
   routeParamSubscription: Subscription | undefined;
   submitStudentProfileSubscription: Subscription | undefined;
   savePersonalDataSubcription: Subscription | undefined;
+  fileUploadSubscription: Subscription | undefined;
   savePersonalheaderDataSubcription: Subscription | undefined;
   studentProfileId: any;
   title:any
@@ -40,7 +42,7 @@ export class StudentProfileDetailComponent implements OnInit, OnDestroy {
   studentAdmissionData!: stdAdmission;
   studentProfessionData!: stdProfession;
   subscriptionArray: any = [];
-  constructor(private headerpersonalApi:ProfileHeaderService,private personalApi: StudentPersonalServiceService, private notificationService: NotificationService, private api: StudentProfileServiceService, private router: Router, private route: ActivatedRoute) {
+  constructor(private noti:NotificationService,private paymentApi:FeePaymentService,private headerpersonalApi:ProfileHeaderService,private personalApi: StudentPersonalServiceService, private notificationService: NotificationService, private api: StudentProfileServiceService, private router: Router, private route: ActivatedRoute) {
     const studentProfileObj = JSON.parse(localStorage.getItem('studentProfileId')!);
     this.studentProfileId = studentProfileObj.studentProfileId;
       this.title = `Student Profile - #${this.studentProfileId}`;
@@ -56,6 +58,11 @@ export class StudentProfileDetailComponent implements OnInit, OnDestroy {
     this.init();
   }
 
+  profileImageChange(formData:any){
+    this.savePersonalheaderDataSubcription = this.headerpersonalApi.updateBySearchCriteria({profileId:this.studentProfileId},{...this.studentPersonalData,...{'docTempList':[formData],'profileId': parseInt(this.studentProfileId)}}).subscribe((data:any)=>{
+    })
+   
+  }
   submitAllData() {
     this.eventsSubject.next();
     const request: IProfile = {
