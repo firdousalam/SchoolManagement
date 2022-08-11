@@ -1,0 +1,89 @@
+
+    <div *nzModalTitle class="d-flex justify-content-between">
+        <div>Payment Details</div>
+        <div>
+            <button type="button" (click)="onSubmit()" class="btn kl-btn kl-btn-dark-6 btn-sm me-3">Submit</button>
+            <span role="button" (click)="closeModal()">Close</span>
+        </div>
+
+    </div>
+    <div class="title mb-2">Enter the Payment Information below</div>
+    <form [formGroup]="paymentform">
+    <div class="main-container">
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="modeOfPayment">Mode of Payment</label>
+            </div>
+            <div class="col-md-5">
+                <select [ngClass]="{ 'is-invalid': submitted && f.paymentType.errors }" class="form-control form-select" formControlName="paymentType" style="width:100%" required>
+                    <option value="DD">DD</option>
+                    <option value="Challan">Challan</option>
+                    <option value="Cheque">Cheque</option>
+                    <option value="Other">Other</option>
+                </select>
+                <div *ngIf="submitted && f.paymentType.errors" class="invalid-feedback">
+                    <div *ngIf="f.paymentType.errors.required">Choose a payment mode</div>
+                  </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="modeOfPayment">Number</label>
+            </div>
+            <div class="col-md-5">
+                <input formControlName="number" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.number.errors }" style="width:100%" required type="number" placeholder="number" />
+                <div *ngIf="submitted && f.number.errors" class="invalid-feedback">
+                    <div *ngIf="f.number.errors.required">Number is required</div>
+                  </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="modeOfPayment">Date</label>
+            </div>
+            <div class="col-md-5">
+                <nz-date-picker [nzFormat]="'dd/MM/yyyy'" formControlName="actualPaymentDate" [ngClass]="{ 'is-invalid': submitted && f.actualPaymentDate.errors }" class="form-control" style="width:100%" required></nz-date-picker>
+                <div *ngIf="submitted && f.actualPaymentDate.errors" class="invalid-feedback">
+                    <div *ngIf="f.actualPaymentDate.errors.required">Date is required</div>
+                  </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="modeOfPayment">Amount</label>
+            </div>
+            <div class="col-md-5">
+                <input style="width:100%" required  class="form-control" [ngClass]="{ 'is-invalid': submitted && f.amount.errors }" formControlName="amount" nz-input placeholder="amount" />
+                <div *ngIf="submitted && f.amount.errors" class="invalid-feedback">
+                    <div *ngIf="f.amount.errors.required">Amount is required</div>
+                  </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="modeOfPayment">Remarks</label>
+            </div>
+            <div class="col-md-5">
+                <textarea  class="form-control" [ngClass]="{ 'is-invalid': submitted && f.remark.errors }" style="width:100%" required formControlName="remark" rows="4" nz-input></textarea>
+                <div *ngIf="submitted && f.remark.errors" class="invalid-feedback">
+                    <div *ngIf="f.remark.errors.required">Remark is required</div>
+                  </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="modeOfPayment">Attachments</label>
+            </div>
+            <div class="col-md-5 d-flex">
+                <nz-upload [(nzFileList)]="fileList"  nzAccept=".pdf" [nzBeforeUpload]="beforeUpload">
+                    <button class="btn kl-btn kl-btn-dark-6 btn-sm">
+                        <i nz-icon nzType="upload"></i>
+                        Choose File 
+                    </button>
+                </nz-upload> 
+                
+            </div>
+        </div>
+    </div>
+    
+</form>

@@ -1,5 +1,6 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { Subscription } from 'rxjs';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import {
@@ -10,6 +11,7 @@ import { AdmissionServiceService } from 'src/app/shared/services/api/admission-s
 import { BatchDetailsService } from 'src/app/shared/services/api/batch-details.service';
 import { CommonService } from 'src/app/shared/services/api/common.service';
 import { FeePaymentService } from 'src/app/shared/services/api/fee-payment.service';
+import { AdmissionPaymentModalComponent } from './admission-payment-modal/admission-payment-modal.component';
 @Component({
   selector: 'app-admission',
   templateUrl: './admission.component.html',
@@ -31,7 +33,7 @@ export class AdmissionComponent implements OnInit, OnDestroy {
   unpaidPayments:any;
   submittedRequestData:any;
   admissionPaymentTabNames: any = admissionPaymentTabNames;
-  constructor(private commonService:CommonService,private paymentApi:FeePaymentService,private noti:NotificationService,private route:ActivatedRoute,private api: AdmissionServiceService,private bacthApi:BatchDetailsService) {
+  constructor(private modal: NzModalService,private commonService:CommonService,private paymentApi:FeePaymentService,private noti:NotificationService,private route:ActivatedRoute,private api: AdmissionServiceService,private bacthApi:BatchDetailsService) {
     this.tabs = admissionPaymentTabs;
   //  this.routeParamSubscription = this.route.paramMap.subscribe((params: ParamMap) => {
     const studentProfileObj = JSON.parse(localStorage.getItem('studentProfileId')!);
@@ -69,7 +71,19 @@ export class AdmissionComponent implements OnInit, OnDestroy {
     })
     this.subscriptionArr.push(this.makePaymentSubscription);
   }
-
+  closeModal() {
+   // this.modalRef.close();
+  }
+  openModal() {
+    this.modal.create({
+      nzTitle: '',
+      nzContent: AdmissionPaymentModalComponent,
+      nzFooter: null,
+      nzMaskClosable: false,
+      nzClosable: false,
+      nzWidth: '800px'
+    })
+  }
   ngOnDestroy(): void {
     this.subscriptionArr.forEach((x:any)=>x.unsubscribe());
   }

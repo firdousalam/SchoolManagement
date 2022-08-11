@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { Subscription } from 'rxjs';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -10,7 +10,7 @@ import { ProfileHeaderService } from 'src/app/shared/services/api/profile-header
   templateUrl: './personal-header-details.component.html',
   styleUrls: ['./personal-header-details.component.scss'],
 })
-export class PersonalHeaderDetailsComponent implements OnInit, OnChanges {
+export class PersonalHeaderDetailsComponent implements OnInit, OnChanges, OnDestroy {
   @Input() editMode: boolean = false;
   @Input() studentPersonalData!: stdPersonalDetail;
   @Output() employmentStatusChange = new EventEmitter<any>();
@@ -20,12 +20,21 @@ export class PersonalHeaderDetailsComponent implements OnInit, OnChanges {
   previewUrl: any = null;
   fileUploadProgress!: string;
   fileUploadSubscription!:Subscription;
+  profilePicSubscription!:Subscription;
+  subArr:any[]=[];
+  profilePicFromUrl:any;
   uploadedFilePath!: string;
   constructor(private noti:NotificationService,private headerpersonalApi: ProfileHeaderService,) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.employmentStatus = this.studentPersonalData?.employmentStatus;
     this.editMode ? '':(this.previewUrl='');
+    // if(this.studentPersonalData?.pictureLink){
+    //   this.profilePicSubscription = this.headerpersonalApi.getDoc(parseInt(this.studentPersonalData?.pictureLink)).subscribe((data:any)=>{
+
+    //   });
+    //   this.subArr.push(this.profilePicSubscription);
+    // }
   }
 
   beforeUpload = (file: NzUploadFile): boolean => {
@@ -41,20 +50,23 @@ export class PersonalHeaderDetailsComponent implements OnInit, OnChanges {
   };
   handleChange(){
     const formData = new FormData();
+    console.log(this.fileList.slice(-1)[0].type);
+    
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.fileList.forEach((file: any) => {
       formData.append('file', file);
     });
-     
-    this.fileUploadSubscription = this.headerpersonalApi.fileUpload(formData).subscribe((x: any) => {
+     const queryParams={
+      description: 'Profile Image',
+      docCategory: 'Picture',
+      documentType: 'StudentPicture'
+     }
+    this.fileUploadSubscription = this.headerpersonalApi.fileUploadWithSearch(queryParams,formData).subscribe((x: any) => {
       console.log('Profile',x);
-      
-      if (x.status === 201) {
-        this.profileImageChange.emit(x.body);
-        this.noti.showSuccessToast('Image uploaded successfully')
-      }
+        this.profileImageChange.emit(x);
+       // this.noti.showSuccessToast('Image uploaded successfully,Please save or Submit to proceed further')
     });
-    
+    this.subArr.push(this.fileUploadSubscription);
   }
   preview() {
     // Show preview 
@@ -76,4 +88,8 @@ export class PersonalHeaderDetailsComponent implements OnInit, OnChanges {
     this.employmentStatusChange.emit(this.employmentStatus);
   }
   ngOnInit(): void { }
+
+  ngOnDestroy(): void {
+    this.subArr.forEach((x:any)=>x.unsubscribe());
+  }
 }

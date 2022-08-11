@@ -79,6 +79,7 @@ export interface IProfile extends IAudit {
     stdEducationList:stdEducationList[];
     stdPersonalDetail:stdPersonalDetail;
     stdContactDetail: stdContactDetail;
+    docTempList?:number[];
     
 }
 

@@ -42,6 +42,7 @@ export class StudentProfileDetailComponent implements OnInit, OnDestroy {
   studentAdmissionData!: stdAdmission;
   studentProfessionData!: stdProfession;
   subscriptionArray: any = [];
+  imageUploadedNumber:any=0;
   constructor(private noti:NotificationService,private paymentApi:FeePaymentService,private headerpersonalApi:ProfileHeaderService,private personalApi: StudentPersonalServiceService, private notificationService: NotificationService, private api: StudentProfileServiceService, private router: Router, private route: ActivatedRoute) {
     const studentProfileObj = JSON.parse(localStorage.getItem('studentProfileId')!);
     this.studentProfileId = studentProfileObj.studentProfileId;
@@ -59,8 +60,10 @@ export class StudentProfileDetailComponent implements OnInit, OnDestroy {
   }
 
   profileImageChange(formData:any){
-    this.savePersonalheaderDataSubcription = this.headerpersonalApi.updateBySearchCriteria({profileId:this.studentProfileId},{...this.studentPersonalData,...{'docTempList':[formData],'profileId': parseInt(this.studentProfileId)}}).subscribe((data:any)=>{
-    })
+    console.log('formData',formData);
+    this.imageUploadedNumber = formData;
+    // this.savePersonalheaderDataSubcription = this.headerpersonalApi.updateBySearchCriteria({profileId:this.studentProfileId},{...this.studentPersonalData,...{'pictureLink':formData,'profileId': parseInt(this.studentProfileId)}}).subscribe((data:any)=>{
+    // })
    
   }
   submitAllData() {
@@ -70,7 +73,8 @@ export class StudentProfileDetailComponent implements OnInit, OnDestroy {
       "stdEducationList": [...this.studentProfileData.stdEducationList, ...this.studentEducationData],
       "stdPersonalDetail": { ...this.studentProfileData.stdPersonalDetail, ...this.studentPersonalData },
       "stdProfession": { ...this.studentProfileData.stdProfession, ...this.studentProfessionData },
-      "stdContactDetail": { ...this.studentProfileData.stdContactDetail, ...this.studentContactData }
+      "stdContactDetail": { ...this.studentProfileData.stdContactDetail, ...this.studentContactData },
+      "docTempList":[this.imageUploadedNumber]
     };
     this.studentProfileData = {
       ...this.studentProfileData,...request

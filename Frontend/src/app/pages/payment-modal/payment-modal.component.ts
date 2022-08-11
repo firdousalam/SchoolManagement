@@ -9,22 +9,22 @@ import { ManualPaymentModalComponent } from '../manual-payment-modal/manual-paym
 })
 export class PaymentModalComponent implements OnInit {
 
-  constructor(private modalRef: NzModalRef,private modal:NzModalService) { }
+  constructor(private modalRef: NzModalRef, private modal: NzModalService) { }
 
   ngOnInit(): void {
   }
-  closeModal(){
+  closeModal() {
     this.modalRef.close();
   }
-  openManual(){
+  openManual() {
     this.modalRef.close();
     this.modal.create({
       nzTitle: '',
-      nzContent:  ManualPaymentModalComponent,
+      nzContent: ManualPaymentModalComponent,
       nzFooter: null,
       nzMaskClosable: false,
       nzClosable: false,
       nzWidth: '800px'
-  })
+    })
   }
 }

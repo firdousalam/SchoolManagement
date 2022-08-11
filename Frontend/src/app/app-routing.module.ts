@@ -15,13 +15,13 @@ const routes: Routes = [
   
   { path: '', pathMatch: "full", redirectTo: "/dashboard" },
   { path: 'dashboard',component: DashboardComponent, canActivate:[RouteGuard] },
-  { path: 'admission', component: AdmissionComponent },
+  { path: 'admission', component: AdmissionComponent, canActivate:[RouteGuard] },
   { path: 'application', component: ApplicationComponent, canActivate:[RouteGuard] },
-  { path: 'courses', component: CoursesComponent },
-  { path: 'contact', component: ContactComponent },
-  { path: 'contact/new', component: AddContactComponent },
-  { path: 'contact/view', component: ViewContactComponent },
-  { path: 'student/profile', component: StudentProfileDetailComponent },
+  { path: 'courses', component: CoursesComponent, canActivate:[RouteGuard] },
+  { path: 'contact', component: ContactComponent, canActivate:[RouteGuard] },
+  { path: 'contact/new', component: AddContactComponent, canActivate:[RouteGuard] },
+  { path: 'contact/view', component: ViewContactComponent, canActivate:[RouteGuard] },
+  { path: 'student/profile', component: StudentProfileDetailComponent, canActivate:[RouteGuard] },
   { path: '**', component: PageNotFoundComponent }
 ];
 

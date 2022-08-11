@@ -23,7 +23,7 @@ import { HttpRequestInterceptor } from './core/interceptors/http-request.interce
 import { TableViewComponent } from './shared/components/table-view/table-view.component';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzModalModule, NzModalRef  } from 'ng-zorro-antd/modal';
+import { NzModalModule  } from 'ng-zorro-antd/modal';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -56,6 +56,7 @@ import { DatePipe } from '@angular/common';
 import { ApplicationComponent } from './pages/application/application.component';
 import { PaymentModalComponent } from './pages/payment-modal/payment-modal.component';
 import { ManualPaymentModalComponent } from './pages/manual-payment-modal/manual-payment-modal.component';
+import { AdmissionPaymentModalComponent } from './pages/admission/admission-payment-modal/admission-payment-modal.component';
 export function initializeApp(configurationService: ConfigurationService) {
   return (): Promise<any> => {
     return configurationService.load();
@@ -98,7 +99,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
     SafePipePipe,
     ApplicationComponent,
     PaymentModalComponent,
-    ManualPaymentModalComponent
+    ManualPaymentModalComponent,
+    AdmissionPaymentModalComponent
   ],
   imports: [
     BrowserModule,

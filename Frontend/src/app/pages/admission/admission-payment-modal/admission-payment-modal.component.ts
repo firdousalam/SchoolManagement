@@ -9,11 +9,11 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { FeePaymentService } from 'src/app/shared/services/api/fee-payment.service';
 
 @Component({
-  selector: 'app-manual-payment-modal',
-  templateUrl: './manual-payment-modal.component.html',
-  styleUrls: ['./manual-payment-modal.component.scss']
+  selector: 'app-admission-payment-modal',
+  templateUrl: './admission-payment-modal.component.html',
+  styleUrls: ['./admission-payment-modal.component.scss']
 })
-export class ManualPaymentModalComponent implements OnInit, OnDestroy {
+export class AdmissionPaymentModalComponent implements OnInit {
   fileList: NzUploadFile[] = [];
   paymentform!: FormGroup;
   submitted = false;
@@ -21,8 +21,8 @@ export class ManualPaymentModalComponent implements OnInit, OnDestroy {
   fileUploadSubscription!: Subscription;
   subscriptionArr: any[] = [];
   studentProfileId: any;
-  attachmentNumber: any = 0;
-  constructor(private date: DatePipe, private paymentApi: FeePaymentService, private noti: NotificationService, private modalRef: NzModalRef, private formBuilder: FormBuilder,) {
+  attachmentNumber: any=0;
+  constructor(private modalRef: NzModalRef,private date: DatePipe, private paymentApi: FeePaymentService, private noti: NotificationService, private formBuilder: FormBuilder) {
 
   }
 
@@ -38,31 +38,31 @@ export class ManualPaymentModalComponent implements OnInit, OnDestroy {
         remark: ['', Validators.required],
       }
     );
-  }
-  closeModal() {
-    this.modalRef.close();
-  }
+  } 
 
   beforeUpload = (file: NzUploadFile): boolean => {
     this.fileList = this.fileList.concat(file);
     this.handleUpload();
     return false;
   };
-
+  closeModal() {
+    this.modalRef.close();
+  }
   handleUpload() {
     const formData = new FormData();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.fileList.forEach((file: any) => {
       formData.append('file', file);
-    });
-    const queryParams = {
-      description: 'Application Fee',
-      docCategory: 'Application Fee',
+    });    
+    const queryParams={
+      description: 'Admission Fee',
+      docCategory: 'Admission Fee',
       documentType: 'paymentType'
-    }
-    this.fileUploadSubscription = this.paymentApi.fileUploadWithSearch(queryParams, formData).subscribe((x: any) => {
+     }
+    this.fileUploadSubscription = this.paymentApi.fileUploadWithSearch(queryParams,formData).subscribe((x: any) => {
 
-      this.attachmentNumber = x;
+        this.attachmentNumber = x;
+
     });
     this.subscriptionArr.push(this.fileUploadSubscription);
   }
@@ -77,10 +77,10 @@ export class ManualPaymentModalComponent implements OnInit, OnDestroy {
 
     this.submitted = true;
     if (this.paymentform.invalid) {
-
+      
       return;
-    } else if (this.paymentform.valid && !this.fileList.length) {
-      this.noti.showErrorToast('Please select Application fee attachment');
+    }else if(this.paymentform.valid && !this.fileList.length){
+      this.noti.showErrorToast('Please select Admission fee attachment');
       return;
     }
     const requestData = {
@@ -90,18 +90,18 @@ export class ManualPaymentModalComponent implements OnInit, OnDestroy {
       amount: this.paymentform?.value?.amount,
       remark: this.paymentform?.value?.remark,
       dateofEntry: "",
-      paymentType: "Application Fee",
+      paymentType: "Admission Fee",
       installment: "",
-      paymentDueDate: "",
       docIdList: [
         0
       ],
-      tempIdList: [this.attachmentNumber],
+      paymentDueDate: "",
       paymentStatus: "Paid",
+      tempIdList: [this.attachmentNumber],
       profileId: this.studentProfileId
     }
     this.makePaymentSubscription = this.paymentApi.createWithQueryParam({ profileId: this.studentProfileId }, [requestData]).subscribe((x: any) => {
-      this.noti.showSuccessToast('Payment has been made successfully');
+      this.noti.showSuccessToast('Payment has been made successfully'); 
       this.closeModal();
     })
     this.subscriptionArr.push(this.makePaymentSubscription);

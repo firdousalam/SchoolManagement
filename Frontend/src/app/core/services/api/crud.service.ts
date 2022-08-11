@@ -100,6 +100,19 @@ export abstract class CrudService<IDetail, IDetailPage, ISearch> {
       
     });
     return this.httpClient.request<any>(req);
+  } 
+
+  fileUploadWithSearch(searchObject: ISearch,detail: IDetail) {
+    return this.httpClient.post(
+      this.urlBuilderService.getUrlWithQueryParams(
+        this.api.upload,
+        searchObject
+      ),
+      detail, {
+        responseType:'json',
+        
+      }
+    );
   }
   getProfileByUserID(searchObject: ISearch) {
     return this.httpClient.get<IDetailPage>(
