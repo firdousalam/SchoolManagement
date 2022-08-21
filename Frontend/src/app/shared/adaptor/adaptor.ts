@@ -45,69 +45,82 @@ export const applicationObjectCreation = (applicationObject: any, userId: any, a
          userId: userId
     }
  }
- export const applicationObjectUpdate = (applicationObject: any, userId: any, applicationState: string, tempDocument?: any)=>{  
-    console.log("applicationObject",applicationObject);
-    const studentProfileObj = JSON.parse(localStorage.getItem('studentProfileId')!);
-    let profileId = studentProfileObj.studentProfileId;
-    
-    return {
-        application:{
-            applicationState: applicationState,
-            approvalStatus: applicationState,
-            approverRemark: "",
-            batchId: 1,
-            dateOfEntry: new Date(),
-            id: 0,
-            profileId: applicationObject.id,
-            status: 0,
-            updatedAt: new Date(),
-            updatedBy: ''                       
-        },        
-        docList: [   
-        ...applicationObject.docList         
-        ],
-        docTempList: [       
-        ...tempDocument     
-        ],        
-        stdAdmission: {            
-            applicationCategory: "",
-            approvalStatus: "",
-            batchNo: "",
-            certificateLink: "",
-            courseCenter: "",
-            createdAt: "",
-            createdBy: "",            
-            enrollmentNumber: "",
-            id: 0,
-            idCardNo: "",
-            profileId: 0,
-            status: 0,
-            updatedAt: "",
-            updatedBy: "",
-            validityTill: ""
-        },  
-        stdContactDetail:{
-            ...applicationObject.stdContactDetail,   
-            approvalStatus:""        
-        },  
-        stdPersonalDetail:{
-            ...applicationObject.personalDetails,
-            dateofEntry:"",
-            approvalStatus: applicationState
-        },
-        stdEducationList:[
-            ...applicationObject.stdEducationList
-        ],
-        stdProfession:{     
+export const applicationObjectUpdate = (applicationObject: any, userId: any, applicationState: string, tempDocument?: any)=>{     
+const studentProfileObj = JSON.parse(localStorage.getItem('studentProfileId')!);
+let profileId = studentProfileObj.studentProfileId;    
+return {
+    application:{    
+        ...applicationObject.application,
+        updatedAt: new Date(),
+        updatedBy: 'NA',
+        profileId: applicationObject.id                       
+    },        
+    docList: [   
+    ...applicationObject.docList         
+    ],
+    docTempList: [       
+    ...tempDocument     
+    ],        
+    stdAdmission: {            
+        applicationCategory: "",
+        approvalStatus: "",
+        batchNo: "",
+        certificateLink: "",
+        courseCenter: "",
+        createdAt: "",
+        createdBy: "",
+        dateOfEntry: "",
+        enrollmentNumber: "",
+        id: 0,
+        idCardNo: "",
+        profileId: applicationObject.id,
+        status: 1,
+        updatedAt: "",
+        updatedBy: "",
+        validityTill: ""
+    },  
+    stdContactDetail:{
+        ...applicationObject.stdContactDetail,   
+        approvalStatus:"",
+        signature: "",
+        status: 1,
+        updatedAt: new Date(),
+        updatedBy: "NA", 
+        profileId: applicationObject.id                
+    },  
+    stdPersonalDetail:{
+        ...applicationObject.stdPersonalDetail,
+        profileId: applicationObject.id,            
+        updatedAt: new Date(),
+        updatedBy: "NA",
+        status: 1
+    },
+    stdEducationList:[
+        ...applicationObject.stdEducationList                   
+    ],
+    stdProfession:{     
         ...applicationObject.stdProfessionList,
         organization: (!isEmpty(applicationObject.stdProfessionList))?applicationObject.stdProfessionList.organization:'',             
         designation: (!isEmpty(applicationObject.stdProfessionList))?applicationObject.stdProfessionList.designation:'',              
-        placeOfDuty: (!isEmpty(applicationObject.stdProfessionList))?applicationObject.stdProfessionList.placeOfDuty:''            
-        },       
-        userId: userId,
-        id: (applicationObject.id)?applicationObject.id:0,        
-        status: 0,
-        docMetaDataList: applicationObject.docMetaDataList
-    }
- }
+        placeOfDuty: (!isEmpty(applicationObject.stdProfessionList))?applicationObject.stdProfessionList.placeOfDuty:'',
+        profileId: applicationObject.id,
+        status: 1,
+        updatedAt: new Date(),
+        updatedBy: '',
+        approvalStatus: "",
+        createdAt: "",
+        createdBy: "",
+        dateOfEntry: "",
+        id: 0            
+    },       
+    userId: userId.toString(),                
+    status: applicationObject.status,
+    docMetaDataList: [...applicationObject.docMetaDataList],
+    createdAt: applicationObject.createdAt,
+    createdBy: 'NA',
+    updatedAt: new Date().toString(),
+    updatedBy: 'NA',
+    id: applicationObject.id      
+}
+}
  

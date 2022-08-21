@@ -135,7 +135,6 @@ export class ApplicationComponent implements OnInit {
       educationStatus: "",
       sequence: 0
     };
-
     // this.studentApplication.stdEducationList.push(this.educationRecord);
     this.studentApplication.stdEducationList = [...this.studentApplication.stdEducationList, this.educationRecord]
     return true;
@@ -157,7 +156,9 @@ export class ApplicationComponent implements OnInit {
       percentage: "",
       yearOfCompletion: "",
       educationStatus: "",
-      sequence: 0
+      sequence: 0,
+      status:1,
+      profileId: JSON.parse(localStorage.getItem('studentProfileId')!).studentProfileId,
     };    
     this.editDraft.stdEducationList = [...this.editDraft.stdEducationList, this.educationRecord]
   }
@@ -201,8 +202,7 @@ export class ApplicationComponent implements OnInit {
           console.log(error);
         }
       } else if (status === "saveAsDraft") {
-        if (!isEmpty(studentProfile)) {
-          console.log("Hi...");
+        if (!isEmpty(studentProfile)) {         
           this.getDocumentList();
           this.pageTraverseStatus = this.pageCheck(studentProfile, tab);
           if (studentProfile.application.approvalStatus === 'Saved') {
@@ -231,9 +231,7 @@ export class ApplicationComponent implements OnInit {
         localStorage.setItem('studentProfileId', JSON.stringify(profileObj));
         localStorage.setItem('profileExist', "yes");
         //Modal need to be added here Amir
-        this.showPopUp();
-        //setSession('profileId', data.messageCode);
-        //setSession('userId', this.userId)
+        this.showPopUp();        
         this.applicationStatus = '4';
       }, (error: Error) => {
         console.log(error);
@@ -335,8 +333,7 @@ export class ApplicationComponent implements OnInit {
 
   userCheck(page1: any, page2: any): any {
     if (!isEmpty(getSession('userId'))) {
-      if (!isEmpty(getSession('profileId'))) {
-        //this.userId = this.route.snapshot.paramMap.get('id')?.toString();
+      if (!isEmpty(getSession('profileId'))) {        
         if (this.userId !== getSession('userId')) {
           return page1;
         } else {
